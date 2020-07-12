@@ -1,0 +1,436 @@
+.base {
+    position: fixed;
+    display: flex;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+	background-image: linear-gradient(45deg, 
+		rgba(0, 10, 60, 1)0%, 
+		rgba(0, 100, 130, 1)100%);
+	z-index: 5;
+}
+
+.consult {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	width: 750px;
+	padding: 10px 0;
+	margin: auto;
+}
+
+.header {
+	display: flex;
+	margin-bottom: 48px;
+}
+
+.header h2 {
+    max-width: 360px;
+    font-size: 50px;
+    text-transform: uppercase;
+    font-weight: 400;
+	font-family: "Akrobat", sans-serif;
+	letter-spacing: 0.1em;
+    line-height: 1.3;
+    color: rgb(255, 255, 255);
+    padding-right: 30px;
+}
+ 
+.header span {
+	max-width: 300px;
+	font-size: 16px;
+	color: rgba(255, 255, 255, 0.8);
+	padding-top: 5px;
+	font-weight: 400;
+	line-height: 1.875;
+}
+
+.container {
+	width: 100%;
+	margin-top: 30px;
+}
+
+.form {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.input_container1 {
+	width: 100%;
+    height: 158px;
+    display: flex;
+    flex-flow: column wrap;
+	justify-content: space-between;
+	margin-bottom: 20px;
+}
+
+.input_container2 {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: row-reverse;
+}
+
+.input_wrapper {
+	width: 360px;
+	box-sizing: border-box;
+	position: relative;
+	border: 1px solid rgba(255, 255, 255, 0.5);
+	transition: all 0.2s ease;
+}
+
+.input_wrapper input,
+.input_wrapper textarea {
+	display: block;
+	box-sizing: border-box;
+	background-color: transparent;
+}
+
+.input_wrapper input {
+	width: 100%;
+	color: rgb(255, 255, 255);
+	padding: 20px;
+	border: none;
+}
+
+.textarea {
+	position: relative;
+	width: 360px;
+	height: 100%;
+	margin-left: auto;
+	border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.textarea textarea {
+	box-sizing: border-box;
+	width: 100%;
+	background-color: transparent;
+	font-size: 16px;
+	font-family: inherit;
+	color: rgb(255, 255, 255);
+	border: none;
+	resize: none;
+	min-height: 150px;
+	overflow: hidden;
+	padding: 10px 16px 16px 20px;
+}
+
+.inputfile,
+.check_border input {
+	width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    position: absolute;
+    z-index: -10;
+}
+
+.inputfile_label {
+	position: relative;
+	height: 40px;
+	display: flex;
+	align-items: flex-start;
+	font-family: "Akrobat", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgb(255, 255, 255);
+    background-color: transparent;
+    margin-bottom: 50px;
+}
+
+.inputfile_label label {
+	flex-shrink: 0;
+	cursor: pointer;
+}
+
+.inputfile_label img {
+	padding-right: 16px;
+}
+
+.qty_files {
+	font-size: 18px;
+	letter-spacing: 0;
+	text-shadow: 2px 2px 2px rgba(2, 3, 6, 0.8);
+	padding: 0 20px 0;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.inputfile_label p {
+	display: flex;
+	align-items: flex-end;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	padding-right: 26px;
+}
+
+.check {
+	position: relative;
+	display: flex;
+	align-items: flex-end;
+	color: rgba(255, 255, 255, 0.6);
+    font-size: 16px;
+    font-weight: 300;
+    margin-right: 30px;
+}
+
+.check a {
+    color: rgba(255, 255, 255, 0.6);
+	text-decoration: underline;
+}
+
+.check_border {
+	position: relative;
+	box-sizing: border-box;
+	height: 24px;
+	width: 24px;
+	border: 1px solid rgba(255, 255, 255, 0.5);
+	margin-right: 20px;
+	cursor: pointer;
+}
+
+.check_active {
+	border: 2px solid lime;
+	box-shadow: 0 0 4px 0 rgba(0, 255, 0, 0.8);
+}
+
+.check_active::before {
+	position: absolute;
+	content: "\2713";
+    top: 4px;
+    left: 3px;
+    font-size: 18px;
+	line-height: 14px;
+	width: 14px;
+	color: rgb(255, 255, 255)	
+}
+
+.input_wrapper input::placeholder,
+.textarea textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.btn_remove {
+	width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-image: url(../../img/remove.png);
+    background-repeat: no-repeat;
+    background-position: center;
+	cursor: pointer;
+	margin-left: auto;
+}
+
+.active {
+	border: 1px solid rgba(255, 255, 255, 0.8);
+	box-shadow: 0 0 8px 0 rgba(255, 255, 255, 0.5);
+}
+
+.error {
+	border: 1px solid red;
+	box-shadow: 0 0 4px 0 rgba(255, 0, 0, 0.8);
+}
+
+.completed {
+	border: 1px solid lime;
+	box-shadow: 0 0 4px 0 rgba(0, 255, 0, 0.8);
+}
+
+.submit {
+	width: 264px;
+	height: 60px;
+	background-color: rgb(255, 255, 255);
+	font-family: "Akrobat", sans-serif;
+	color: rgb(0, 80, 130);
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+    border-radius: 30px;
+	border: 2px solid rgba(255, 255, 255, 0);
+	transition: 0.2s all ease;
+} 
+
+.submit:hover {
+	color: rgb(255, 255, 255);
+	border: 2px solid rgba(255, 255, 255, 0.5);
+	background-color: transparent;
+}
+
+.submit:active {
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+.hint {
+    position: absolute;
+    top: -25px;
+    left: 20px;
+	color: rgb(0, 0, 0);
+	font-family: "Akrobat", sans-serif;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
+	padding: 2px 20px;
+	z-index: 1;
+}
+
+.hint::before {
+	position: absolute;
+	content: "";
+    bottom: 0;
+    left: -18px;
+    width: 12px;
+    height: 32px;
+	background: no-repeat url(../../img/exlamation.svg);	
+}
+
+.inputfile_label .hint {
+	position: relative;
+	top: 0;
+	left: 0;
+}
+
+.check .hint {
+    font-size: 18px;
+}
+
+.language_btns {
+	width: 70px;
+	display: flex;
+	justify-content: space-between;
+	margin: 10px 0 0;
+}
+
+.language_btns button {
+	border: none;
+	background-color: transparent;
+	color: rgb(255, 255, 255);
+	transition: 0.2s all ease;
+}
+
+.preloader {
+    position: absolute;
+    top: 5px;
+    left: calc(50% - 25px);;
+}
+
+.popup {
+	position: absolute;
+    box-sizing: border-box;
+    top: -300px;
+    left: calc(50% - 160px);
+    width: 320px;
+    min-height: 100px;
+    border-radius: 8px;
+    background-color: rgb(215, 215, 215);
+	padding: 20px;
+	opacity: 0;
+    transition: 0.2s all ease;
+}
+
+.popup p {
+	font-size: 26px;
+	text-align: center;
+	font-weight: 700;
+	font-family: "Akrobat", sans-serif;
+	color: rgb(0, 0, 0);
+}
+
+.popup_active {
+	top: 50px;
+	opacity: 1;
+}
+
+@media only screen and (max-width: 960px) {
+
+	.consult {
+		width: 100%;
+		max-width: 380px;
+		min-width: 340px;
+		padding: 10px;
+	}
+
+	.container {
+		margin-top: 10px;
+	}
+
+	.header {
+		flex-direction: column;
+		align-items: center;
+		margin-bottom: 36px;
+	}
+
+	.header h2 {
+		font-size: 24px;
+		padding-right: 0;
+		text-align: center;
+	}
+
+	.header span {
+		line-height: 1.2;
+		padding-top: 10px;
+	}
+
+	.input_container1 {
+		flex-direction: column;
+		height: auto;
+		margin-bottom: 16px;
+	}
+
+	.check {
+		margin: 0;
+	}
+
+	.inputfile_label {
+		height: auto;
+		min-height: 45px;
+		margin-bottom: 8px;
+	}
+
+	.inputfile_label p {
+		font-size: 12px;
+	} 
+
+	.inputfile_label img {
+		padding-right: 10px;
+		width: 12px;
+	}
+
+	.input_container2 {
+	    flex-direction: column;
+	}
+
+	.input_wrapper {
+		width: 100%;
+		margin-bottom: 28px;
+	}
+
+	.input {
+		padding: 12px;
+	}
+	
+	.textarea {
+		width: 100%;
+		height: 120px;
+	}
+
+	.textarea textarea {
+		min-height: 120px;
+		padding: 10px 16px 16px 12px;
+	}
+
+	.submit {
+	    width: 200px;
+		height: 44px;
+		margin-top: 20px;
+	}
+
+	.language_btns {
+		top: 14px;
+		left: 18px;
+	}
+
+	.language_btns button {
+		padding: 0px;
+		font-size: 14px;
+		margin: 2px 16px 2px 0;
+	}
+}
