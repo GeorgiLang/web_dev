@@ -12,7 +12,7 @@ import Search from './Search'
 const Header = props => {
     
     return (
-        <header style={props.scroll}>
+        <header>
             <div className={s.header}>
                 <Link className={s.logo} to='/'>
                     <svg version="1.2" xmlns="http://www.w3.org/2000/svg"

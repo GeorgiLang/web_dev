@@ -9,49 +9,20 @@ import Purchases from './components/purchases/Purchases'
 import Categories from './components/categories/Categories'
 import LinePreloader from './common/LinePreloader'
 import I18Provider from './messages/provider'
-import { useScrollPosition } from '@n8tb1t/use-scroll-position'
 import logoReact from './img/logo512.png'
 import logoWP from './img/WP-logotype.png'
 
 const OrderForm = React.lazy(() => import('./components/order/Order'))
 const Popup = React.lazy(() => import('./components/popup/Popup'))
 
-const is_touch_enabled = () => { 
-
-    return ( 'ontouchstart' in window ) ||  
-            ( navigator.maxTouchPoints > 0 ) ||  
-            ( navigator.msMaxTouchPoints > 0 )
-}
-
-const isTouchscreen = is_touch_enabled()
-
 const App = props => {
-
-    const [headerStyle, setHeaderStyle] = useState()
-    const body = useRef();
-
-    useScrollPosition(({ prevPos, currPos }) => {
-        
-        let bottom = body.current.getBoundingClientRect().bottom
-
-        let isVisible = (currPos.y > prevPos.y - 1 &&  bottom > 1000) || currPos.y > -110 
-         
-        const shouldBeStyle = {
-            transform: isVisible ? 'translateY(0%)' : 'translateY(-100%)'
-        }
-
-        if (JSON.stringify(shouldBeStyle) === JSON.stringify(headerStyle)) return
-
-        setHeaderStyle(shouldBeStyle)
-        
-    }, [headerStyle], null, !isTouchscreen, 600 )
 
     return (
         <I18Provider locale={props.locale}>
             <div className="bg_body"></div>
             {props.linePreloader ? <LinePreloader /> : null}
-            <Header scroll={{ ...headerStyle }} />
-            <div ref={body} className="body">
+            <Header />
+            <div className="body">
                 <div className="container">
                     <Switch>
                         <Route exact path='/'>
@@ -62,7 +33,7 @@ const App = props => {
                                 </div>
                             </div>
                         </Route>
-                        <Route path='/shop/:category/:models'><CardContainer action={isTouchscreen} /></Route>
+                        <Route path='/shop/:category/:models'><CardContainer/></Route>
                         <Route path='/purchases'><Purchases /></Route>
                         <Route path='/shop'><Categories /></Route>
                         <Route path='/service'><div className="blue page">Service</div></Route>

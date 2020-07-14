@@ -62,7 +62,7 @@ export const Purchases = props => {
     let { cards,
         total_price,
         setBasket,
-        onClick} = props
+        onClick } = props
 
     const _cards = cards.map(card =>
 

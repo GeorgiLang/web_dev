@@ -35,7 +35,7 @@ header {
 }
 
 .menu li {
-	margin: 0 2%;
+	margin: 0 2% 2px;
 }
 
 .menu li:last-child {
@@ -176,7 +176,7 @@ header {
 	max-width: 280px;
 	border: 2px solid rgba(255, 165, 0, 0.6);
 	border-radius: 6px;
-	background-color: rgba(255, 255, 255, 0.2);
+	background-color: rgba(88, 88, 88, 0.2);
 	overflow: hidden;
 	margin: 0 0 0 auto;
 }
@@ -215,12 +215,25 @@ header {
 	color: rgb(46, 46, 46);
 }
 
+.search:hover,
+.search:active,
+.search:focus {
+	background-color: rgba(88, 88, 88, 0.8);
+}
+
+.search:hover input::placeholder,
+.search:active input::placeholder,
+.search:focus input::placeholder {
+	color: rgb(136, 136, 136);
+}
+
 
 @media only screen and (max-width: 960px) {
 
 	.header {
 		max-width: 768px;
 		flex-wrap: wrap;
+		padding: 12px 20px 6px;
 	}
 }
 
@@ -243,7 +256,7 @@ header {
 @media only screen and (max-width: 480px) {
 	
 	.header {
-		padding: 10px;
+		padding: 0 10px;
 		flex-wrap: nowrap;
 	}
 
