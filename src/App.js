@@ -19,39 +19,36 @@ const App = props => {
 
     return (
         <I18Provider locale={props.locale}>
-            <div className="bg_body"></div>
             {props.linePreloader ? <LinePreloader /> : null}
             <Header />
-            <div className="body">
-                <div className="container">
-                    <Switch>
-                        <Route exact path='/'>
-                            <div className="yellow page">
-                                <div className="logos">
-                                    <div><img src={logoWP} alt="LogoWP"/></div>
-                                    <div><img src={logoReact} alt="LogoReact"/></div>
-                                </div>
+            <div className="container">
+                <Switch>
+                    <Route exact path='/'>
+                        <div className="yellow page">
+                            <div className="logos">
+                                <div><img src={logoWP} alt="LogoWP"/></div>
+                                <div><img src={logoReact} alt="LogoReact"/></div>
                             </div>
-                        </Route>
-                        <Route path='/shop/:category/:models'><CardContainer/></Route>
-                        <Route path='/purchases'><Purchases /></Route>
-                        <Route path='/shop'><Categories /></Route>
-                        <Route path='/service'><div className="blue page">Service</div></Route>
-                        <Route path='/price'><div className="pink page">Price</div></Route>
-                        <Route path='/contacts'><div className="green page">Contacts</div></Route>
-                        <Route path='/order'> 
-                            <React.Suspense fallback={<LinePreloader/>}>
-                                <OrderForm />
-                            </React.Suspense>
-                        </Route>
-                        <Route path='/fullcard/:category/:id/:id'><FullCardContainer /></Route>
-                        <Route path='/consult'>
-                            <React.Suspense fallback={<LinePreloader/>}>
-                                <Popup />
-                            </React.Suspense> 
-                        </Route>
-                    </Switch>
-                </div>
+                        </div>
+                    </Route>
+                    <Route path='/shop/:category/:models'><CardContainer/></Route>
+                    <Route path='/purchases'><Purchases /></Route>
+                    <Route path='/shop'><Categories /></Route>
+                    <Route path='/service'><div className="blue page">Service</div></Route>
+                    <Route path='/price'><div className="pink page">Price</div></Route>
+                    <Route path='/contacts'><div className="green page">Contacts</div></Route>
+                    <Route path='/order'> 
+                        <React.Suspense fallback={<LinePreloader/>}>
+                            <OrderForm />
+                        </React.Suspense>
+                    </Route>
+                    <Route path='/fullcard/:category/:id/:id'><FullCardContainer /></Route>
+                    <Route path='/consult'>
+                        <React.Suspense fallback={<LinePreloader/>}>
+                            <Popup />
+                        </React.Suspense> 
+                    </Route>
+                </Switch>
             </div>
         </I18Provider>
     )

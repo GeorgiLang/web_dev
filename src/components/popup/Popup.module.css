@@ -13,6 +13,7 @@
 }
 
 .consult {
+	box-sizing: border-box;
 	position: relative;
 	display: flex;
 	flex-wrap: wrap;
@@ -344,7 +345,7 @@
 	.consult {
 		width: 100%;
 		max-width: 380px;
-		min-width: 340px;
+		min-width: 320px;
 		padding: 10px;
 	}
 
@@ -432,5 +433,11 @@
 		padding: 0px;
 		font-size: 14px;
 		margin: 2px 16px 2px 0;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+	.input_wrapper input {
+		padding: 14px;
 	}
 }

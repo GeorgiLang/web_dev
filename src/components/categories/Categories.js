@@ -21,7 +21,7 @@ const ListCategories = props => {
 
 const Categories = props => {
 
-    let { setCategories, categories } = props
+    let { setCategories, categories, } = props
 
     useEffect(() => {
         
@@ -38,7 +38,8 @@ const Categories = props => {
 const mapStateToProps = state => {
 
     return {
-        categories: state.cards.categories
+        categories: state.cards.categories,
+        current_page: state.cards.current_page
     }
 }
 

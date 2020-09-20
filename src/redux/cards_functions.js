@@ -172,7 +172,6 @@ export const nextCardsThunk = () => (dispatch, getState) => {
     ? _cards = getState().storage.base_storage
     : _cards = [getState().cards.all_cards]
     
-    console.log(_cards)
     dispatch(isDisabledAC(false))
 
     if (_cards.length !== 0) {

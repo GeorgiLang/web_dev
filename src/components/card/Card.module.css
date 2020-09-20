@@ -92,7 +92,7 @@
     overflow: hidden;
 }
 
-.card:hover .description {
+/* .card:hover .description {
     display: block;
 }
 
@@ -103,6 +103,42 @@
 }
 
 .card:hover .warning {
+    display: block;
+}
+
+.stock:hover {
+    box-shadow: none;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.stock:hover .action button {
+    background-color: rgba(255, 255, 255);
+}
+
+.stock:hover .card_inner{
+    opacity: 0.6;
+}
+
+.stock:hover .description {
+    display: none;
+}
+
+.stock:hover a {
+    cursor: default;
+} */
+
+
+.description_active.description {
+    display: block;
+}
+
+.card_active {
+    box-shadow: 0 0 10px 10px rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 1);
+    z-index: 3;
+}
+
+.warning_active.warning {
     display: block;
 }
 
@@ -255,7 +291,7 @@
 
 .action .basket_active {
     fill: white;
-    border: none;
+    border: 2px solid orange;
     background-color: orange;
 }
 

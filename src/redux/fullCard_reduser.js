@@ -87,7 +87,7 @@ export const getExtraCardThunkAC = (id, category) => dispatch => {
     
     dispatch(linePreloaderAC(true))
     api.getFullMedia(id, category).then((res) => {
-
+console.log(id, category)
         let purchase = {
             id: res.data.id,
             product_name: res.data.acf.product_name,
