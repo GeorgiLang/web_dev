@@ -835,12 +835,6 @@ a {
     margin: auto 0 0;
 } 
 
-
-@media only screen and (max-width: 960px) {
-    
-}
-
-
 @media only screen and (max-width: 768px) {
     
     .order {
@@ -853,10 +847,10 @@ a {
     }
 }
 
-
 @media only screen and (max-width: 480px) {
 
     .container {
         margin: 20px auto 100px;
+        min-width: 320px;
     }
 }

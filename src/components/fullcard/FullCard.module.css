@@ -13,14 +13,12 @@
     line-height: 34px;
     padding: 0 20px;
     box-sizing: border-box;
-    margin: 30px auto;
+    margin: 10px auto 30px;
 }
 
 .product_id {
-    position: absolute;
     font-size: 16px;
-    top: 20px;
-    left: 20px;
+    padding: 20px 20px 0;
 }
 
 .actions {
@@ -249,6 +247,10 @@
 
 @media only screen and (max-width: 665px) {
 
+    .card {
+        padding: 0;
+    }
+
     .group {
         width: 100%;
     }
@@ -291,6 +293,11 @@
 
     .gallery {
         padding: 20px 0 0;
+    }
+
+    .product_name {
+        font-size: 20px;
+        line-height: 24px;
     }
 
 }
