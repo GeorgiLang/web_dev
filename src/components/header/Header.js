@@ -41,7 +41,7 @@ const Header = props => {
                 </Link>
                 <Search /> 
                 <MenuButton menuClick={props.menuClick} active={props.active} /> 
-                <Link className={s.basket_link}  to={props.choosed > 0 ? "/purchases" : "/shop"}>
+                <Link className={s.basket_link}  to={props.choosed > 0 && "/purchases"}>
                     <Basket 
                         choosed={props.choosed} 
                         isLoadingCard={props.isLoadingCard}
