@@ -31,7 +31,7 @@ const OrderForm = props => {
                         defaultMessage="От халепа!" />
                 </p>
             </div>
-            <OrderReduxForm isPreloader={props.isPreloader} onSubmit={(values) => props.onsubmit(values)}
+            <OrderReduxForm isPreloader={props.isPreloader} onSubmit={values => props.onsubmit(values)}
                 locale={props.locale}
                 setLocale={props.setLocale}
                 isDisabled={props.isDisabled} />
@@ -96,9 +96,9 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
     return {
-        onsubmit: (values) => dispatch(sendOrderThunk(values)),
+        onsubmit: values => dispatch(sendOrderThunk(values)),
         popupMessage: () => dispatch(popupMessageAC(false))
     }
 }

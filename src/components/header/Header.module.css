@@ -15,7 +15,7 @@ header {
 	max-width: 970px;
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
+	align-items: flex-end;
 	padding: 20px 20px 10px;
 	margin: auto;
 }
@@ -112,20 +112,12 @@ header {
 	transform: scale(1);
 }
 
-.login {
-	border: none;
-	background-color: transparent;
-	font-family: inherit;
-	text-transform: uppercase;
-	font-size: 20px;
-}
-
 .logo {
 	height: 30px;
 	margin-right: 20px;
 }
 
-.logo svg {
+.logo img {
 	width: 120px;
     height: 30px;
 }
@@ -135,16 +127,40 @@ header {
     -webkit-appearance: none;
 	border: none;
 	user-select: none;
-    background-color: transparent;
-    height: 38px;
-    display: flex;
+	background-color: transparent;
+	height: 36px;
+	display: flex;
+	justify-content: center;
     align-items: flex-end;
     position: relative;
-    cursor: pointer;
+	cursor: pointer;
+	padding-top: 7px;
 }
 
 .basket_link {
-	margin: 0 0 3px 20px;
+	height: 36px;
+	display: flex;
+    align-items: flex-end;
+	margin-left: 20px;
+}
+
+.user_link {
+	height: 36px;
+	display: flex;
+    align-items: flex-end;
+	margin-left: 14px;
+}
+
+.user_link span {
+	color: white;
+    margin-left: 4px;
+    font-size: 16px;
+    line-height: 15px;
+    text-decoration: underline;
+}
+
+.user_link_menu {
+	display: none;
 }
 
 .total {
@@ -177,6 +193,7 @@ header {
 	align-items: center;
 	width: 100%;
 	max-width: 280px;
+	height: 36px;
 	border: 2px solid rgba(255, 165, 0, 0.6);
 	border-radius: 6px;
 	background-color: rgba(255, 255, 255, 0.2);
@@ -218,7 +235,7 @@ header {
 	color: rgb(46, 46, 46);
 }
 
-/* .search:hover,
+.search:hover,
 .search:active,
 .search:focus-within {
 	background-color: rgba(88, 88, 88, 0.8);
@@ -228,7 +245,7 @@ header {
 .search:active input::placeholder,
 .search input:focus::placeholder {
 	color: rgb(136, 136, 136);
-} */
+}
 
 
 @media only screen and (max-width: 960px) {
@@ -242,15 +259,21 @@ header {
 
 @media only screen and (max-width: 768px) {
 
-	.logo svg {
+	.logo img {
 		width: 100px;
 	}
 }
 
 @media only screen and (max-width: 620px) {
 
+	.header {
+		height: 56px;
+		align-items: center;
+		padding: 0 20px;
+		flex-wrap: nowrap;
+	}
 
-	.logo svg {
+	.logo img {
 		width: 90px;
 	}
 
@@ -258,26 +281,22 @@ header {
 		max-width: 270px;
 	}
 
-}
-
-@media only screen and (max-width: 480px) {
-	
-	.header {
-		padding: 0 10px;
-		flex-wrap: nowrap;
-	}
-
 	.search {
 		max-width: 270px;
 	}
 
+	.user_link,
 	.logo {
 		display: none;
 	}
 
+	.user_link_menu {
+		display: block;
+	}
+
 	.menu {
 		width: 100%;
-		max-width: 480px;
+		max-width: 320px;
 		position: absolute;
 		top: 100%;
 		left: 0;
@@ -324,7 +343,7 @@ header {
 
 	.basket_link {
 		order: 3;
-    	margin: 0 5px 5px 10px
+    	margin: 0 5px 0 10px
 	}
 
 	.search {
@@ -338,5 +357,12 @@ header {
 
 	.search input:focus {
 		max-width: 240px;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+
+	.header {
+		padding: 0 10px;
 	}
 }

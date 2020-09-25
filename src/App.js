@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React from 'react'
 import './index.css'
 import Header from './components/header/Header'
 import { connect } from 'react-redux'
@@ -11,6 +11,7 @@ import LinePreloader from './common/LinePreloader'
 import I18Provider from './messages/provider'
 import logoReact from './img/logo512.png'
 import logoWP from './img/WP-logotype.png'
+import RegisterUser from './components/registerUser/RegisterUser'
 
 const OrderForm = React.lazy(() => import('./components/order/Order'))
 const Popup = React.lazy(() => import('./components/popup/Popup'))
@@ -26,8 +27,8 @@ const App = props => {
                     <Route exact path='/'>
                         <div className="yellow page">
                             <div className="logos">
-                                <div><img src={logoWP} alt="LogoWP"/></div>
                                 <div><img src={logoReact} alt="LogoReact"/></div>
+                                <div><img src={logoWP} alt="LogoWP"/></div>
                             </div>
                         </div>
                     </Route>
@@ -48,6 +49,7 @@ const App = props => {
                             <Popup />
                         </React.Suspense> 
                     </Route>
+                    <Route path='/register'><RegisterUser /></Route>
                 </Switch>
             </div>
         </I18Provider>

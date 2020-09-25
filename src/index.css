@@ -817,7 +817,7 @@ a {
   width: 100%;
 }
 
-.logos div:last-child img {
+.logos div:first-child img {
   animation: turn 5s infinite linear;
 }
 

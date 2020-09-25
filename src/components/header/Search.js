@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import s from './Header.module.css';
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'

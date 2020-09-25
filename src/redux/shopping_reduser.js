@@ -1,12 +1,12 @@
-import { api } from '../Api/api.js';
+import { api } from '../Api/api.js'
 import { cleanPurchasesAC } from './cards_reduser'
-import { reset } from 'redux-form';
+import { reset } from 'redux-form'
 
-const IS_DISABLED = 'IS_DISABLED';
-const PRELOADER = 'PRELOADER';
-const CONSULT = 'CONSULT';
-const POPUP = 'POPUP';
-const MESSAGE_ID = 'MESSAGE_ID';
+const IS_DISABLED = 'IS_DISABLED'
+const PRELOADER = 'PRELOADER'
+const CONSULT = 'CONSULT'
+const POPUP = 'POPUP'
+const MESSAGE_ID = 'MESSAGE_ID'
 
 const initialState = {
     preloader: false,

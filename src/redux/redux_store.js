@@ -3,7 +3,7 @@ import consultReduser from './consult_reduser'
 import cardsReducer from './cards_reduser'
 import localeReducer from './locale_reducer'
 import menuActiveReducer from './menu_reducer'
-import isOrderReducer from './order_reduser'
+import loginReducer from './login_reduser'
 import fullCardsReducer from './fullCard_reduser'
 import thunkMiddleware from 'redux-thunk'
 import shoppingReduser from './shopping_reduser'
@@ -20,7 +20,7 @@ let rootReducer = combineReducers({
     preloader: isPreloaderReducer,
     search: searchReducer,
     form: formReducer,
-    order: isOrderReducer,
+    login: loginReducer,
     cards: cardsReducer,
     locale: localeReducer,
     menuActive: menuActiveReducer

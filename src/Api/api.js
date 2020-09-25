@@ -1,4 +1,4 @@
-import * as axios from 'axios';
+import * as axios from 'axios'
 
 
 const instanse = axios.create({
@@ -21,9 +21,25 @@ export const api = {
     sendOrder(data) {
 
         return axios({
-
             method: 'post',
             url: 'https://react.langovets.com.ua/order.php',
+            data
+        })
+    },
+    registerUser(data, req) {
+
+        return axios({
+            method: 'post',
+            url: `https://rw.langovets.com.ua/wp-json/wp/v2/users/${req}`,
+            headers: { 'content-type': 'application/json' },
+            data
+        })
+    },
+    getToken(data) {
+        return axios({
+            method: 'post',
+            url: 'https://rw.langovets.com.ua/wp-json/jwt-auth/v1/token',
+            headers: { 'content-type': 'application/json' },
             data
         })
     },

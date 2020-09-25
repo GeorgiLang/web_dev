@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
-import icon from '../../img/file.png'
+import file_icon from '../../img/file.png'
+import exlamation from '../../img/exlamation.svg'
 import s from './Popup.module.css'
 import { reduxForm } from "redux-form"
 import { connect } from 'react-redux'
@@ -180,7 +181,7 @@ export const renderInputForFiles = ({
                     value={value} 
                     multiple={multiple}
                 />
-                <p><img src={icon} alt="icon" />
+                <p><img src={file_icon} alt="file_icon" />
                     <FormattedMessage id="msg.attach_file" defaultMessage="Прикрепить файл" />
                 </p>
             </label>
