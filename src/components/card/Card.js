@@ -3,12 +3,9 @@ import s from './Card.module.css'
 import ProductDescription from './ProductDescription'
 import { Link } from 'react-router-dom'
 
-const Card = props => {
+const Card = ({ card, setBasket, basket }) => {
 
     const [isShown, setIsShown] = useState(false)
-
-
-    let { card, setBasket, basket } = props
 
     let timeout 
 
@@ -44,9 +41,9 @@ const Card = props => {
                     </div>
                     {card.acf.in_stock === 'Есть в наличии'
                         ? <Link to={`/fullcard/${card.type}/${card.id}/${card.child_id}`}>
-                            <h2 className={s.card_name}>{props.card.acf.product_name}</h2>
+                            <h2 className={s.card_name}>{card.acf.product_name}</h2>
                         </Link>
-                        : <h2 className={s.card_name}>{props.card.acf.product_name}</h2>}
+                        : <h2 className={s.card_name}>{card.acf.product_name}</h2>}
                     <div className={s.card_item}>
                         <span className={card.acf.in_stock === 'Есть в наличии'
                             ? s.in_stock : card.acf.in_stock === 'Ожидается'
