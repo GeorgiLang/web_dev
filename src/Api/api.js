@@ -5,7 +5,6 @@ const instanse = axios.create({
     baseURL: 'https://rw.langovets.com.ua/wp-json/wp/v2/',
 
 })
-
 export const api = {
 
     sendMessage(data) {
