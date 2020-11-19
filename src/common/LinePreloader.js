@@ -1,5 +1,5 @@
-import React from 'react';
-import s from './Preloader.module.css';
+import React from 'react'
+import s from './Preloader.module.css'
 
 const LinePreloader = () => {
             
