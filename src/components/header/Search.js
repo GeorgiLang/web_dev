@@ -3,7 +3,7 @@ import s from './Header.module.css'
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import { length } from 'redux-form-validators'
-import { searchModelThunk } from '../../redux/search_reduser'
+import { searchModelThunk } from '../../redux/search_reducer'
 import { Redirect } from 'react-router-dom'
 
 let textInput = {}

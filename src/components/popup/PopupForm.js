@@ -7,8 +7,8 @@ import Inputmask from 'react-input-mask'
 import { Scrollbars } from 'react-custom-scrollbars'
 import { FormattedMessage } from 'react-intl'
 import Form from './Form'
-import { sendMessageThunk } from '../../redux/consult_reduser'
-import { linePreloaderAC } from '../../redux/preloader_reduser'
+import { sendMessageThunk } from '../../redux/consult_reducer'
+import { linePreloaderAC } from '../../redux/preloader_reducer'
 import '../../messages/translate'
 
 export const hint = (touched, error, active, valid) => {

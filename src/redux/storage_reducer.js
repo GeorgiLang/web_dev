@@ -5,7 +5,7 @@ let initialState = {
     base_storage: []
 }
 
-const storageReduser = (state = initialState, action) => {
+const storageReducer = (state = initialState, action) => {
 
     if (action.type === BASE_STORAGE) {
 
@@ -26,4 +26,4 @@ const storageReduser = (state = initialState, action) => {
 
 export const baseStorageAC = base_storage => ({ type: 'BASE_STORAGE', base_storage })
 
-export default storageReduser;
+export default storageReducer;

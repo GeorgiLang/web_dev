@@ -1,6 +1,6 @@
 import { api } from '../Api/api'
-import { linePreloaderAC } from './preloader_reduser'
-import { isNotFoundAC } from './search_reduser'
+import { linePreloaderAC } from './preloader_reducer'
+import { isNotFoundAC } from './search_reducer'
 import {
     currentPageAC,
     deleteAllCardsAC,
@@ -15,9 +15,9 @@ import {
     setCardInBasketAC,
     setQuentityAC,
     getTotalCostAC
-} from './cards_reduser'
-import { setFullCardAC, isLoadingBasketAC } from './fullCard_reduser'
-import { baseStorageAC } from './storage_reduser'
+} from './cards_reduсer'
+import { setFullCardAC, isLoadingBasketAC } from './fullCard_reducer'
+import { baseStorageAC } from './storage_reducer'
 
 let per_page = 3
 let total_cards = 0

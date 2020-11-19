@@ -1,4 +1,4 @@
-import { linePreloaderAC } from './preloader_reduser'
+import { linePreloaderAC } from './preloader_reducer'
 import { api } from '../Api/api'
 
 const SET_FULL_CARD = 'SET_FULL_CARD'

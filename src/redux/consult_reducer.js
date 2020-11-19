@@ -15,7 +15,7 @@ const initialState = {
     messageID: "consult.default"
 }
 
-const consultReduser = (state = initialState, action) => {
+const consultReducer = (state = initialState, action) => {
 
     if (action.type === PRELOADER) {
         return {
@@ -105,4 +105,4 @@ export const sendMessageThunk = (values) => (dispatch) => {
     })
 }
 
-export default consultReduser;
+export default consultReducer;

@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import FullCard from './FullCard'
-import { getExtraCardThunkAC, currentIDAC, isLoadingBasketAC } from '../../redux/fullCard_reduser'
-import { currentCategoryAC, addPurchaseToBasketAC } from '../../redux/cards_reduser'
+import { getExtraCardThunkAC, currentIDAC, isLoadingBasketAC } from '../../redux/fullCard_reducer'
+import { currentCategoryAC, addPurchaseToBasketAC } from '../../redux/cards_reduсer'
 import { setCardInBasketThunk } from '../../redux/cards_functions'
 
 

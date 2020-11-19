@@ -6,9 +6,9 @@ import {
     isLoadingAC,
     setCategoriesList,
     deleteAllCardsAC
-} from './cards_reduser'
+} from './cards_reduсer'
 import { nextCardThunk } from './cards_functions'
-import { linePreloaderAC } from './preloader_reduser'
+import { linePreloaderAC } from './preloader_reducer'
 import { setCards } from './cards_functions'
 
 const IS_SEARCH = 'IS_SEARCH'

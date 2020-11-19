@@ -3,9 +3,9 @@ import s from './Card.module.css'
 import { connect } from 'react-redux'
 import Cards from './Cards'
 import { useLocation } from 'react-router-dom'
-import { deleteAllCardsAC, currentCategoryAC } from '../../redux/cards_reduser'
+import { deleteAllCardsAC, currentCategoryAC } from '../../redux/cards_reduсer'
 import { nextCardsThunk, setCardInBasketThunk, setCardsThunk } from '../../redux/cards_functions'
-import { searchThunk } from '../../redux/search_reduser'
+import { searchThunk } from '../../redux/search_reducer'
 
 const CardContainer = ({
     setCards,

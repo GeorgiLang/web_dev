@@ -1,5 +1,5 @@
 import { api } from '../Api/api.js'
-import { cleanPurchasesAC } from './cards_reduser'
+import { cleanPurchasesAC } from './cards_reduсer'
 import { reset } from 'redux-form'
 
 const IS_DISABLED = 'IS_DISABLED'
@@ -16,7 +16,7 @@ const initialState = {
     messageID: "consult.default"
 }
 
-const shoppingReduser = (state = initialState, action) => {
+const shoppingReducer = (state = initialState, action) => {
 
     if (action.type === PRELOADER) {
         return {
@@ -115,4 +115,4 @@ export const sendOrderThunk = values => (dispatch, getState) => {
     }
 }
 
-export default shoppingReduser;
+export default shoppingReducer;

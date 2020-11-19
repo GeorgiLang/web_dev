@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom'
 import { reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import Form from './Form'
-import { sendOrderThunk } from '../../redux/shopping_reduser'
-import { popupMessageAC } from '../../redux/shopping_reduser'
+import { sendOrderThunk } from '../../redux/shopping_reducer'
+import { popupMessageAC } from '../../redux/shopping_reducer'
 import '../../messages/translate';
 
 const OrderReduxForm = reduxForm({

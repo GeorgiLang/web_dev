@@ -1,7 +1,7 @@
 import React from 'react'
 import s from './Purchases.module.css'
 import { connect } from 'react-redux'
-import { getTotalCostAC, cleanPurchasesAC } from '../../redux/cards_reduser'
+import { getTotalCostAC, cleanPurchasesAC } from '../../redux/cards_reduсer'
 import { setQuentityThunk } from '../../redux/cards_functions'
 import { Redirect, Link } from 'react-router-dom'
 

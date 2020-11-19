@@ -2,11 +2,11 @@ import React from 'react'
 import s from './Popup.module.css'
 import PopupForm from './PopupForm.js'
 import { connect } from 'react-redux'
-import { consultAC } from '../../redux/consult_reduser'
+import { consultAC } from '../../redux/consult_reducer'
 import { localeAC } from '../../redux/locale_reducer'
 import { FormattedMessage } from 'react-intl'
 import Preloader from '../../common/Preloader'
-import { popupAC, preloaderAC } from '../../redux/consult_reduser'
+import { popupAC, preloaderAC } from '../../redux/consult_reducer'
 import { Link } from 'react-router-dom'
 
 const Popup = ({
