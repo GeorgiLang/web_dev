@@ -3,15 +3,28 @@ import { connect } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import FullCard from './FullCard'
 import { getExtraCardThunkAC, currentIDAC, isLoadingBasketAC } from '../../redux/fullCard_reduser'
-import { currentCategoryAC,  addPurchaseToBasketAC } from '../../redux/cards_reduser'
+import { currentCategoryAC, addPurchaseToBasketAC } from '../../redux/cards_reduser'
 import { setCardInBasketThunk } from '../../redux/cards_functions'
 
 
-const FullCardContainer = props => {
+const FullCardContainer = ({
+    setCategory,
+    setBasket,
+    setCurrentId,
+    isLoading,
+    loading,
+    isLoad,
+    full_card,
+    purchases,
+    current_id,
+    category,
+    setCurrentModel,
+    setExtraCard,
+    variants_name,
+    addPurchase }) => {
 
     let location = useLocation()
-    let { setCategory, setBasket, setCurrentId, isLoading, loading, isLoad } = props
-    
+
     useEffect(() => {
 
         let path = location.pathname.split('/')
@@ -22,15 +35,23 @@ const FullCardContainer = props => {
         setBasket(parent_id, category, id)
         setCurrentId(id)
         setCategory(category)
-        
+
         return () => {
             loading()
         }
     }, [setBasket])
 
     return (
-        <>{isLoading  && !isLoad
-            ? <FullCard {...props} />
+        <>{isLoading && !isLoad
+            ? <FullCard
+                full_card={full_card}
+                purchases={purchases}
+                current_id={current_id}
+                category={category}
+                setCurrentModel={setCurrentModel}
+                setExtraCard={setExtraCard}
+                variants_name={variants_name}
+                addPurchase={addPurchase} />
             : null}</>
     )
 }

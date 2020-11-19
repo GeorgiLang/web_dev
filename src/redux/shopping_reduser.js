@@ -66,7 +66,7 @@ export const sendOrderThunk = values => (dispatch, getState) => {
 
         dispatch(messageAC(true, "order.empty"))
     } else {
-        
+
         dispatch(preloaderAC(true))
         dispatch(isDisabledAC(true))
 
@@ -83,12 +83,12 @@ export const sendOrderThunk = values => (dispatch, getState) => {
 
         const fileData = new FormData();
 
-        fileData.append('first_name', first_name);
-        fileData.append('last_name', last_name);
-        fileData.append('patronymic', patronymic);
-        fileData.append('email', email);
-        fileData.append('tel', tel);
-        fileData.append('order', order);
+        fileData.append('first_name', first_name)
+        fileData.append('last_name', last_name)
+        fileData.append('patronymic', patronymic)
+        fileData.append('email', email)
+        fileData.append('tel', tel)
+        fileData.append('order', order)
 
         api.sendOrder(fileData).then((response) => {
 

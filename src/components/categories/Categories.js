@@ -4,33 +4,25 @@ import s from './Categories.module.css'
 import { Link } from 'react-router-dom'
 import { getCategoriesListThunk } from '../../redux/cards_functions'
 
-const ListCategories = props => {
-    
-    const categories = props.categories.map(category =>
-        <Link to={`/shop/${category.acf.category}/all_models`} key={category.id}>
-            <li>{category.acf.category_name}</li>
-        </Link>
-    )
 
-    return (
-       <ul>
-           {categories}
-       </ul>
-    )
-}
-
-const Categories = props => {
-
-    let { setCategories, categories, } = props
+const Categories = ({
+    setCategories,
+    categories }) => {
 
     useEffect(() => {
-        
+
         setCategories()
     }, [setCategories]);
-    
+
     return (
         <div className={s.categories}>
-            <ListCategories categories={categories}/>
+            <ul>
+                {categories.map(category =>
+                    <Link to={`/shop/${category.acf.category}/all_models`} key={category.id}>
+                        <li>{category.acf.category_name}</li>
+                    </Link>
+                )}
+            </ul>
         </div>
     )
 }

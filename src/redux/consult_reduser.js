@@ -1,11 +1,11 @@
-import { api } from '../Api/api.js';
-import { reset } from 'redux-form';
+import { api } from '../Api/api.js'
+import { reset } from 'redux-form'
 
-const IS_DISABLED = 'IS_DISABLED';
-const PRELOADER = 'PRELOADER';
-const CONSULT = 'CONSULT';
-const POPUP = 'POPUP';
-const MESSAGE_ID = 'MESSAGE_ID';
+const IS_DISABLED = 'IS_DISABLED'
+const PRELOADER = 'PRELOADER'
+const CONSULT = 'CONSULT'
+const POPUP = 'POPUP'
+const MESSAGE_ID = 'MESSAGE_ID'
 
 const initialState = {
     preloader: false,
@@ -16,7 +16,7 @@ const initialState = {
 }
 
 const consultReduser = (state = initialState, action) => {
-    
+
     if (action.type === PRELOADER) {
         return {
             ...state,
@@ -29,57 +29,57 @@ const consultReduser = (state = initialState, action) => {
         }
     } else if (action.type === CONSULT) {
 
-        return { 
-            ...state, 
+        return {
+            ...state,
             isVisible: action.bool
-        }; 
+        };
     } else if (action.type === POPUP) {
 
-        return { 
-            ...state, 
+        return {
+            ...state,
             popup: action.bool
-        }; 
+        };
     } else if (action.type === MESSAGE_ID) {
 
-        return { 
+        return {
             ...state,
-            popup: action.bool, 
+            popup: action.bool,
             messageID: action.messageID
-        }; 
+        };
     }
     return state;
 }
 
-const messageAC = (bool, messageID) => ({ type: "MESSAGE_ID", bool, messageID})
-const isDisabledAC = (bool) => ({ type: "IS_DISABLED", bool})
-export const preloaderAC = (bool) => ({ type: "PRELOADER", bool})          
-export const consultAC = (bool) => ({ type: 'CONSULT', bool});
-export const popupAC = (bool) => ({ type: "POPUP", bool})
+const messageAC = (bool, messageID) => ({ type: "MESSAGE_ID", bool, messageID })
+const isDisabledAC = (bool) => ({ type: "IS_DISABLED", bool })
+export const preloaderAC = (bool) => ({ type: "PRELOADER", bool })
+export const consultAC = (bool) => ({ type: 'CONSULT', bool });
+export const popupAC = (bool) => ({ type: "POPUP", bool })
 
 export const sendMessageThunk = (values) => (dispatch) => {
-    
+
     const { name, tel, text, myfile } = values
 
     dispatch(preloaderAC(true))
     dispatch(isDisabledAC(true))
-    
-    const fileData = new FormData(); 
+
+    const fileData = new FormData();
 
     fileData.append('name', name);
-    fileData.append('tel', tel); 
+    fileData.append('tel', tel);
 
     if (myfile) {
-        for( var i = 0; i < myfile.length; i++ ){
+        for (var i = 0; i < myfile.length; i++) {
             let files = myfile[i];
-            fileData.append('myfile[' + i + ']', files);
+            fileData.append('myfile[' + i + ']', files)
         }
     }
-    
+
     if (text) {
         fileData.append('text', text);
     }
 
-    api.sendMessage(fileData).then( (response) => {
+    api.sendMessage(fileData).then((response) => {
 
         if (response.data === 200) {
 
@@ -88,20 +88,20 @@ export const sendMessageThunk = (values) => (dispatch) => {
         } else if (response.data === 404) {
 
             dispatch(preloaderAC(false))
-            dispatch(messageAC(true, "consult.error"))            
+            dispatch(messageAC(true, "consult.error"))
         }
     }).catch((error) => {
 
-            dispatch(preloaderAC(false))
-            dispatch(messageAC(true, "consult.error"))
+        dispatch(preloaderAC(false))
+        dispatch(messageAC(true, "consult.error"))
     }).then(() => {
 
-        setTimeout(() => {   
-            
-            dispatch(reset('sendMessage'))          
+        setTimeout(() => {
+
+            dispatch(reset('sendMessage'))
             dispatch(isDisabledAC(false))
         }, 5000)
-        
+
     })
 }
 

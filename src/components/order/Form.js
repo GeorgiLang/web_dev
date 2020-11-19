@@ -1,9 +1,9 @@
 import React from 'react'
 import { Field } from 'redux-form'
-import { combine, required, length, format, email } from 'redux-form-validators';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { combine, required, length, format, email } from 'redux-form-validators'
+import { FormattedMessage, useIntl } from 'react-intl'
 import Preloader from '../../common/Preloader'
-import Inputmask from 'react-input-mask';
+import Inputmask from 'react-input-mask'
 import s from './Order.module.css'
 
 const renderInput = ({
@@ -11,13 +11,13 @@ const renderInput = ({
     label,
     placeholder,
     type,
-    meta: { 
+    meta: {
         touched,
         error,
         active,
         dirty,
         visited } }) => {
-            
+
     return (
         <div className={s.input_wrap}>
             {visited && (dirty || active) && <label className={s.label}>{label}</label>}
@@ -38,7 +38,7 @@ const renderInputMask = ({
     type,
     value,
     mask,
-    meta: { 
+    meta: {
         touched,
         error,
         active,
@@ -60,7 +60,11 @@ const renderInputMask = ({
     )
 }
 
-const Form = ({ isPreloader, handleSubmit, isDisabled, onSubmit }) => {
+const Form = ({
+    isPreloader,
+    handleSubmit,
+    isDisabled,
+    onSubmit }) => {
 
     const intl = useIntl();
 
@@ -132,17 +136,18 @@ const Form = ({ isPreloader, handleSubmit, isDisabled, onSubmit }) => {
                 placeholder={"+__(___)___-__-__"}
                 label={"Телефон"}
                 validate={combine(required(), format({
-                    with: new RegExp("\\+[0-9][0-9]\\s\\([0-9][0-9][0-9]\\)\\s[0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]")})
+                    with: new RegExp("\\+[0-9][0-9]\\s\\([0-9][0-9][0-9]\\)\\s[0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]")
+                })
                 )}
                 mask={"+38 (099) 999-99-99"}
             />
-            <button 
-                className={s.submit} 
-                type="submit" 
-                disabled={isDisabled}> 
+            <button
+                className={s.submit}
+                type="submit"
+                disabled={isDisabled}>
                 {isPreloader
-                ? <Preloader size="40px"/>
-                : <FormattedMessage id="msg.submit"/>}
+                    ? <Preloader size="40px" />
+                    : <FormattedMessage id="msg.submit" />}
             </button>
         </form>
     )

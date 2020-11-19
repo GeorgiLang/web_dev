@@ -1,16 +1,18 @@
 import React from 'react';
 import Card from './Card'
 
-const Cards = props => {
+const Cards = ({
+    purchase,
+    cards,
+    setBasket }) => {
 
-    let { purchase, cards, setBasket } = props
 
     return cards.reduce((card, _card) => {
 
         let basket = false
         purchase.forEach(purchase => {
 
-            if(purchase.id === _card.child_id ) {
+            if (purchase.id === _card.child_id) {
                 basket = true
             }
         })

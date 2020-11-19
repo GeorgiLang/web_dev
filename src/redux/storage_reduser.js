@@ -20,7 +20,7 @@ const storageReduser = (state = initialState, action) => {
                 ]
             }
         }
-    } 
+    }
     return state;
 }
 

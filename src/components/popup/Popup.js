@@ -7,23 +7,30 @@ import { localeAC } from '../../redux/locale_reducer'
 import { FormattedMessage } from 'react-intl'
 import Preloader from '../../common/Preloader'
 import { popupAC, preloaderAC } from '../../redux/consult_reduser'
-import {  Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-const Popup = props => {
+const Popup = ({
+    popup,
+    isMessage,
+    locale,
+    setLocale,
+    messageID,
+    preloader
+}) => {
 
     return (
-        <div onClick={props.popup ? props.isMessage : null} className={s.base}>
+        <div onClick={popup ? isMessage : null} className={s.base}>
             <div className={s.consult}>
                 <div className={s.language_btns}>
-                    {props.locale === "uk" ?
-                        null : <button onClick={() => props.setLocale("uk")}>UA</button>}
-                    {props.locale === "en" ?
-                        null : <button onClick={() => props.setLocale("en")}>EN</button>}
-                    {props.locale === "ru" ?
-                        null : <button onClick={() => props.setLocale("ru")}>RU</button>}
+                    {locale === "uk" ?
+                        null : <button onClick={() => setLocale("uk")}>UA</button>}
+                    {locale === "en" ?
+                        null : <button onClick={() => setLocale("en")}>EN</button>}
+                    {locale === "ru" ?
+                        null : <button onClick={() => setLocale("ru")}>RU</button>}
                 </div>
                 <Link className={s.btn_remove} to="/"></Link>
-                {props.preloader ? <Preloader className={s.preloader} size="50px" /> : null}
+                {preloader ? <Preloader className={s.preloader} size="50px" /> : null}
                 <div className={s.container}>
                     <div className={s.header}>
                         <h2>
@@ -39,10 +46,10 @@ const Popup = props => {
                     </div>
                     <PopupForm />
                 </div>
-                <div className={`${s.popup} ${props.popup ? s.popup_active : null}`}>
+                <div className={`${s.popup} ${popup ? s.popup_active : null}`}>
                     <p>
                         <FormattedMessage
-                            id={props.messageID}
+                            id={messageID}
                             defaultMessage="От халепа!" />
                     </p>
                 </div>
@@ -51,7 +58,7 @@ const Popup = props => {
     )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
 
     return {
         locale: state.locale.locale,
@@ -61,7 +68,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
 
     return {
         isHidden: () => {

@@ -2,14 +2,13 @@ import React from 'react'
 import s from './FullCard.module.css'
 import { Link } from 'react-router-dom'
 
-const ColorButtons = props => {
-
-    let { current_model,
-        current_color, 
-        parent_id, 
-        models_group, 
-        category, 
-        setExtraCard } = props
+const ColorButtons = ({
+    current_model,
+    current_color,
+    parent_id,
+    models_group,
+    category,
+    setExtraCard }) => {
 
     let list_buttons = []
     let color_name = ''

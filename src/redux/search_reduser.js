@@ -108,7 +108,7 @@ export const searchThunk = model => (dispatch, getState) => {
             if (qty !== 0) {
                 dispatch(isNotFoundAC(false))
                 dispatch(reset('search'))
-                
+
             } else {
                 dispatch(isNotFoundAC(true))
                 dispatch(linePreloaderAC(false))

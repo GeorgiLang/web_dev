@@ -3,7 +3,7 @@ import s from './Order.module.css'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl'
 import Form from './Form'
 import { sendOrderThunk } from '../../redux/shopping_reduser'
 import { popupMessageAC } from '../../redux/shopping_reduser'
@@ -13,31 +13,42 @@ const OrderReduxForm = reduxForm({
     form: 'order'
 })(Form)
 
-const OrderForm = props => {
+const OrderForm = ({
+    popup,
+    messageID,
+    isPreloader,
+    onsubmit,
+    locale,
+    setLocale,
+    isDisabled,
+    cards,
+    total,
+    popupMessage
+}) => {
 
     useEffect(() => {
 
         return () => {
-            props.popupMessage()
+            popupMessage()
         }
     }, [])
-    
+
     return (
         <div className={s.order_block}>
-            <div className={`${s.popup} ${props.popup ? s.popup_active : null}`}>
+            <div className={`${s.popup} ${popup ? s.popup_active : null}`}>
                 <p>
                     <FormattedMessage
-                        id={props.messageID}
+                        id={messageID}
                         defaultMessage="От халепа!" />
                 </p>
             </div>
-            <OrderReduxForm isPreloader={props.isPreloader} onSubmit={values => props.onsubmit(values)}
-                locale={props.locale}
-                setLocale={props.setLocale}
-                isDisabled={props.isDisabled} />
+            <OrderReduxForm isPreloader={isPreloader} onSubmit={values => onsubmit(values)}
+                locale={locale}
+                setLocale={setLocale}
+                isDisabled={isDisabled} />
             <div className={s.purchases}>
                 <div className={s.purchases_inner}>
-                    <h2 className={s.title}>{props.cards.length !== 0 
+                    <h2 className={s.title}>{cards.length !== 0
                         ? <FormattedMessage
                             id="order.basket"
                             defaultMessage="Корзина" />
@@ -45,7 +56,7 @@ const OrderForm = props => {
                             id="order.basket_empty"
                             defaultMessage="Корзина пуста" />}
                     </h2>
-                    {props.cards.map(card =>
+                    {cards.map(card =>
                         <div key={card.id} className={s.card}>
                             <div className={s.product_image}>
                                 <Link to={`/fullcard/${card.category}/${card.parent_id}/${card.id}`}>
@@ -66,9 +77,9 @@ const OrderForm = props => {
                             </div>
                         </div>
                     )}
-                    {props.cards.length !== 0 && <div className={s.total_price}>
+                    {cards.length !== 0 && <div className={s.total_price}>
                         <Link to="/purchases"><span>редактировать</span></Link>
-                        <span>Всего: {props.total.toLocaleString()} грн.</span>
+                        <span>Всего: {total.toLocaleString()} грн.</span>
                     </div>}
                 </div>
                 <Link className={s.to_shopping} to='/shop'>
@@ -83,7 +94,7 @@ const OrderForm = props => {
     )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
 
     return {
         isPreloader: state.shopping.preloader,

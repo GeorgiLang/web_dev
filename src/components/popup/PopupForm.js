@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import file_icon from '../../img/file.png'
-import exlamation from '../../img/exlamation.svg'
 import s from './Popup.module.css'
 import { reduxForm } from "redux-form"
 import { connect } from 'react-redux'
@@ -14,84 +13,84 @@ import '../../messages/translate'
 
 export const hint = (touched, error, active, valid) => {
 
-    if(touched && !active && error){
+    if (touched && !active && error) {
         return s.error;
-    }else if(active){
+    } else if (active) {
         return s.active
-    }if(valid)
+    } if (valid)
         return s.completed
 }
 
-export const renderField = ({ 
-        input, 
-        className, 
-        placeholder, 
-        type, 
-        value, 
-        meta: { touched, 
-                error, 
-                active,
-                valid,
-                warning } }) => {
-                   
+export const renderField = ({
+    input,
+    className,
+    placeholder,
+    type,
+    value,
+    meta: { touched,
+        error,
+        active,
+        valid,
+        warning } }) => {
+
     return (
         <div className={`${className} ${hint(touched, error, active, valid)}`}>
-            
-            {touched && ((error && <p className={s.hint}>{error}</p>) 
+
+            {touched && ((error && <p className={s.hint}>{error}</p>)
                 || (warning && <p className={s.hint}>{warning}</p>))}
-            <input 
+            <input
                 {...input}
-                type={type} 
+                type={type}
                 placeholder={placeholder}
-                value={value} 
+                value={value}
             />
         </div>
     )
 }
 
-export const renderInputWithMask =({
-    input, 
-    className, 
-    placeholder, 
-    type, 
-    value, 
+export const renderInputWithMask = ({
+    input,
+    className,
+    placeholder,
+    type,
+    value,
     mask,
-    meta: { touched, 
-            error, 
-            active,
-            valid,
-            warning } }) => {
+    meta: { touched,
+        error,
+        active,
+        valid,
+        warning } }) => {
 
     return (
         <div className={`${className} ${hint(touched, error, active, valid)}`}>
 
-            {touched && ((error && <p className={s.hint}>{error}</p>) 
+            {touched && ((error && <p className={s.hint}>{error}</p>)
                 || (warning && <p className={s.hint}>{warning}</p>))}
             <Inputmask
                 {...input}
-                type={type} 
+                type={type}
                 placeholder={placeholder}
-                value={value} 
+                value={value}
                 mask={mask}
             />
         </div>
     )
 }
 
-export const renderCheckbox = ({ 
-    input,  
-    type, 
-    meta: { touched, 
-        error, 
+export const renderCheckbox = ({
+    input,
+    type,
+    meta: { touched,
+        error,
         active,
         valid } }) => {
     return (
-        <><label  className={`${s.check_border} ${valid ? s.check_active : null} ${(touched && !active && error) ? s.error : null }`}>
-            <input 
+        <><label className={`${s.check_border} ${valid ? s.check_active : null} ${(touched && !active && error) ? s.error : null}`}>
+            <input
                 {...input}
-                type={type}/>
+                type={type} />
         </label>
-        {touched && (error && <p className={s.hint}>{error}</p>)}</>
+            {touched && (error && <p className={s.hint}>{error}</p>)}</>
     )
 }
 
@@ -102,7 +101,7 @@ export const renderThumb = ({ style, ...props }) => {
     };
     return <div style={{ ...style, ...thumbStyle }} {...props} />;
 };
-  
+
 export const CustomScrollbars = props => (
     <Scrollbars
         renderThumbHorizontal={renderThumb}
@@ -111,28 +110,29 @@ export const CustomScrollbars = props => (
     />
 );
 /*----------------------------set height of textarea-----------------------*/
-export const handleKeyDown = (e) => {
+export const handleKeyDown = e => {
     e.target.style.height = 'inherit';
-    e.target.style.height = `${e.target.scrollHeight}px`; 
+    e.target.style.height = `${e.target.scrollHeight}px`;
     // In case you have a limitation
     // e.target.style.height = `${Math.min(e.target.scrollHeight, 150)}px`;
 }
 /*--------------------------------------------------------------------------*/
-export const renderTextarea = ({ 
-    input, 
-    className, 
-    type, 
+export const renderTextarea = ({
+    input,
+    className,
+    type,
     placeholder,
-    meta: { touched, 
-        error, 
+    meta: {
+        touched,
+        error,
         active,
         warning } }) => {
     return (
         <div className={`${className} ${active ? s.active : null}`}>
-            {touched && ((error && <p className={s.hint}>{error}</p>) 
-            || (warning && <p className={s.hint}>{warning}</p>))}
-            <CustomScrollbars  autoHide autoHideTimeout={500} autoHideDuration={200}>
-                <textarea 
+            {touched && ((error && <p className={s.hint}>{error}</p>)
+                || (warning && <p className={s.hint}>{warning}</p>))}
+            <CustomScrollbars autoHide autoHideTimeout={500} autoHideDuration={200}>
+                <textarea
                     onKeyDown={handleKeyDown}
                     {...input}
                     type={type}
@@ -145,40 +145,40 @@ export const renderTextarea = ({
 /*----------------------------------set quanty files-----------------------------*/
 
 export const files = (input, caption) => {
- 
+
     if (input.value) {
         let quantyFiles = input.value.length
-        if ( quantyFiles === 1) {
+        if (quantyFiles === 1) {
             return input.value[0].name
-        }else if ( quantyFiles > 1) {
+        } else if (quantyFiles > 1) {
             return `${quantyFiles} ${caption}`
         }
-    }else{
+    } else {
         return null
     }
 }
 /*-------------------------------------------------------------------------------*/
-export const renderInputForFiles = ({ 
-    input, 
-    placeholder, 
-    type, 
-    value, 
+export const renderInputForFiles = ({
+    input,
+    placeholder,
+    type,
+    value,
     multiple,
     caption,
-        meta: { 
-            touched, 
-            error} }) => {
+    meta: {
+        touched,
+        error } }) => {
 
     return (
-        
+
         <div className={s.inputfile_label}>
             <label>
-                <input 
+                <input
                     {...input}
-                    className={s.inputfile} 
-                    type={type} 
+                    className={s.inputfile}
+                    type={type}
                     placeholder={placeholder}
-                    value={value} 
+                    value={value}
                     multiple={multiple}
                 />
                 <p><img src={file_icon} alt="file_icon" />
@@ -186,43 +186,47 @@ export const renderInputForFiles = ({
                 </p>
             </label>
             {error && touched
-                ? <span className={s.hint}>{error}</span> 
+                ? <span className={s.hint}>{error}</span>
                 : <span className={s.qty_files}>{files(input, caption)}</span>}
         </div>
     )
 }
 
-const MessageReduxForm = reduxForm({ 
+const MessageReduxForm = reduxForm({
     form: 'sendMessage'
 })(Form)
 
-const Send = props => {
+const Send = ({
+    submit,
+    linePreloader,
+    isDisabled
+}) => {
 
     const onSubmit = values => {
-            props.submit(values)
+        submit(values)
     }
     useEffect(() => {
 
-        props.linePreloader()
-    },[])
+        linePreloader()
+    }, [])
 
 
     return (
-        <MessageReduxForm onSubmit={onSubmit} isDisabled={props.isDisabled}/>
+        <MessageReduxForm onSubmit={onSubmit} isDisabled={isDisabled} />
     )
 }
 
-const marStateToProps = (state) => {
+const marStateToProps = state => {
 
     return {
         isDisabled: state.consult.isDisabled
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  
+const mapDispatchToProps = dispatch => {
+
     return {
-        submit: (values) => dispatch(sendMessageThunk(values)),
+        submit: values => dispatch(sendMessageThunk(values)),
         linePreloader: () => dispatch(linePreloaderAC(false))
     }
 }

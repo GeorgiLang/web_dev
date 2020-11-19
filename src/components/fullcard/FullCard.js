@@ -6,11 +6,20 @@ import ColorButtons from './ColorButtons'
 import ExtraValuesButtons from './ExtraValuesButtons'
 import { Link } from 'react-router-dom'
 
-const FullCard = props => {
+const FullCard = ({
+    full_card,
+    purchases,
+    current_id,
+    category,
+    setCurrentModel,
+    setExtraCard,
+    variants_name,
+    addPurchase
+}) => {
 
-    let isDisabled = props.purchases.some(card => card.id === props.full_card.id)
+    let isDisabled = purchases.some(card => card.id === full_card.id)
 
-    let current_card = { ...props.full_card }
+    let current_card = full_card
     let current_model = ''
     let current_value = ''
     let images = []
@@ -18,7 +27,7 @@ const FullCard = props => {
     let img_obj = {
         original: '',
         thumbnail: '',
-        originalAlt: props.full_card.product_name
+        originalAlt: full_card.product_name
     }
     let current_data = {
         color: '',
@@ -27,17 +36,17 @@ const FullCard = props => {
         id: ''
     }
 
-    for (let i = 0; i < props.full_card.models.length; i++) {
+    for (let i = 0; i < full_card.models.length; i++) {
 
-        let models_group = props.full_card.models[i].models_vars
+        let models_group = full_card.models[i].models_vars
 
-        if (props.full_card.models[i].color) {
+        if (full_card.models[i].color) {
 
             for (let keys in models_group) {
 
                 if (models_group[keys].id) {
-                    current_data.color_name = props.full_card.models[i].color_name
-                    current_data.color = props.full_card.models[i].color
+                    current_data.color_name = full_card.models[i].color_name
+                    current_data.color = full_card.models[i].color
                     current_data.value = models_group[keys].value
                     current_data.id = models_group[keys].id
                     models.push(Object.assign({}, current_data))
@@ -48,14 +57,14 @@ const FullCard = props => {
 
     for (let i = 0; i < models.length; i++) {
 
-        if (models[i].id === props.current_id) {
+        if (models[i].id === current_id) {
             current_model = models[i].color
             current_value = models[i].value
             break
         }
     }
 
-    let media = props.full_card.full_media
+    let media = full_card.full_media
     let count = 0
     for (let key in media) {
         if (media[key]) {
@@ -80,8 +89,8 @@ const FullCard = props => {
 
     return (
         <div className={s.card}>
-            <p className={s.product_id}>ID:&nbsp;{props.full_card.id}</p>
-            <h2 className={s.product_name}>{props.full_card.product_name}</h2>
+            <p className={s.product_id}>ID:&nbsp;{full_card.id}</p>
+            <h2 className={s.product_name}>{full_card.product_name}</h2>
             <ImageGallery
                 items={images}
                 showNav={false}
@@ -96,49 +105,49 @@ const FullCard = props => {
                     <div className={s.group_color}>
                         <p>Цвет:</p>
                         <ColorButtons
-                            parent_id={props.full_card.parent_id}
-                            category={props.category}
+                            parent_id={full_card.parent_id}
+                            category={category}
                             current_value={current_value}
                             current_model={current_model}
-                            setCurrentModel={props.setCurrentModel}
-                            setExtraCard={props.setExtraCard}
+                            setCurrentModel={setCurrentModel}
+                            setExtraCard={setExtraCard}
                             models={models}
-                            models_group={props.full_card.models} />
+                            models_group={full_card.models} />
                     </div>
                     <div className={s.group_extra}>
-                        <p>{props.variants_name}:</p>
+                        <p>{variants_name}:</p>
                         <ExtraValuesButtons
-                            variants_name={props.variants_name}
-                            parent_id={props.full_card.parent_id}
+                            variants_name={variants_name}
+                            parent_id={full_card.parent_id}
                             current_value={current_value}
                             current_model={current_model}
-                            category={props.category}
+                            category={category}
                             models={models}
-                            setExtraCard={props.setExtraCard}
+                            setExtraCard={setExtraCard}
                         />
                     </div>
                 </div>
                 <div className={s.price}>
-                    <span>{(+props.full_card.old_price).toLocaleString()} ₴</span>
-                    <span>{(+props.full_card.price).toLocaleString()} ₴</span>
+                    <span>{(+full_card.old_price).toLocaleString()} ₴</span>
+                    <span>{(+full_card.price).toLocaleString()} ₴</span>
                 </div>
                 <div className={s.action_buttons}>
                     <button className={s.order_button}
                         disabled={isDisabled}
-                        onClick={() => props.addPurchase(current_card)}>
+                        onClick={() => addPurchase(current_card)}>
                         {isDisabled ? 'Уже в корзине' : 'Добавить в корзину'}
                     </button>
                     <Link to='/shop'>
                         <button className={s.purchases_button}>Продолжить покупки</button>
                     </Link>
                     <Link to="/order">
-                        <button className={s.order_button} onClick={() => props.addPurchase(current_card)}>Оформить</button>
+                        <button className={s.order_button} onClick={() => addPurchase(current_card)}>Оформить</button>
                     </Link>
                 </div>
             </div>
             <div className={s.description_block}>
                 <h3>Характеристики:</h3>
-                <ProductDescription className={s.description} description={'full_description'} card={props.full_card} />
+                <ProductDescription className={s.description} description={'full_description'} card={full_card} />
             </div>
         </div>
     )

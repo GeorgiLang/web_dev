@@ -3,11 +3,14 @@ import s from './Card.module.css'
 import ProductDescription from './ProductDescription'
 import { Link } from 'react-router-dom'
 
-const Card = ({ card, setBasket, basket }) => {
+const Card = ({
+    card,
+    setBasket,
+    basket }) => {
 
     const [isShown, setIsShown] = useState(false)
 
-    let timeout 
+    let timeout
 
     const mouseMove = () => {
 

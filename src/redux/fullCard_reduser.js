@@ -54,8 +54,8 @@ const fullCardsReducer = (state = initialState, action) => {
                 old_price: action.purchase.old_price
             }
         }
-    }  else if (action.type === IS_PRELOADER) {
-        
+    } else if (action.type === IS_PRELOADER) {
+
         return {
             ...state,
             isSpinerPreloader: action.isSpinerPreloader
@@ -64,30 +64,31 @@ const fullCardsReducer = (state = initialState, action) => {
     return state
 }
 
-export const currentIDAC = current_id => 
-({ type: "CURRENT_ID", current_id })
+export const currentIDAC = current_id =>
+    ({ type: "CURRENT_ID", current_id })
 
-export const parentIDAC = id => 
-({ type: "PARENT_ID", id })
+export const parentIDAC = id =>
+    ({ type: "PARENT_ID", id })
 
-export const isLoadingBasketAC = isLoadingFullCard => 
-({ type: "IS_LOADING_BASKET", isLoadingFullCard })
+export const isLoadingBasketAC = isLoadingFullCard =>
+    ({ type: "IS_LOADING_BASKET", isLoadingFullCard })
 
-export const setFullCardAC = purchase => 
-({ type: "SET_FULL_CARD", purchase })
+export const setFullCardAC = purchase =>
+    ({ type: "SET_FULL_CARD", purchase })
 
-export const addCardAC = purchase => 
-({ type: "ADD_CARD", purchase })
+export const addCardAC = purchase =>
+    ({ type: "ADD_CARD", purchase })
 
 export const spinerPreloaderAC = isSpinerPreloader =>
-({ type: 'IS_PRELOADER', isSpinerPreloader})
+    ({ type: 'IS_PRELOADER', isSpinerPreloader })
 
 
 export const getExtraCardThunkAC = (id, category) => dispatch => {
-    
+
     dispatch(linePreloaderAC(true))
+    
     api.getFullMedia(id, category).then((res) => {
-console.log(id, category)
+
         let purchase = {
             id: res.data.id,
             product_name: res.data.acf.product_name,
@@ -95,7 +96,7 @@ console.log(id, category)
             old_price: res.data.acf.old_price,
             price: res.data.acf.price,
         }
-        
+
         dispatch(addCardAC(purchase))
         dispatch(linePreloaderAC(false))
     })

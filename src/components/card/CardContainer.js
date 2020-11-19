@@ -7,20 +7,20 @@ import { deleteAllCardsAC, currentCategoryAC } from '../../redux/cards_reduser'
 import { nextCardsThunk, setCardInBasketThunk, setCardsThunk } from '../../redux/cards_functions'
 import { searchThunk } from '../../redux/search_reduser'
 
-const CardContainer = props => {
+const CardContainer = ({
+    setCards,
+    deleteAllCards,
+    nextCards,
+    category,
+    isLoading,
+    purchase,
+    cards,
+    setBasket,
+    searchProduct,
+    isDisabled,
+    isNotFound }) => {
 
     let location = useLocation()
-    let { setCards,
-        deleteAllCards,
-        nextCards,
-        category,
-        isLoading,
-        purchase,
-        cards,
-        setBasket,
-        searchProduct,
-        isDisabled,
-        isNotFound } = props
 
     useEffect(() => {
 
@@ -41,10 +41,10 @@ const CardContainer = props => {
             {isLoading ? <Cards
                 cards={cards}
                 purchase={purchase}
-                setBasket={setBasket}/> : null}
-            {isNotFound ? 
+                setBasket={setBasket} /> : null}
+            {isNotFound ?
                 <div className={s.hint}>
-                    <p>Нічого не знайдено, спробуйте змінити запит</p> 
+                    <p>Нічого не знайдено, спробуйте змінити запит</p>
                 </div>
                 : null}
             <div className={s.wrapper_button}>
@@ -78,7 +78,8 @@ const mapDispatchToProps = dispatch => {
         nextCards: (page, category) => dispatch(nextCardsThunk(page, category)),
         setCards: (category, model) => {
             dispatch(currentCategoryAC(category))
-            dispatch(setCardsThunk(category, model))},
+            dispatch(setCardsThunk(category, model))
+        },
         setBasket: (id, category) => dispatch(setCardInBasketThunk(id, category, false)),
         deleteAllCards: () => dispatch(deleteAllCardsAC()),
         searchProduct: model => dispatch(searchThunk(model))

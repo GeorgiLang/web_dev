@@ -169,9 +169,9 @@ export const nextCardsThunk = () => (dispatch, getState) => {
     let category = getState().cards.category
     let _cards = []
     category !== 'all_categories'
-    ? _cards = getState().storage.base_storage
-    : _cards = [getState().cards.all_cards]
-    
+        ? _cards = getState().storage.base_storage
+        : _cards = [getState().cards.all_cards]
+
     dispatch(isDisabledAC(false))
 
     if (_cards.length !== 0) {

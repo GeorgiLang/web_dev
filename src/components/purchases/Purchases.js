@@ -5,17 +5,16 @@ import { getTotalCostAC, cleanPurchasesAC } from '../../redux/cards_reduser'
 import { setQuentityThunk } from '../../redux/cards_functions'
 import { Redirect, Link } from 'react-router-dom'
 
-const Card = props => {
-
-    let { card_name,
-        category,
-        setBasket,
-        id,
-        media,
-        onClick,
-        parent_id,
-        price,
-        quentity } = props
+const Card = ({
+    card_name,
+    category,
+    setBasket,
+    id,
+    media,
+    onClick,
+    parent_id,
+    price,
+    quentity }) => {
 
     return (
         <div className={s.basket_item}>
@@ -27,7 +26,7 @@ const Card = props => {
             <div className={s.basket_item_box}>
                 <div className={s.product_about}>
                     <Link to={`/fullcard/${category}/${parent_id}/${id}`}>
-                        <h3>{props.card_name}</h3>
+                        <h3>{card_name}</h3>
                     </Link>
                     <div className={s.product_price_box}>
                         <span className={s.product_price}>{(+price).toLocaleString()}</span>
@@ -57,12 +56,11 @@ const Card = props => {
     )
 }
 
-export const Purchases = props => {
-
-    let { cards,
-        total_price,
-        setBasket,
-        onClick } = props
+export const Purchases = ({
+    cards,
+    total_price,
+    setBasket,
+    onClick }) => {
 
     const _cards = cards.map(card =>
 
