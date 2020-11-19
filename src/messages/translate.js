@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 import Validators from 'redux-form-validators'
 import { FormattedMessage } from 'react-intl'
 
-Validators.formatMessage = (msg) => {
+Validators.formatMessage = msg => {
 
     return <FormattedMessage {...msg.props || msg} />
 }
