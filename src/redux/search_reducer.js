@@ -23,33 +23,29 @@ let initialState = {
 
 const searchReducer = (state = initialState, action) => {
 
-    if (action.type === IS_SEARCH) {
-
-        return {
-            ...state,
-            isSearch: action.isSearch
-        }
-    } else if (action.type === MODEL) {
-
-        return {
-            ...state,
-            model: action.model
-        }
-    } else if (action.type === IS_NOT_FOUND) {
-
-        return {
-            ...state,
-            isNotFound: action.isNotFound
-        }
+    switch (action.type) {
+        case IS_SEARCH:
+            return {
+                ...state,
+                isSearch: action.isSearch
+            }
+        case MODEL:
+            return {
+                ...state,
+                model: action.model
+            }
+        case IS_NOT_FOUND:
+            return {
+                ...state,
+                isNotFound: action.isNotFound
+            }
+        default: return state
     }
-    return state;
 }
 
 export const searchAC = isSearch => ({ type: 'IS_SEARCH', isSearch })
 export const searchModelAC = model => ({ type: 'MODEL', model })
 export const isNotFoundAC = isNotFound => ({ type: 'IS_NOT_FOUND', isNotFound })
-
-
 
 export const searchModelThunk = path => dispatch => {
 

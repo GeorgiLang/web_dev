@@ -18,37 +18,36 @@ const initialState = {
 
 const shoppingReducer = (state = initialState, action) => {
 
-    if (action.type === PRELOADER) {
-        return {
-            ...state,
-            preloader: action.bool
-        }
-    } else if (action.type === IS_DISABLED) {
-        return {
-            ...state,
-            isDisabled: action.bool
-        }
-    } else if (action.type === CONSULT) {
-
-        return {
-            ...state,
-            isVisible: action.bool
-        };
-    } else if (action.type === POPUP) {
-
-        return {
-            ...state,
-            popup: action.bool
-        };
-    } else if (action.type === MESSAGE_ID) {
-
-        return {
-            ...state,
-            popup: action.bool,
-            messageID: action.messageID
-        };
+    switch (action.type) {
+        case PRELOADER:
+            return {
+                ...state,
+                preloader: action.bool
+            }
+        case IS_DISABLED:
+            return {
+                ...state,
+                isDisabled: action.bool
+            }
+        case CONSULT:
+            return {
+                ...state,
+                isVisible: action.bool
+            }
+        case POPUP:
+            return {
+                ...state,
+                popup: action.bool
+            }
+        case MESSAGE_ID:
+            return {
+                ...state,
+                popup: action.bool,
+                messageID: action.messageID
+            }
+        default:
+            return state
     }
-    return state;
 }
 
 const messageAC = (bool, messageID) => ({ type: "MESSAGE_ID", bool, messageID })
@@ -78,7 +77,6 @@ export const sendOrderThunk = values => (dispatch, getState) => {
             <b>Наименование товара:</b><span style="color:darkblue"> ${purchases[i].product_name}</span><br>
             <b>Количество:</b> ${purchases[i].quentity}<br>
             <b>Цена:</b><span style="color:darkgreen"> ${purchases[i].price}</span><br>`
-
         }
 
         const fileData = new FormData();

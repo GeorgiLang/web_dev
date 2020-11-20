@@ -7,21 +7,21 @@ let initialState = {
 
 const storageReducer = (state = initialState, action) => {
 
-    if (action.type === BASE_STORAGE) {
-
-        if (state.base_storage.length === 0
-            || !state.base_storage.find(category => category.category === action.base_storage.category)) {
-
-            return {
-                ...state,
-                base_storage: [
-                    ...state.base_storage,
-                    action.base_storage
-                ]
+    switch (action.type) {
+        case BASE_STORAGE :
+            if (state.base_storage.length === 0
+                || !state.base_storage.find(category => category.category === action.base_storage.category)) {
+    
+                return {
+                    ...state,
+                    base_storage: [
+                        ...state.base_storage,
+                        action.base_storage
+                    ]
+                }
             }
-        }
+        default : return state       
     }
-    return state;
 }
 
 export const baseStorageAC = base_storage => ({ type: 'BASE_STORAGE', base_storage })

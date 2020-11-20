@@ -17,37 +17,35 @@ const initialState = {
 
 const consultReducer = (state = initialState, action) => {
 
-    if (action.type === PRELOADER) {
-        return {
-            ...state,
-            preloader: action.bool
-        }
-    } else if (action.type === IS_DISABLED) {
-        return {
-            ...state,
-            isDisabled: action.bool
-        }
-    } else if (action.type === CONSULT) {
-
-        return {
-            ...state,
-            isVisible: action.bool
-        };
-    } else if (action.type === POPUP) {
-
-        return {
-            ...state,
-            popup: action.bool
-        };
-    } else if (action.type === MESSAGE_ID) {
-
-        return {
-            ...state,
-            popup: action.bool,
-            messageID: action.messageID
-        };
+    switch (action.type) {
+        case PRELOADER:
+            return {
+                ...state,
+                preloader: action.bool
+            }
+        case IS_DISABLED:
+            return {
+                ...state,
+                isDisabled: action.bool
+            }
+        case CONSULT:
+            return {
+                ...state,
+                isVisible: action.bool
+            }
+        case POPUP:
+            return {
+                ...state,
+                popup: action.bool
+            }
+        case MESSAGE_ID:
+            return {
+                ...state,
+                popup: action.bool,
+                messageID: action.messageID
+            }
+        default: return state
     }
-    return state;
 }
 
 const messageAC = (bool, messageID) => ({ type: "MESSAGE_ID", bool, messageID })

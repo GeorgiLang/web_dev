@@ -31,123 +31,111 @@ const initialState = {
 
 const cardsReducer = (state = initialState, action) => {
 
-    if (action.type === ADD_PURCHASE_TO_BASKET) {
+    switch (action.type) {
 
-        if (state.purchase.length === 0 || !state.purchase.find(purchase => purchase.id === action.purchase.id)) {
-
+        case ADD_PURCHASE_TO_BASKET:
+            if (state.purchase.length === 0 || !state.purchase.find(purchase => purchase.id === action.purchase.id)) {
+                return {
+                    ...state,
+                    purchase: [
+                        ...state.purchase,
+                        action.purchase
+                    ]
+                }
+            }
+        case SET_CATEGORIES_LIST:
             return {
                 ...state,
-                purchase: [
-                    ...state.purchase,
-                    action.purchase
+                categories: action.categories
+            }
+        case SET_ALL_CARDS:
+            return {
+                ...state,
+                all_cards: action.payload
+            }
+        case SET_CARDS:
+            return {
+                ...state,
+                cards: [
+                    ...state.cards,
+                    action.card
                 ]
             }
-        }
-    } else if (action.type === SET_CATEGORIES_LIST) {
+        case IS_LOADING:
+            return {
+                ...state,
+                isLoading: action.isLoading
+            }
+        case IS_LOADING_CARD:
+            return {
+                ...state,
+                isLoadingCard: action.isLoadingCard
+            }
+        case DELETE_ALL_CARDS:
+            return {
+                ...state,
+                cards: [],
+                all_cards: [],
+                isLoading: false
+            }
+        case CLEAN_PURCHASE:
+            return {
+                ...state,
+                purchase: action.id ? state.purchase.filter(card => card.id !== action.id) : []
+            }
+        case CURRENT_PAGE:
+            return {
+                ...state,
+                current_page: action.page
+            }
+        case CURRENT_CATEGORY:
+            return {
+                ...state,
+                category: action.category
+            }
+        case IS_DISABLED:
+            return {
+                ...state,
+                isDisabled: action.isDisabled
+            }
+        case SET_BASKET_ICON:
+            return {
+                ...state,
+                cards: state.cards.reduce((cards_arr, card) => {
 
-        return {
-            ...state,
-            categories: action.categories
-        }
-    } else if (action.type === SET_ALL_CARDS) {
+                    if (card.id === +action.id && !card.acf.basket) {
 
-        return {
-            ...state,
-            all_cards: action.payload
-        }
-    } else if (action.type === SET_CARDS) {
+                        cards_arr.push({ ...card, ...card.acf.basket = true })
+                    } else {
 
-        return {
-            ...state,
-            cards: [
-                ...state.cards,
-                action.card
-            ]
-        }
-    } else if (action.type === IS_LOADING) {
+                        cards_arr.push(card)
+                    }
+                    return cards_arr
+                }, [])
+            }
+        case SET_QUENTITY:
+            return {
+                ...state,
+                purchase: state.purchase.map(card => card.id === action.id
 
-        return {
-            ...state,
-            isLoading: action.isLoading
-        }
-    } else if (action.type === IS_LOADING_CARD) {
+                    ? {
+                        ...card.quentity = action.action
+                            ? card.quentity + 1
+                            : (card.quentity <= 1 ? 2 : card.quentity) - 1, ...card
+                    }
+                    : card)
+            }
+        case GET_TOTAL_COST:
+            return {
+                ...state,
+                total_price: state.purchase.reduce((total, card) => {
 
-        return {
-            ...state,
-            isLoadingCard: action.isLoadingCard
-        }
-    } else if (action.type === DELETE_ALL_CARDS) {
-
-        return {
-            ...state,
-            cards: [],
-            all_cards: [],
-            isLoading: false
-        }
-    } else if (action.type === CLEAN_PURCHASE) {
-
-        return {
-            ...state,
-            purchase: action.id ? state.purchase.filter(card => card.id !== action.id) : []
-        }
-    } else if (action.type === CURRENT_PAGE) {
-
-        return {
-            ...state,
-            current_page: action.page
-        }
-    } else if (action.type === CURRENT_CATEGORY) {
-
-        return {
-            ...state,
-            category: action.category
-        }
-    } else if (action.type === IS_DISABLED) {
-
-        return {
-            ...state,
-            isDisabled: action.isDisabled
-        }
-    } else if (action.type === SET_BASKET_ICON) {
-
-        return {
-            ...state,
-            cards: state.cards.reduce((cards_arr, card) => {
-
-                if (card.id === +action.id && !card.acf.basket) {
-
-                    cards_arr.push({ ...card, ...card.acf.basket = true })
-                } else {
-
-                    cards_arr.push(card)
-                }
-                return cards_arr
-            }, [])
-        }
-    } else if (action.type === SET_QUENTITY) {
-
-        return {
-            ...state,
-            purchase: state.purchase.map(card => card.id === action.id
-
-                ? {
-                    ...card.quentity = action.action
-                        ? card.quentity + 1
-                        : (card.quentity <= 1 ? 2 : card.quentity) - 1, ...card
-                }
-                : card)
-        }
-    } else if (action.type === GET_TOTAL_COST) {
-
-        return {
-            ...state,
-            total_price: state.purchase.reduce((total, card) => {
-
-                return total + +card.price * card.quentity
-            }, 0)
-        }
+                    return total + +card.price * card.quentity
+                }, 0)
+            }
+        default:
+            return state
     }
-    return state
 }
 
 export const addPurchaseToBasketAC = purchase =>

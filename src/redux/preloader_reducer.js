@@ -6,14 +6,14 @@ let initialState = {
 
 const linePreloaderReducer = (state = initialState, action) => {
 
-    if (action.type === LINE_PRELOADER) {
-
-        return {
-            ...state,
-            linePreloader: action.linePreloader
-        }
+    switch (action.type) {
+        case LINE_PRELOADER:
+            return {
+                ...state,
+                linePreloader: action.linePreloader
+            }
+        default: return state
     }
-    return state;
 }
 
 export const linePreloaderAC = linePreloader =>

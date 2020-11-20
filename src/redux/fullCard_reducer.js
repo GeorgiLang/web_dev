@@ -17,51 +17,47 @@ const initialState = {
 
 const fullCardsReducer = (state = initialState, action) => {
 
-    if (action.type === CURRENT_ID) {
-
-        return {
-            ...state,
-            current_id: action.current_id
-        }
-    } else if (action.type === PARENT_ID) {
-
-        return {
-            ...state,
-            parent_id: +action.id
-        }
-    } else if (action.type === IS_LOADING_BASKET) {
-
-        return {
-            ...state,
-            isLoadingFullCard: action.isLoadingFullCard
-        }
-    } else if (action.type === SET_FULL_CARD) {
-
-        return {
-            ...state,
-            full_card: action.purchase
-        }
-    } else if (action.type === ADD_CARD) {
-
-        return {
-            ...state,
-            full_card: {
-                ...state.full_card,
-                id: action.purchase.id,
-                full_media: action.purchase.full_media,
-                product_name: action.purchase.product_name,
-                price: action.purchase.price,
-                old_price: action.purchase.old_price
+    switch (action.type) {
+        case CURRENT_ID:
+            return {
+                ...state,
+                current_id: action.current_id
             }
-        }
-    } else if (action.type === IS_PRELOADER) {
-
-        return {
-            ...state,
-            isSpinerPreloader: action.isSpinerPreloader
-        }
+        case PARENT_ID:
+            return {
+                ...state,
+                parent_id: +action.id
+            }
+        case IS_LOADING_BASKET:
+            return {
+                ...state,
+                isLoadingFullCard: action.isLoadingFullCard
+            }
+        case SET_FULL_CARD:
+            return {
+                ...state,
+                full_card: action.purchase
+            }
+        case ADD_CARD:
+            return {
+                ...state,
+                full_card: {
+                    ...state.full_card,
+                    id: action.purchase.id,
+                    full_media: action.purchase.full_media,
+                    product_name: action.purchase.product_name,
+                    price: action.purchase.price,
+                    old_price: action.purchase.old_price
+                }
+            }
+        case IS_PRELOADER:
+            return {
+                ...state,
+                isSpinerPreloader: action.isSpinerPreloader
+            }
+        default: return state
     }
-    return state
+
 }
 
 export const currentIDAC = current_id =>
@@ -86,7 +82,7 @@ export const spinerPreloaderAC = isSpinerPreloader =>
 export const getExtraCardThunkAC = (id, category) => dispatch => {
 
     dispatch(linePreloaderAC(true))
-    
+
     api.getFullMedia(id, category).then((res) => {
 
         let purchase = {

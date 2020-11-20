@@ -6,14 +6,14 @@ let initialState = {
 
 const menuActiveReducer = (state = initialState, action) => {
 
-    if (action.type === MENU_ACTIVE) {
-
-        return {
-            ...state,
-            active: state.active ? false : true
-        };
+    switch (action.type) {
+        case MENU_ACTIVE:
+            return {
+                ...state,
+                active: state.active ? false : true
+            }
+        default: return state
     }
-    return state;
 }
 
 export const menuActiveAC = (active) => ({ type: 'MENU_ACTIVE', active })

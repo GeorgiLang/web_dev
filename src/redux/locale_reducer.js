@@ -9,14 +9,14 @@ let initialState = {
 
 const localeReducer = (state = initialState, action) => {
 
-    if (action.type === SET_LOCALE) {
-
-        return {
-            ...state,
-            locale: action.locale
-        };
+    switch (action.type) {
+        case SET_LOCALE:
+            return {
+                ...state,
+                locale: action.locale
+            }
+        default: return state
     }
-    return state;
 }
 
 export const localeAC = (locale) =>
