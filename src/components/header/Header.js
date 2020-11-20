@@ -16,7 +16,7 @@ const Header = ({
     choosed,
     isLoadingCard,
     isMenu,
-
+    basket
 }) => {
 
     return (
@@ -27,7 +27,7 @@ const Header = ({
                 </Link>
                 <Search />
                 <MenuButton menuClick={menuClick} active={active} />
-                <Link className={s.basket_link} to={choosed > 0 ? "/purchases" : "/"}>
+                <Link onClick={basket} className={s.basket_link} to={choosed > 0 ? "/purchases" : "/"}>
                     <Basket
                         choosed={choosed}
                         isLoadingCard={isLoadingCard}

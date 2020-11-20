@@ -34,7 +34,7 @@ const OrderForm = ({
     }, [])
 
     return (
-        <div className={s.order_block}>
+        <div onClick={popup ? popupMessage : null}  className={s.order_block}>
             <div className={`${s.popup} ${popup ? s.popup_active : null}`}>
                 <p>
                     <FormattedMessage

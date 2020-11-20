@@ -14,7 +14,6 @@
 
 .consult {
 	box-sizing: border-box;
-	position: relative;
 	display: flex;
 	flex-wrap: wrap;
 	width: 750px;
@@ -316,14 +315,18 @@
 .popup {
 	position: absolute;
     box-sizing: border-box;
-    top: -300px;
-    left: calc(50% - 160px);
-    width: 320px;
-    min-height: 100px;
+	top: -200px;
+    left: calc(50% - 450px);
+    width: 100%;
+    min-height: 200px;
+    max-width: 900px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 8px;
     background-color: rgb(215, 215, 215);
-	padding: 20px;
-	opacity: 0;
+    padding: 20px;
+    opacity: 0;
     transition: 0.2s all ease;
 }
 
@@ -336,7 +339,7 @@
 }
 
 .popup_active {
-	top: 50px;
+	top: calc(50% - 100px);
 	opacity: 1;
 }
 
@@ -347,6 +350,11 @@
 		max-width: 380px;
 		min-width: 320px;
 		padding: 10px;
+	}
+
+	.popup {
+		left: calc(50% - 200px);
+		max-width: 400px;
 	}
 
 	.container {
@@ -439,5 +447,10 @@
 @media only screen and (max-width: 480px) {
 	.input_wrapper input {
 		padding: 14px;
+	}
+
+	.popup {
+		left: 5%;
+		width: 90%;
 	}
 }
