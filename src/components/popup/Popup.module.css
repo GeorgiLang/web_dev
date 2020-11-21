@@ -339,7 +339,7 @@
 }
 
 .popup_active {
-	top: calc(50% - 100px);
+	top: calc(50% - 120px);
 	opacity: 1;
 }
 
@@ -450,7 +450,7 @@
 	}
 
 	.popup {
-		left: 5%;
-		width: 90%;
+		left: 6%;
+		width: 88%;
 	}
 }

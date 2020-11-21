@@ -45,7 +45,6 @@ const CardContainer = ({
             setScreenWidth(window.innerWidth)
 
         }, 50)
-
     }
 
     window.addEventListener('orientationchange', sizeWidth)

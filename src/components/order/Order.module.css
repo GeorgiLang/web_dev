@@ -106,12 +106,13 @@
 .purchases {
     width: 50%;
     height: 100%; 
-    margin: 30px 0 0;   
+    margin: 30px auto 0;   
 }
 
 .purchases_inner {
     box-sizing: border-box;
     width: 100%;
+    min-height: 300px;
     border: 1px solid gray;
     background-color: rgb(255, 255, 255);
     padding: 0 10px 10px;

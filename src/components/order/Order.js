@@ -42,10 +42,14 @@ const OrderForm = ({
                         defaultMessage="От халепа!" />
                 </p>
             </div>
-            <OrderReduxForm isPreloader={isPreloader} onSubmit={values => onsubmit(values)}
-                locale={locale}
-                setLocale={setLocale}
-                isDisabled={isDisabled} />
+            {cards.length !== 0 
+                ? <OrderReduxForm 
+                    isPreloader={isPreloader} 
+                    onSubmit={values => onsubmit(values)}
+                    locale={locale}
+                    setLocale={setLocale}
+                    isDisabled={isDisabled} /> 
+                : null}
             <div className={s.purchases}>
                 <div className={s.purchases_inner}>
                     <h2 className={s.title}>{cards.length !== 0

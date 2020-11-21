@@ -18,7 +18,7 @@
 
 .product_id {
     font-size: 16px;
-    padding: 20px 20px 0;
+    padding: 20px 0 0 20px;
 }
 
 .actions {
@@ -237,11 +237,16 @@
 
     .product_name {
         font-size: 24px;
+        min-height: 68px;
     }
 
     .action_buttons button {
         padding: 0 20px;
         margin: 10px 10px 10px 0;
+    }
+
+    .gallery {
+        min-height: 64vw;
     }
 }
 
@@ -260,13 +265,17 @@
         width: auto;
     }
 
+    .product_id {
+        width: 100%;
+    }
+
     .description {
         width: 100%;
     }    
     
     .gallery {
         width: 100%;
-        min-height: 90vw;
+        min-height: 100vw;
         margin: 0 auto;
     }
 
@@ -297,6 +306,7 @@
 
     .product_name {
         font-size: 20px;
+        min-height: 48px;
         line-height: 24px;
     }
 

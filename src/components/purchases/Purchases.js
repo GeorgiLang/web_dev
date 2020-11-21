@@ -80,7 +80,7 @@ export const Purchases = ({
 
     return (
         cards.length === 0
-            ? <Redirect exact to="/" />
+            ? <Redirect exact to="/order" />
             :
             <div className={s.purchases}>
                 {_cards}

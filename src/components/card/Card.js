@@ -27,7 +27,7 @@ const Card = ({
             clearTimeout(timeout)
             timeout = setTimeout(() => isTouchScreen && screenWidth < 620
                 ? setDescription(isDescription ? false : true)
-                : setDescription(bool), screenWidth > 620 ? 300 : 0)
+                : setDescription(bool), !isTouchScreen ? 300 : 0)
 
         } else {
             switchClick = true
@@ -43,9 +43,9 @@ const Card = ({
     }, [timeout])
 
     return (
-        <div onMouseMove={!isTouchScreen ? () => handleClick(true, "move") : null}
-            onClick={isTouchScreen ? () => handleClick(true, "click") : null}
-            onMouseLeave={!isTouchScreen || screenWidth > 620 ? () => handleClick(false, "leave") : null}
+        <div onMouseMove={!isTouchScreen ? () => handleClick(true) : null}
+            onClick={isTouchScreen ? () => handleClick(true) : null}
+            onMouseLeave={!isTouchScreen || screenWidth > 620 ? () => handleClick(false) : null}
             className={s.wrapper}>
             <div className={`${s.card} ${card.acf.in_stock === 'Есть в наличии' ? '' : s.stock} ${isDescription ? s.card_active : ''}`}>
                 {card.acf.in_stock !== 'Есть в наличии' && <p className={`${s.warning} ${isDescription ? s.warning_active : ''}`}>{card.acf.in_stock}</p>}
