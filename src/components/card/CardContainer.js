@@ -3,7 +3,7 @@ import s from './Card.module.css'
 import { connect } from 'react-redux'
 import Cards from './Cards'
 import { useLocation } from 'react-router-dom'
-import { deleteAllCardsAC, currentCategoryAC } from '../../redux/cards_reduсer'
+import { deleteAllCardsAC, currentCategoryAC, screenWidthAC } from '../../redux/cards_reduсer'
 import { nextCardsThunk, setCardInBasketThunk, setCardsThunk } from '../../redux/cards_functions'
 import { searchThunk } from '../../redux/search_reducer'
 
@@ -18,7 +18,9 @@ const CardContainer = ({
     setBasket,
     searchProduct,
     isDisabled,
-    isNotFound }) => {
+    isNotFound,
+    setScreenWidth,
+    screenWidth }) => {
 
     let location = useLocation()
 
@@ -29,11 +31,24 @@ const CardContainer = ({
         let model = path[3]
         model === 'all_models' ? setCards(category) : searchProduct(model)
 
+        setScreenWidth(window.innerWidth)
+
         return () => {
             deleteAllCards()
         }
 
-    }, [setCards, deleteAllCards, searchProduct, location.pathname])
+    }, [setCards, deleteAllCards, searchProduct])
+
+    const sizeWidth = () => {
+
+        setTimeout(() => {
+            setScreenWidth(window.innerWidth)
+
+        }, 50)
+
+    }
+
+    window.addEventListener('orientationchange', sizeWidth)
 
     return (
 
@@ -41,7 +56,8 @@ const CardContainer = ({
             {isLoading ? <Cards
                 cards={cards}
                 purchase={purchase}
-                setBasket={setBasket} /> : null}
+                setBasket={setBasket}
+                screenWidth={screenWidth} /> : null}
             {isNotFound ?
                 <div className={s.hint}>
                     <p>Нічого не знайдено, спробуйте змінити запит</p>
@@ -68,7 +84,8 @@ const mapStateToProps = state => {
         isLoading: state.cards.isLoading,
         isDisabled: state.cards.isDisabled,
         purchase: state.cards.purchase,
-        isNotFound: state.search.isNotFound
+        isNotFound: state.search.isNotFound,
+        screenWidth: state.cards.screenWidth
     }
 }
 
@@ -82,7 +99,8 @@ const mapDispatchToProps = dispatch => {
         },
         setBasket: (id, category) => dispatch(setCardInBasketThunk(id, category, false)),
         deleteAllCards: () => dispatch(deleteAllCardsAC()),
-        searchProduct: model => dispatch(searchThunk(model))
+        searchProduct: model => dispatch(searchThunk(model)),
+        setScreenWidth: width => dispatch(screenWidthAC(width))
     }
 }
 

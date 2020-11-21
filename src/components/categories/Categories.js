@@ -17,11 +17,11 @@ const Categories = ({
     return (
         <div className={s.categories}>
             <ul>
-                {categories.map(category =>
+                {categories.length > 0 ? categories.map(category =>
                     <Link to={`/shop/${category.acf.category}/all_models`} key={category.id}>
                         <li>{category.acf.category_name}</li>
                     </Link>
-                )}
+                ) : null}
             </ul>
         </div>
     )

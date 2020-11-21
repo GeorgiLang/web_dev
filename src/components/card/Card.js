@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import s from './Card.module.css'
 import ProductDescription from './ProductDescription'
 import { Link } from 'react-router-dom'
@@ -6,36 +6,53 @@ import { Link } from 'react-router-dom'
 const Card = ({
     card,
     setBasket,
-    basket }) => {
+    basket,
+    screenWidth }) => {
 
-    const [isShown, setIsShown] = useState(false)
+    const [isDescription, setDescription] = useState(false)
 
+    let switchClick = true
     let timeout
+    let isTouchScreen = 'ontouchstart' in window || navigator.maxTouchPoints
+    const putInBasket = () => {
 
-    const mouseMove = () => {
-
-        clearTimeout(timeout)
-        timeout = setTimeout(() => setIsShown(true), 20)
+        switchClick = false
+        setBasket(card.id, card.type)
     }
 
-    const mouseLeave = () => {
+    const handleClick = bool => {
 
-        clearTimeout(timeout)
-        setIsShown(false)
+        if (switchClick) {
+
+            clearTimeout(timeout)
+            timeout = setTimeout(() => isTouchScreen && screenWidth < 620
+                ? setDescription(isDescription ? false : true)
+                : setDescription(bool), screenWidth > 620 ? 300 : 0)
+
+        } else {
+            switchClick = true
+        }
     }
 
-    const putInBasket = () => setBasket(card.id, card.type)
+    useEffect(() => {
+
+        return () => {
+
+            clearTimeout(timeout)
+        }
+    }, [timeout])
 
     return (
-        <div onMouseMove={mouseMove}
-            onMouseLeave={mouseLeave}
+        <div onMouseMove={!isTouchScreen ? () => handleClick(true, "move") : null}
+            onClick={isTouchScreen ? () => handleClick(true, "click") : null}
+            onMouseLeave={!isTouchScreen || screenWidth > 620 ? () => handleClick(false, "leave") : null}
             className={s.wrapper}>
-            <div className={`${s.card} ${card.acf.in_stock === 'Есть в наличии' ? '' : s.stock} ${isShown ? s.card_active : ''}`}>
-                {card.acf.in_stock !== 'Есть в наличии' && <p className={`${s.warning} ${isShown ? s.warning_active : ''}`}>{card.acf.in_stock}</p>}
+            <div className={`${s.card} ${card.acf.in_stock === 'Есть в наличии' ? '' : s.stock} ${isDescription ? s.card_active : ''}`}>
+                {card.acf.in_stock !== 'Есть в наличии' && <p className={`${s.warning} ${isDescription ? s.warning_active : ''}`}>{card.acf.in_stock}</p>}
                 <div className={s.card_inner}>
                     <div className={s.product_img}>
                         {card.acf.in_stock === 'Есть в наличии'
-                            ? <Link to={`/fullcard/${card.type}/${card.id}/${card.child_id}`}>
+                            ? <Link onClick={() => switchClick = false} to={`/fullcard/${card.type}/${card.id}/${card.child_id}`}>
                                 <img src={card.acf.media}
                                     alt={card.acf.product_name} />
                             </Link>
@@ -43,7 +60,7 @@ const Card = ({
                                 alt={card.acf.product_name} />}
                     </div>
                     {card.acf.in_stock === 'Есть в наличии'
-                        ? <Link to={`/fullcard/${card.type}/${card.id}/${card.child_id}`}>
+                        ? <Link onClick={() => switchClick = false} to={`/fullcard/${card.type}/${card.id}/${card.child_id}`}>
                             <h2 className={s.card_name}>{card.acf.product_name}</h2>
                         </Link>
                         : <h2 className={s.card_name}>{card.acf.product_name}</h2>}
@@ -73,7 +90,12 @@ const Card = ({
                         </div>
                     </div>
                 </div>
-                <ProductDescription className={`${s.description} ${isShown ? s.description_active : ''}`} description={'description'} card={card} />
+                {card.acf.in_stock === 'Есть в наличии'
+                    ? <ProductDescription
+                        className={`${s.description} ${isDescription ? s.description_active : ''}`}
+                        description={'description'}
+                        card={card} />
+                    : null}
             </div>
         </div>
     )

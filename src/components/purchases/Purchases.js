@@ -61,7 +61,7 @@ export const Purchases = ({
     total_price,
     setBasket,
     onClick }) => {
-console.log(total_price,cards)
+
     const _cards = cards.map(card =>
 
         <Card

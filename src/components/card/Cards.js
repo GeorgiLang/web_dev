@@ -1,11 +1,13 @@
-import React from 'react';
+import React from 'react'
 import Card from './Card'
 
 const Cards = ({
     purchase,
     cards,
-    setBasket }) => {
-
+    setBasket,
+    screenWidth,
+    isDescription,
+    setDescription }) => {
 
     return cards.reduce((card, _card) => {
 
@@ -21,6 +23,9 @@ const Cards = ({
             card={_card}
             setBasket={setBasket}
             basket={basket}
+            screenWidth={screenWidth}
+            isDescription={isDescription}
+            setDescription={setDescription}
         />)
         return card
     }, [])

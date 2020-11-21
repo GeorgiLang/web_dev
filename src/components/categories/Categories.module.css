@@ -7,14 +7,19 @@
 
 .categories a {
     color: inherit;
+    display: block;
+    background-color: rgba(255, 255, 255, 0.9);
 }
 
 .categories li {
     line-height: 44px;
     padding: 0 20px;
-    background-color: rgba(255, 255, 255, 0.9);
     border-bottom: 2px solid transparent;
     cursor: pointer;
+}
+
+.categories a:nth-child(odd) {
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
 .categories li:hover,

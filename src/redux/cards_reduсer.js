@@ -13,8 +13,10 @@ const CURRENT_CATEGORY = 'CURRENT_CATEGORY'
 const SET_CATEGORIES_LIST = 'SET_CATEGORIES_LIST'
 const IS_LOADING_CARD = 'IS_LOADING_CARD'
 const IS_LOADING = 'IS_LOADING'
+const SCREEN_WIDTH = 'SCREEN_WIDTH'
 
 const initialState = {
+    screenWidth: 0,
     cards: [],
     all_cards: [],
     purchase: [],
@@ -47,6 +49,11 @@ const cardsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 categories: action.categories
+            }
+        case SCREEN_WIDTH:
+            return {
+                ...state,
+                screenWidth: action.screenWidth
             }
         case SET_ALL_CARDS:
             return {
@@ -133,10 +140,12 @@ const cardsReducer = (state = initialState, action) => {
                     return total + +card.price * card.quentity
                 }, 0)
             }
-        default:
-            return state
+        default: return state
     }
 }
+
+export const screenWidthAC = screenWidth =>
+    ({ type: "SCREEN_WIDTH", screenWidth })
 
 export const addPurchaseToBasketAC = purchase =>
     ({ type: "ADD_PURCHASE_TO_BASKET", purchase })

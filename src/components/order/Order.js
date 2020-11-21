@@ -31,7 +31,7 @@ const OrderForm = ({
         return () => {
             popupMessage()
         }
-    }, [])
+    }, [popupMessage])
 
     return (
         <div onClick={popup ? popupMessage : null}  className={s.order_block}>

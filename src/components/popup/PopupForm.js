@@ -208,7 +208,7 @@ const Send = ({
     useEffect(() => {
 
         linePreloader()
-    }, [])
+    }, [linePreloader])
 
 
     return (

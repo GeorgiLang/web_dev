@@ -296,11 +296,11 @@ header {
 
 	.menu {
 		width: 100%;
-		max-width: 320px;
+		max-width: 420px;
 		position: absolute;
 		top: 100%;
 		left: 0;
-		transform: translateX(-130%);
+		transform: translateX(-100%);
 		padding: 0;
 		background-color: rgb(55, 65, 55);
 		z-index: 1;
@@ -315,7 +315,8 @@ header {
 	}
 	.menu li:last-child::before {
 		top: calc(50% - 5px);
-		right: 206px;
+		right: 0;
+		left: 108px;
 	}
 	.menu_active {
 		transform: translateX(0);
@@ -328,6 +329,7 @@ header {
 	.menu a {
 		padding: 8px 30px;
 		margin: 10px 0;
+		border-bottom: 2px solid rgb(255, 255, 255, 0.1);
 		text-align: left;
 	}
 

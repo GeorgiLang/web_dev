@@ -39,7 +39,7 @@ const FullCardContainer = ({
         return () => {
             loading()
         }
-    }, [setBasket])
+    }, [setBasket, setCategory, loading, setCurrentId])
 
     return (
         <>{isLoading && !isLoad
