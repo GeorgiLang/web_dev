@@ -251,16 +251,15 @@ header {
 @media only screen and (max-width: 960px) {
 
 	.header {
-		max-width: 768px;
 		flex-wrap: wrap;
 		padding: 12px 20px 6px;
 	}
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 665px) {
 
 	.logo img {
-		width: 100px;
+		width: 106px;
 	}
 }
 
@@ -271,10 +270,6 @@ header {
 		align-items: center;
 		padding: 0 20px;
 		flex-wrap: nowrap;
-	}
-
-	.logo img {
-		width: 90px;
 	}
 
 	.search {
