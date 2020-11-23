@@ -60,7 +60,7 @@ export const popupMessageAC = bool =>
 export const sendOrderThunk = values => (dispatch, getState) => {
 
     let purchases = getState().cards.purchase
-
+console.log(purchases)
     if (purchases.length === 0) {
 
         dispatch(messageAC(true, "order.empty"))
@@ -74,7 +74,7 @@ export const sendOrderThunk = values => (dispatch, getState) => {
 
         for (let i = 0; i < purchases.length; i++) {
             order += `<b>ID:</b><span style="color:darkred"> ${purchases[i].id}</span><br>
-            <b>Наименование товара:</b><span style="color:darkblue"> ${purchases[i].product_name}</span><br>
+            <b>Наименование товара:</b><span style="color:darkblue"> <a href='https://react.langovets.com.ua/fullcard/${purchases[i].category}/${purchases[i].parent_id}/${purchases[i].id}'>${purchases[i].product_name}</a></span><br>
             <b>Количество:</b> ${purchases[i].quentity}<br>
             <b>Цена:</b><span style="color:darkgreen"> ${purchases[i].price}</span><br>`
         }
