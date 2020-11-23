@@ -43,7 +43,7 @@ const ColorButtons = ({
                         setExtraCard(iDs[0], category)
                     }}>
                     <span style={{ backgroundColor: current_color }}></span>
-                    <span style={{ height: 'auto', width: 'auto', padding: '0 20px' }}>{color_name}</span>
+                    <span>{color_name}</span>
                 </button>
             </Link>
         )

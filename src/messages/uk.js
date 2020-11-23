@@ -1,6 +1,7 @@
 
 export default {
     'uk': {
+        "search.default": "Нічого не знайдено, спробуйте змінити запит!",
         "msg.first_name" : "Ім'я",
         "msg.last_name" : "Прізвище",
         "msg.patronymic" : "По батькові",

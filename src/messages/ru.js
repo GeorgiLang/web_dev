@@ -1,6 +1,7 @@
 
 export default {
     'ru': {
+        "search.default": "Ничего не найдено, попробуйте изменить запрос!",
         "msg.first_name" : "Имя",
         "msg.last_name" : "Фамилия",
         "msg.patronymic" : "Отчество",

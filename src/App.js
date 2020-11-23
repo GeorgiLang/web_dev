@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './index.css'
 import Header from './components/header/Header'
 import { connect } from 'react-redux'
@@ -11,14 +11,21 @@ import LinePreloader from './common/LinePreloader'
 import I18Provider from './messages/provider'
 import logoReact from './img/logo512.png'
 import logoWP from './img/WP-logotype.png'
+import { screenWidthAC } from './redux/cards_reduсer'
 
 const OrderForm = React.lazy(() => import('./components/order/Order'))
 const Popup = React.lazy(() => import('./components/popup/Popup'))
 
 const App = ({
     locale,
-    linePreloader
+    linePreloader,
+    setScreenWidth
 }) => {
+
+    useEffect(() => {
+
+        setScreenWidth()
+    })
 
     return (
         <I18Provider locale={locale}>
@@ -66,4 +73,11 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => {
+
+    return {
+        setScreenWidth: () => dispatch(screenWidthAC(window.innerWidth))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

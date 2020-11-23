@@ -51,6 +51,7 @@ export const searchModelThunk = path => dispatch => {
 
     dispatch(searchAC(true))
     dispatch(searchModelAC(path))
+    dispatch(searchThunk(path))
 }
 
 export const searchThunk = model => (dispatch, getState) => {
@@ -66,7 +67,7 @@ export const searchThunk = model => (dispatch, getState) => {
         let qty = 0
         let all_search = []
 
-        const searchProduct = card => {
+        const searchProduct = (card, model) => {
 
             let search = new Promise((resolve, reject) => {
 
@@ -107,9 +108,9 @@ export const searchThunk = model => (dispatch, getState) => {
 
             } else {
                 dispatch(isNotFoundAC(true))
+                dispatch(reset('search'))
                 dispatch(linePreloaderAC(false))
             }
-
         })
     }
 

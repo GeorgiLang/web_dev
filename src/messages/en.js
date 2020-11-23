@@ -1,6 +1,7 @@
 
 export default {
     'en': {
+        "search.default": "Nothing found, try again",
         "msg.first_name" : "First name",
         "msg.last_name" : "Last name",
         "msg.patronymic" : "Patronymic",

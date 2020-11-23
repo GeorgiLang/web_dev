@@ -6,6 +6,8 @@ import { useLocation } from 'react-router-dom'
 import { deleteAllCardsAC, currentCategoryAC, screenWidthAC } from '../../redux/cards_reduсer'
 import { nextCardsThunk, setCardInBasketThunk, setCardsThunk } from '../../redux/cards_functions'
 import { searchThunk } from '../../redux/search_reducer'
+import { FormattedMessage } from 'react-intl'
+import '../../messages/translate'
 
 const CardContainer = ({
     setCards,
@@ -31,8 +33,6 @@ const CardContainer = ({
         let model = path[3]
         model === 'all_models' ? setCards(category) : searchProduct(model)
 
-        setScreenWidth(window.innerWidth)
-
         return () => {
             deleteAllCards()
         }
@@ -42,8 +42,8 @@ const CardContainer = ({
     const sizeWidth = () => {
 
         setTimeout(() => {
-            setScreenWidth(window.innerWidth)
 
+            setScreenWidth(window.innerWidth)
         }, 50)
     }
 
@@ -59,7 +59,11 @@ const CardContainer = ({
                 screenWidth={screenWidth} /> : null}
             {isNotFound ?
                 <div className={s.hint}>
-                    <p>Нічого не знайдено, спробуйте змінити запит</p>
+                    <p>
+                        <FormattedMessage
+                            id={'search.default'}
+                            defaultMessage='Нічого не знайдено, спробуйте змінити запит!' />
+                    </p>
                 </div>
                 : null}
             <div className={s.wrapper_button}>

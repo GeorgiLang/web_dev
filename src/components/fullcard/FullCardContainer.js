@@ -21,7 +21,8 @@ const FullCardContainer = ({
     setCurrentModel,
     setExtraCard,
     variants_name,
-    addPurchase }) => {
+    addPurchase,
+    screenWidth }) => {
 
     let location = useLocation()
 
@@ -51,7 +52,8 @@ const FullCardContainer = ({
                 setCurrentModel={setCurrentModel}
                 setExtraCard={setExtraCard}
                 variants_name={variants_name}
-                addPurchase={addPurchase} />
+                addPurchase={addPurchase}
+                screenWidth={screenWidth} />
             : null}</>
     )
 }
@@ -67,7 +69,8 @@ const mapStateToProps = state => {
         isLoad: state.full_card.isSpinerPreloader,
         category: state.cards.category,
         current_model: state.full_card.current_model,
-        current_id: state.full_card.current_id
+        current_id: state.full_card.current_id,
+        screenWidth: state.cards.screenWidth
     }
 }
 

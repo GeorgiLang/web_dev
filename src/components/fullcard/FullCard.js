@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import s from './FullCard.module.css'
 import ProductDescription from '../card/ProductDescription'
-import ImageGallery from 'react-image-gallery'
+import SwiperCore, { Navigation, Thumbs, Zoom } from 'swiper'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import 'swiper/swiper-bundle.css'
+
 import ColorButtons from './ColorButtons'
 import ExtraValuesButtons from './ExtraValuesButtons'
 import { Link } from 'react-router-dom'
@@ -14,11 +17,11 @@ const FullCard = ({
     setCurrentModel,
     setExtraCard,
     variants_name,
-    addPurchase
-}) => {
+    addPurchase,
+    screenWidth }) => {
 
     let isDisabled = purchases.some(card => card.id === full_card.id)
-
+    let isTouchScreen = 'ontouchstart' in window || navigator.maxTouchPoints
     let current_card = full_card
     let current_model = ''
     let current_value = ''
@@ -87,19 +90,56 @@ const FullCard = ({
         images.push(Object.assign({}, img_obj))
     }
 
+    const [thumbsSwiper, setThumbsSwiper] = useState(null)
+
+
+    SwiperCore.use([Navigation, Thumbs, Zoom])
+
+    const slides = images.map((slide, i) =>
+
+        <SwiperSlide key={i}>
+            <div className="swiper-zoom-container">
+                <img src={slide.original} 
+                    alt={slide.originalAlt}
+                    width='100%' />
+            </div>
+        </SwiperSlide>
+    )
+
+    const thumbsSlides = images.map((slide, i) =>
+
+        <SwiperSlide key={i}>
+            <img src={slide.thumbnail} 
+                alt={slide.thumbnail}/>
+        </SwiperSlide>
+    )
+
     return (
         <div className={s.card}>
             <p className={s.product_id}>ID:&nbsp;{full_card.id}</p>
             <h2 className={s.product_name}>{full_card.product_name}</h2>
-            <ImageGallery
-                items={images}
-                showNav={false}
-                showPlayButton={false}
-                slideDuration={350}
-                additionalClass={s.gallery}
-                showFullscreenButton={true}
-                useBrowserFullscreen={false}
-                slideOnThumbnailOver={true} />
+            <div className={s.gallery}>
+                <Swiper id='main'
+                    spaceBetween={50}
+                    loopedSlides={images.length}
+                    loop={true}
+                    slidesPerView={1}
+                    zoom={true}
+                    navigation={isTouchScreen && screenWidth < 420 ? false : true}
+                    thumbs={{ swiper: thumbsSwiper }}>
+                    {slides}
+                </Swiper>
+                <Swiper id='thumbs'
+                    spaceBetween={5}
+                    loop={images.length > 6}
+                    freeMode={true}
+                    slidesPerView={images.length < 6 ? images.length : 6}
+                    watchSlidesVisibility={true}
+                    watchSlidesProgress={true}
+                    onSwiper={setThumbsSwiper}>
+                    {thumbsSlides}
+                </Swiper>
+            </div>
             <div className={s.actions}>
                 <div className={s.group}>
                     <div className={s.group_color}>

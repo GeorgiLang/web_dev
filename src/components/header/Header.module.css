@@ -4,7 +4,7 @@ header {
 	left: 0;
 	width: 100%;
 	background-color: rgba(88, 88, 88, 0.7);
-	z-index: 5;
+	z-index: 8;
 	transition: 0.8s all ease;
 }
 
@@ -80,7 +80,7 @@ header {
 	min-width: 36px;
 	height: 36px;
 	cursor: pointer;
-	margin: 10px 10px 10px 5px;	
+	margin: 10px 14px 10px 5px;	
 }
 
 .btn_on,
@@ -192,7 +192,7 @@ header {
 	justify-content: space-between;
 	align-items: center;
 	width: 100%;
-	max-width: 280px;
+	max-width: 300px;
 	height: 36px;
 	border: 2px solid rgba(255, 165, 0, 0.6);
 	border-radius: 6px;
@@ -201,34 +201,38 @@ header {
 	margin: 0 0 0 auto;
 }
 
+.search input {
+	min-height: 30px;
+	width: 86%;
+	display: block;
+	background-color: transparent;
+	border: none;
+	color: rgb(255, 255, 255);
+	box-sizing: border-box;
+	padding: 0 10px 0 20px;
+}
+
 .search button {
+	height: 100%;
+	min-width: 40px;
+	width: 14%;
 	display: flex;
+	justify-content: center;
+	align-items: center;
 	-webkit-appearance: none;
 	appearance: none;
 	background-color: transparent;
 	border: none;
-	height: 100%;
-	min-width: 40px;
 }
 
 .search svg {
+	display: block;
 	fill: rgba(255, 165, 0, 0.6);
 	margin: auto;
 }
 
 .search button:hover svg {
 	fill: rgba(255, 165, 0, 1);
-}
-
-.search input {
-	min-height: 30px;
-	width: 100%;
-	max-width: 260px;
-	background-color: transparent;
-	border: none;
-	color: rgb(255, 255, 255);
-	box-sizing: border-box;
-	padding: 0 20px;
 }
 
 .search input::placeholder {
@@ -272,14 +276,6 @@ header {
 		flex-wrap: nowrap;
 	}
 
-	.search {
-		max-width: 270px;
-	}
-
-	.search {
-		max-width: 270px;
-	}
-
 	.user_link,
 	.logo {
 		display: none;
@@ -298,7 +294,7 @@ header {
 		transform: translateX(-100%);
 		padding: 0;
 		background-color: rgb(55, 65, 55);
-		z-index: 1;
+		z-index: 10;
 	}
 
 	.menu ul {
@@ -343,16 +339,12 @@ header {
 
 	.basket_link {
 		order: 3;
-    	margin: 0 5px 0 10px
+    	margin: 0 5px 0 14px
 	}
 
 	.search {
 		order: 2;
 		margin: 0 auto;
-	}
-
-	.search input {
-		max-width: 240px;
 	}
 
 	.search input:focus {
