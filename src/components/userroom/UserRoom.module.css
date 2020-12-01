@@ -1,0 +1,11 @@
+.container {
+    width: 100%;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
+    padding: 30px;
+}
+
+.user_menu li {
+    height: 40px;
+}

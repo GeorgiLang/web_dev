@@ -1,0 +1,31 @@
+.container {
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 6px;
+    padding: 30px 5% 50px;
+    background-color: rgb(255, 255, 255, 0.7);
+    margin: 20px auto 0;
+}
+
+.wrapper_form {
+    width: 100%;
+    max-width: 360px;
+}
+
+.wrapper_form > p {
+    font-size: 26px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.wrapper_form > button {
+    margin: 16px auto 0;
+}
+
+.form {
+    width: 100%;
+}
+
+.form label {
+    color: rgb(130, 130, 130);
+}

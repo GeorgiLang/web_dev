@@ -85,7 +85,7 @@ export const renderCheckbox = ({
         active,
         valid } }) => {
     return (
-        <><label className={`${s.check_border} ${valid ? s.check_active : null} ${(touched && !active && error) ? s.error : null}`}>
+        <><label className={`${s.check_border} ${valid ? s.check_active : ''} ${(touched && !active && error) ? s.error : ''}`}>
             <input
                 {...input}
                 type={type} />

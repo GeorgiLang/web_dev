@@ -1,19 +1,16 @@
 import { api } from '../Api/api.js'
 import { cleanPurchasesAC } from './cards_reduсer'
 import { reset } from 'redux-form'
+import { popupMessageAC, isPopupAC } from './user_room_reducer'
 
 const IS_DISABLED = 'IS_DISABLED'
 const PRELOADER = 'PRELOADER'
 const CONSULT = 'CONSULT'
-const POPUP = 'POPUP'
-const MESSAGE_ID = 'MESSAGE_ID'
 
 const initialState = {
     preloader: false,
     isDisabled: false,
-    isVisible: false,
-    popup: false,
-    messageID: "consult.default"
+    isVisible: false
 }
 
 const shoppingReducer = (state = initialState, action) => {
@@ -34,42 +31,28 @@ const shoppingReducer = (state = initialState, action) => {
                 ...state,
                 isVisible: action.bool
             }
-        case POPUP:
-            return {
-                ...state,
-                popup: action.bool
-            }
-        case MESSAGE_ID:
-            return {
-                ...state,
-                popup: action.bool,
-                messageID: action.messageID
-            }
         default:
             return state
     }
 }
 
-const messageAC = (bool, messageID) => ({ type: "MESSAGE_ID", bool, messageID })
-const isDisabledAC = (bool) => ({ type: "IS_DISABLED", bool })
-const preloaderAC = (bool) => ({ type: "PRELOADER", bool })
+export const isDisabledAC = (bool) => ({ type: "IS_DISABLED", bool })
+export const preloaderAC = (bool) => ({ type: "PRELOADER", bool })
 
-export const popupMessageAC = bool =>
-    ({ type: "POPUP", bool })
 
 export const sendOrderThunk = values => (dispatch, getState) => {
 
     let purchases = getState().cards.purchase
-console.log(purchases)
-    if (purchases.length === 0) {
 
-        dispatch(messageAC(true, "order.empty"))
-    } else {
+    if (purchases.length === 0) {
+        dispatch(popupMessageAC("order_empty"))
+        dispatch(isPopupAC(true))
+    } else {  
 
         dispatch(preloaderAC(true))
         dispatch(isDisabledAC(true))
 
-        const { first_name, last_name, patronymic, email, tel } = values
+        const { first_name, last_name, email, tel } = values
         let order = ''
 
         for (let i = 0; i < purchases.length; i++) {
@@ -79,11 +62,10 @@ console.log(purchases)
             <b>Цена:</b><span style="color:darkgreen"> ${purchases[i].price}</span><br>`
         }
 
-        const fileData = new FormData();
+        const fileData = new FormData()
 
         fileData.append('first_name', first_name)
         fileData.append('last_name', last_name)
-        fileData.append('patronymic', patronymic)
         fileData.append('email', email)
         fileData.append('tel', tel)
         fileData.append('order', order)
@@ -93,7 +75,8 @@ console.log(purchases)
             if (response.data === 200) {
 
                 dispatch(preloaderAC(false))
-                dispatch(messageAC(true, "order.success"))
+                dispatch(popupMessageAC("order.success"))
+                dispatch(isPopupAC(true))
                 dispatch(cleanPurchasesAC())
                 dispatch(reset('order'))
                 dispatch(isDisabledAC(false))
@@ -101,16 +84,18 @@ console.log(purchases)
             } else if (response.data === 404) {
 
                 dispatch(preloaderAC(false))
-                dispatch(messageAC(true, "consult.error"))
+                dispatch(popupMessageAC("consult.error"))
+                dispatch(isPopupAC(true))
                 dispatch(isDisabledAC(false))
             }
         }).catch(() => {
 
             dispatch(preloaderAC(false))
-            dispatch(messageAC(true, "consult.error"))
             dispatch(isDisabledAC(false))
+            dispatch(popupMessageAC("consult.error"))
+            dispatch(isPopupAC(true))
         })
     }
 }
 
-export default shoppingReducer;
+export default shoppingReducer

@@ -60,7 +60,7 @@ export const Purchases = ({
     cards,
     total_price,
     setBasket,
-    onClick }) => {
+    onClick}) => {
 
     const _cards = cards.map(card =>
 

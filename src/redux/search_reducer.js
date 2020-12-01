@@ -127,4 +127,4 @@ export const searchThunk = model => (dispatch, getState) => {
     }
 }
 
-export default searchReducer;
+export default searchReducer

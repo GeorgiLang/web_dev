@@ -26,4 +26,4 @@ const storageReducer = (state = initialState, action) => {
 
 export const baseStorageAC = base_storage => ({ type: 'BASE_STORAGE', base_storage })
 
-export default storageReducer;
+export default storageReducer

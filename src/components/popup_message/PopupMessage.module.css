@@ -1,0 +1,47 @@
+.container {
+    box-sizing: border-box;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 30px;
+    display: flex;
+}
+
+.container_message {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 700px;
+    min-width: 300px;
+    min-height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    background-color: rgb(123, 171, 225);
+    border: 2px solid rgb(68 144 173);
+    padding: 40px;
+    box-shadow: inset 0 0 20px 13px rgba(0, 0, 0, 0.15);
+    margin: auto;
+}
+
+.container_message p {
+    font-size: 22px;
+    text-align: center;
+    color: rgb(40, 40, 40);
+}
+
+.delete_popup {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    width: 24px;
+    height: 24px;
+    fill: rgb(255, 255, 255);
+    z-index: 0;
+    cursor: pointer;
+}

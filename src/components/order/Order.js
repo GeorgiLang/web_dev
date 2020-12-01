@@ -2,54 +2,56 @@ import React, { useEffect } from 'react'
 import s from './Order.module.css'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import Form from './Form'
-import { sendOrderThunk } from '../../redux/shopping_reducer'
-import { popupMessageAC } from '../../redux/shopping_reducer'
+import { popupMessageAC, 
+    isPopupAC, 
+    setModalNameAC, 
+    setSubmitNameAC, 
+    formThunk } from '../../redux/user_room_reducer'
 import '../../messages/translate'
-
-const OrderReduxForm = reduxForm({
-    form: 'order'
-})(Form)
+import Form from '../form/Form'
+import { preloaderAC, isDisabledAC } from '../../redux/shopping_reducer'
 
 const OrderForm = ({
-    popup,
-    messageID,
-    isPreloader,
-    onsubmit,
-    locale,
-    setLocale,
-    isDisabled,
     cards,
     total,
-    popupMessage
+    onsubmit,
+    popupMessage,
+    setModalName,
+    setSubmitName,
+    isPreloader,
+    isDisabled,
+    disabled,
+    modal_name,
+    submit_name,
+    isValidToken,
+    tel,
+    preloader
 }) => {
 
     useEffect(() => {
 
-        return () => {
-            popupMessage()
-        }
-    }, [popupMessage])
+        preloader()
+        disabled()
+        setModalName("send_order")
+        setSubmitName("login.confirm_order")
+    
+    }, [ setSubmitName, setModalName, preloader, disabled])
+
+    const sign_in = () => {
+
+        setModalName("login")
+        setSubmitName("login.sign_in")
+    }
+
+    const sign_up = () => {
+
+        setModalName("register")
+        setSubmitName("login.sign_up")
+    }
 
     return (
-        <div onClick={popup ? popupMessage : null}  className={s.order_block}>
-            <div className={`${s.popup} ${popup ? s.popup_active : null}`}>
-                <p>
-                    <FormattedMessage
-                        id={messageID}
-                        defaultMessage="От халепа!" />
-                </p>
-            </div>
-            {cards.length !== 0 
-                ? <OrderReduxForm 
-                    isPreloader={isPreloader} 
-                    onSubmit={values => onsubmit(values)}
-                    locale={locale}
-                    setLocale={setLocale}
-                    isDisabled={isDisabled} /> 
-                : null}
+        <div className={s.order_block}>
             <div className={s.purchases}>
                 <div className={s.purchases_inner}>
                     <h2 className={s.title}>{cards.length !== 0
@@ -94,6 +96,19 @@ const OrderForm = ({
                     </button>
                 </Link>
             </div>
+            {!isValidToken ? <div className={s.switch_btn}>
+                <Link onClick={sign_in} to="/login"><button disabled={isDisabled}>Я постоянный клиент</button></Link>
+                <Link onClick={sign_up} to="/login"><button disabled={isDisabled}>Зарегестрироваться</button></Link>
+            </div> : null}
+            {cards.length !== 0
+                ? <Form
+                    isPreloader={isPreloader}
+                    isDisabled={isDisabled}
+                    submit_name={submit_name}
+                    onSubmit={values => onsubmit(values)}
+                    tel={tel}
+                    modal_name={modal_name} />
+                : null}
         </div>
     )
 }
@@ -101,20 +116,30 @@ const OrderForm = ({
 const mapStateToProps = state => {
 
     return {
-        isPreloader: state.shopping.preloader,
         popup: state.shopping.popup,
-        locale: state.locale.locale,
         cards: state.cards.purchase,
         total: state.cards.total_price,
+        messageID: state.shopping.messageID,
+        isPreloader: state.shopping.preloader,
         isDisabled: state.shopping.isDisabled,
-        messageID: state.shopping.messageID
+        modal_name: state.userRoom.modal_name,
+        tel: state.userRoom.userData.tel,
+        isVerifyEmail: state.userRoom.isVerifyEmail,
+        isValidToken: state.userRoom.isValidToken,
+        submit_name: state.userRoom.submit_name
     }
 }
 
 const mapDispatchToProps = dispatch => {
+
     return {
-        onsubmit: values => dispatch(sendOrderThunk(values)),
-        popupMessage: () => dispatch(popupMessageAC(false))
+        isPopup: () => dispatch(isPopupAC(true)),
+        popupMessage: message_id => dispatch(popupMessageAC(message_id)),
+        onsubmit: values => dispatch(formThunk(values)),
+        setModalName: modal_name => dispatch(setModalNameAC(modal_name)),
+        setSubmitName: submit_name => dispatch(setSubmitNameAC(submit_name)),
+        preloader: () => dispatch(preloaderAC(false)),
+        disabled: () => dispatch(isDisabledAC(false))
     }
 }
 

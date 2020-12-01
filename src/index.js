@@ -8,7 +8,6 @@ import { BrowserRouter } from 'react-router-dom'
 import { IntlProvider } from 'react-intl'
 
 ReactDOM.render(
-
     <BrowserRouter>
         <IntlProvider locale={navigator.language}>
             <Provider store={store} >
@@ -18,4 +17,4 @@ ReactDOM.render(
     </BrowserRouter>, document.getElementById('root')
 );
 
-serviceWorker.register();
+serviceWorker.register()

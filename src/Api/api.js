@@ -25,6 +25,56 @@ export const api = {
             data
         })
     },
+    getToken(data) {
+        
+        return axios({
+            method: 'post',
+            url: 'https://rw.langovets.com.ua/wp-json/jwt-auth/v1/token',
+            data
+        }) 
+    },
+    verifyEmail(data) {
+
+        return axios({
+            method: 'post',
+            url: 'https://react.langovets.com.ua/verify.php',
+            data
+        })
+    },
+    validateToken(data, token) {
+
+        return axios({
+            method: 'post',
+            url: 'https://rw.langovets.com.ua/wp-json/jwt-auth/v1/token/validate',
+            headers: {'Authorization': `Bearer ${token}`},
+            data
+        })        
+    },
+    getUserData(user_ID, token) {
+
+        return axios({
+            method: 'post',
+            url: `https://rw.langovets.com.ua/wp-json/wp/v2/users/${user_ID}?_fields=first_name,last_name,email,id,tel,liked,verified_email`,
+            headers: {'Authorization': `Bearer ${token}`}
+        })
+    },  
+    setUserData(data, user_ID, token) {
+        
+        return axios({
+            method: 'post',
+            url: `https://rw.langovets.com.ua/wp-json/wp/v2/users/${user_ID}?_fields=first_name,last_name,email,id,tel,liked,verified_email`,
+            headers: {'Authorization': `Bearer ${token}`},
+            data
+        })
+    }, 
+    registerUser(data, action) {
+
+        return axios({
+            method: 'post',
+            url: `https://rw.langovets.com.ua/wp-json/wp/v2/users/${action}`,
+            data
+        })
+    },
     getNumberOfCard(category) {
 
         return instanse.get(`${category}?_fields=id`)
@@ -54,5 +104,4 @@ export const api = {
         return instanse.get(`${category}?search=${product}`)
     }
 }
-// filter[meta_key]=in_stock&filter[meta_value]=${in_stock}&per_page=${per_page}&page=${page}
 

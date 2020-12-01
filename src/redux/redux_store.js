@@ -9,6 +9,7 @@ import shoppingReducer from './shopping_reducer'
 import isPreloaderReducer from './preloader_reducer'
 import searchReducer from './search_reducer'
 import storageReducer from './storage_reducer'
+import userRoomReducer from './user_room_reducer'
 import { reducer as formReducer } from 'redux-form'
 
 let rootReducer = combineReducers({
@@ -21,11 +22,12 @@ let rootReducer = combineReducers({
     cards: cardsReducer,
     locale: localeReducer,
     menuActive: menuActiveReducer,
+    userRoom: userRoomReducer,
     form: formReducer
-});
+})
 
-const store = createStore( rootReducer, applyMiddleware(thunkMiddleware) );
+const store = createStore( rootReducer, applyMiddleware(thunkMiddleware) )
 
-window.store = store;
+window.store = store
 
-export default store;
+export default store

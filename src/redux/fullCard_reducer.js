@@ -3,13 +3,12 @@ import { api } from '../Api/api'
 
 const SET_FULL_CARD = 'SET_FULL_CARD'
 const CURRENT_ID = 'CURRENT_ID'
-const PARENT_ID = 'PARENT_ID'
 const IS_PRELOADER = 'IS_PRELOADER'
 const IS_LOADING_BASKET = 'IS_LOADING_BASKET'
 const ADD_CARD = 'ADD_CARD'
 
 const initialState = {
-    full_card: [],
+    full_card: {},
     isLoadingFullCard: false,
     current_id: '',
     isSpinerPreloader: false
@@ -22,11 +21,6 @@ const fullCardsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 current_id: action.current_id
-            }
-        case PARENT_ID:
-            return {
-                ...state,
-                parent_id: +action.id
             }
         case IS_LOADING_BASKET:
             return {
@@ -62,9 +56,6 @@ const fullCardsReducer = (state = initialState, action) => {
 
 export const currentIDAC = current_id =>
     ({ type: "CURRENT_ID", current_id })
-
-export const parentIDAC = id =>
-    ({ type: "PARENT_ID", id })
 
 export const isLoadingBasketAC = isLoadingFullCard =>
     ({ type: "IS_LOADING_BASKET", isLoadingFullCard })

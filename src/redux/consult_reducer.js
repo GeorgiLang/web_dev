@@ -103,4 +103,4 @@ export const sendMessageThunk = (values) => (dispatch) => {
     })
 }
 
-export default consultReducer;
+export default consultReducer

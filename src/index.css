@@ -215,7 +215,10 @@ textarea {
 
 button,
 input {
+    display: block;
     line-height: normal;
+    border: none;
+    background-color: transparent;
 }
 
 /**
@@ -462,7 +465,6 @@ body {
          rgba(0, 0, 0, 1)0%, 
          rgba(99, 99, 99, 1)100%);
     background-repeat: no-repeat;
-    background-attachment: fixed;
     background-position: bottom right, center;
     background-size: 100vh, auto;
     z-index: 0;
@@ -475,12 +477,13 @@ body {
     height: 100vh;
     overflow-y: scroll;
 }
+
 .container {
 	width: 100%;
     box-sizing: border-box;
     max-width: 960px;
-    padding: 0 10px;
-    margin: 20px auto 50px;
+    padding: 20px 10px 50px;
+    margin: 0 auto;
 }
 
 .overflow {
