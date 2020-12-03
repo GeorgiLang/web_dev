@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Form from '../form/Form'
 import s from './Login.module.css'
 import { connect } from 'react-redux'
@@ -30,9 +30,16 @@ const Login = ({
         }
     }
 
+    useEffect(() => {
+        if(modal_name === "edit_user_data") {
+            setModalName('edit_user_data')
+            setSubmitName('login.edit')
+        }
+    })
+
     return (
 
-        isValidToken ? <Redirect to="/userroom" /> : <div className={s.container}>
+        isValidToken && modal_name !== "edit_user_data" ? <Redirect to="/userroom" /> : <div className={s.container}>
             <div className={s.wrapper_form}>
                 <p>Вхід</p>
                 <Form 
@@ -43,11 +50,11 @@ const Login = ({
                     modal_name={modal_name}
                     tel={tel}
                     isDisabled={isDisabled} />
-                <button onClick={handleClick}>
+                {modal_name !== "edit_user_data" ? <button onClick={handleClick}>
                     <FormattedMessage 
                         id={submit_name === "login.sign_in" ? "login.sign_up" : "login.sign_in"}
                         defaultMessage="submite" />
-                </button>
+                </button> : null}
             </div>
         </div>
     )

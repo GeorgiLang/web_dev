@@ -1,5 +1,5 @@
 import { api } from '../Api/api.js'
-import { cleanPurchasesAC } from './cards_reduсer'
+import { cleanPurchasesThunk } from './cards_functions'
 import { reset } from 'redux-form'
 import { popupMessageAC, isPopupAC } from './user_room_reducer'
 
@@ -39,15 +39,21 @@ const shoppingReducer = (state = initialState, action) => {
 export const isDisabledAC = (bool) => ({ type: "IS_DISABLED", bool })
 export const preloaderAC = (bool) => ({ type: "PRELOADER", bool })
 
+const cleanSendOrder = message_id => dispatch => {
+    dispatch(preloaderAC(false))
+    dispatch(isDisabledAC(false))
+    dispatch(popupMessageAC(message_id))
+    dispatch(isPopupAC(true))
+}
 
-export const sendOrderThunk = values => (dispatch, getState) => {
+export const submitOrderThunk = () => (dispatch, getState) => {
 
+    let values = getState().userRoom.userData
     let purchases = getState().cards.purchase
 
-    if (purchases.length === 0) {
-        dispatch(popupMessageAC("order_empty"))
-        dispatch(isPopupAC(true))
-    } else {  
+    console.log(values)
+
+    if (purchases.length > 0) { 
 
         dispatch(preloaderAC(true))
         dispatch(isDisabledAC(true))
@@ -74,27 +80,19 @@ export const sendOrderThunk = values => (dispatch, getState) => {
 
             if (response.data === 200) {
 
-                dispatch(preloaderAC(false))
-                dispatch(popupMessageAC("order.success"))
-                dispatch(isPopupAC(true))
-                dispatch(cleanPurchasesAC())
+                dispatch(cleanSendOrder("order.success"))
+                dispatch(cleanPurchasesThunk())
                 dispatch(reset('order'))
-                dispatch(isDisabledAC(false))
 
             } else if (response.data === 404) {
 
-                dispatch(preloaderAC(false))
-                dispatch(popupMessageAC("consult.error"))
-                dispatch(isPopupAC(true))
-                dispatch(isDisabledAC(false))
+                dispatch(cleanSendOrder("order.error"))
             }
         }).catch(() => {
-
-            dispatch(preloaderAC(false))
-            dispatch(isDisabledAC(false))
-            dispatch(popupMessageAC("consult.error"))
-            dispatch(isPopupAC(true))
+            dispatch(cleanSendOrder("order.error"))
         })
+    } else {
+        dispatch(cleanSendOrder("order.empty"))
     }
 }
 

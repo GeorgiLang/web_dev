@@ -14,7 +14,8 @@ import {
     addPurchaseToBasketAC,
     setCardInBasketAC,
     setQuentityAC,
-    getTotalCostAC
+    getTotalCostAC,
+    cleanPurchasesAC
 } from './cards_reduсer'
 import { setFullCardAC, isLoadingBasketAC } from './fullCard_reducer'
 import { baseStorageAC } from './storage_reducer'
@@ -190,15 +191,20 @@ export const nextCardsThunk = () => (dispatch, getState) => {
     }
 }
 
-export const setCardInBasketThunk = (parent_id, category, full, id) => dispatch => {
+export const setCardInBasketThunk = (parent_id, category, full, id) => (dispatch, getState) => {
 
     let current_category = category
     let ID = id;
+
     dispatch(isNotFoundAC(false))
+
     if (full) {
+
         dispatch(isLoadingBasketAC(false))
         dispatch(linePreloaderAC(true))
     } else {
+
+        dispatch(setCardInBasketAC(parent_id))
         dispatch(isLoadingCardAC(true))
     }
 
@@ -237,13 +243,30 @@ export const setCardInBasketThunk = (parent_id, category, full, id) => dispatch 
                 dispatch(addPurchaseToBasketAC(purchase))
                 dispatch(isLoadingCardAC(false))
             }
+            updatePurchaseInStorage(getState)
         })
-
     })
-    if (!full) {
-        dispatch(setCardInBasketAC(parent_id))
+}
 
-    }
+export const cleanPurchasesThunk = id => (dispatch, getState) => {
+
+    dispatch(cleanPurchasesAC(id))
+    updatePurchaseInStorage(getState)
+}
+
+export const updatePurchaseInStorage = getState => {
+
+        sessionStorage.getItem('purchase') && sessionStorage.removeItem('purchase')
+        let purchases = getState().cards.purchase
+
+        let json_purchase = JSON.stringify(purchases)
+        sessionStorage.setItem('purchase', json_purchase)
+}
+
+export const addPurchaseToBasketThunk = purchase => (dispatch, getState) => {
+
+    dispatch(addPurchaseToBasketAC(purchase))
+    updatePurchaseInStorage(getState)
 }
 
 export const setQuentityThunk = (id, action) => dispatch => {

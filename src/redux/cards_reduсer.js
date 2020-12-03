@@ -6,7 +6,7 @@ const SET_ALL_CARDS = 'SET_ALL_CARDS'
 const SET_CARDS = 'SET_CARDS'
 const CURRENT_PAGE = 'CURRENT_PAGE'
 const IS_DISABLED = 'IS_DISABLED'
-const SET_BASKET_ICON = 'SET_BASKET_ICON'
+const SET_BASKET_ICON_TO_CARD = 'SET_BASKET_ICON_TO_CARD'
 const SET_QUENTITY = 'SET_QUENTITY'
 const GET_TOTAL_COST = 'GET_TOTAL_COST'
 const CURRENT_CATEGORY = 'CURRENT_CATEGORY'
@@ -105,7 +105,7 @@ const cardsReducer = (state = initialState, action) => {
                 ...state,
                 isDisabled: action.isDisabled
             }
-        case SET_BASKET_ICON:
+        case SET_BASKET_ICON_TO_CARD:
             return {
                 ...state,
                 cards: state.cards.reduce((cards_arr, card) => {
@@ -163,7 +163,7 @@ export const isLoadingCardAC = isLoadingCard =>
     ({ type: "IS_LOADING_CARD", isLoadingCard })
 
 export const setCardInBasketAC = id =>
-    ({ type: "SET_BASKET_ICON", id })
+    ({ type: "SET_BASKET_ICON_TO_CARD", id })
 
 export const isDisabledAC = isDisabled =>
     ({ type: "IS_DISABLED", isDisabled })

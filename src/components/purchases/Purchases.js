@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import s from './Purchases.module.css'
 import { connect } from 'react-redux'
-import { getTotalCostAC, cleanPurchasesAC } from '../../redux/cards_reduсer'
-import { setQuentityThunk } from '../../redux/cards_functions'
+import { getTotalCostAC } from '../../redux/cards_reduсer'
+import { cleanPurchasesThunk, setQuentityThunk } from '../../redux/cards_functions'
 import { Redirect, Link } from 'react-router-dom'
 
 const Card = ({
@@ -46,7 +46,7 @@ const Card = ({
                         <span onClick={() => { onClick(id, true) }} className={s.counter_plus}>+</span>
                     </div>
                 </div>
-                <div onClick={() => { setBasket(id, +parent_id) }} className={s.delete_btn}>
+                <div onClick={() => setBasket(id)} className={s.delete_btn}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="rgb(255, 255, 255)" width="12px" viewBox="0 0 352 512">
                         <path d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" />
                     </svg>
@@ -59,8 +59,9 @@ const Card = ({
 export const Purchases = ({
     cards,
     total_price,
+    getTotalCost,
     setBasket,
-    onClick}) => {
+    onClick }) => {
 
     const _cards = cards.map(card =>
 
@@ -77,6 +78,12 @@ export const Purchases = ({
             category={card.category}
         />
     )
+
+    useEffect(() => {
+
+        getTotalCost()
+
+    }, [getTotalCost])
 
     return (
         cards.length === 0
@@ -111,9 +118,10 @@ const mapDispatchToProps = dispatch => {
     return {
         onClick: (id, action) => dispatch(setQuentityThunk(id, action)),
         setBasket: id => {
-            dispatch(cleanPurchasesAC(id))
+            dispatch(cleanPurchasesThunk(id))
             dispatch(getTotalCostAC())
-        }
+        },
+        getTotalCost: () => dispatch(getTotalCostAC())
     }
 }
 

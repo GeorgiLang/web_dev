@@ -44,7 +44,7 @@ let Search = ({
                 placeholder="Search"
                 component={search}
                 name="search"
-                type="text"
+                type="search"
                 validate={length({ min: 1, max: 30 })}
             />
             <button

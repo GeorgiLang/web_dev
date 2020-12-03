@@ -1,4 +1,5 @@
-.container {
+.user_menu {
+    position: relative;
     width: 100%;
     box-sizing: border-box;
     background-color: rgba(255, 255, 255, 0.7);
@@ -8,4 +9,17 @@
 
 .user_menu li {
     height: 40px;
+}
+
+.edit {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+ 
+}
+
+.edit_icon {
+    width: 30px;
+    height: 30px;
+    fill: rgb(112, 112, 190)
 }

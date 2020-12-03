@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import FullCard from './FullCard'
 import { getExtraCardThunkAC, currentIDAC, isLoadingBasketAC } from '../../redux/fullCard_reducer'
-import { currentCategoryAC, addPurchaseToBasketAC } from '../../redux/cards_reduсer'
-import { setCardInBasketThunk } from '../../redux/cards_functions'
+import { currentCategoryAC } from '../../redux/cards_reduсer'
+import { addPurchaseToBasketThunk, setCardInBasketThunk } from '../../redux/cards_functions'
 
 
 const FullCardContainer = ({
@@ -86,7 +86,7 @@ const mapDispatchToProps = dispatch => {
             dispatch(currentIDAC(id))
         },
         setCategory: category => dispatch(currentCategoryAC(category)),
-        addPurchase: purchase => dispatch(addPurchaseToBasketAC(purchase))
+        addPurchase: purchase => dispatch(addPurchaseToBasketThunk(purchase))
     }
 }
 

@@ -3,29 +3,28 @@ import s from './Order.module.css'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
-import { popupMessageAC, 
-    isPopupAC, 
-    setModalNameAC, 
-    setSubmitNameAC, 
-    formThunk } from '../../redux/user_room_reducer'
+import { isPopupAC,
+    setModalNameAC,
+    setSubmitNameAC } from '../../redux/user_room_reducer'
 import '../../messages/translate'
-import Form from '../form/Form'
 import { preloaderAC, isDisabledAC } from '../../redux/shopping_reducer'
+import Personal from '../personal/Personal'
+import Preloader from '../../common/Preloader'
+import { getTotalCostAC } from '../../redux/cards_reduсer'
+import { submitOrderThunk } from '../../redux/shopping_reducer'
 
 const OrderForm = ({
     cards,
     total,
-    onsubmit,
-    popupMessage,
     setModalName,
     setSubmitName,
+    submitOrder,
     isPreloader,
     isDisabled,
+    getTotalCost,
     disabled,
-    modal_name,
     submit_name,
     isValidToken,
-    tel,
     preloader
 }) => {
 
@@ -33,10 +32,9 @@ const OrderForm = ({
 
         preloader()
         disabled()
-        setModalName("send_order")
         setSubmitName("login.confirm_order")
-    
-    }, [ setSubmitName, setModalName, preloader, disabled])
+
+    }, [setSubmitName, setModalName, preloader, disabled, getTotalCost])
 
     const sign_in = () => {
 
@@ -96,19 +94,22 @@ const OrderForm = ({
                     </button>
                 </Link>
             </div>
-            {!isValidToken ? <div className={s.switch_btn}>
+            {isValidToken ? null : <div className={s.switch_btn}>
                 <Link onClick={sign_in} to="/login"><button disabled={isDisabled}>Я постоянный клиент</button></Link>
                 <Link onClick={sign_up} to="/login"><button disabled={isDisabled}>Зарегестрироваться</button></Link>
-            </div> : null}
-            {cards.length !== 0
-                ? <Form
-                    isPreloader={isPreloader}
-                    isDisabled={isDisabled}
-                    submit_name={submit_name}
-                    onSubmit={values => onsubmit(values)}
-                    tel={tel}
-                    modal_name={modal_name} />
-                : null}
+            </div> }
+            <Personal />
+            <button
+                onClick={submitOrder}
+                className={s.confirm}
+                type="submit"
+                disabled={isDisabled}>
+                {isPreloader
+                    ? <Preloader size="40px" />
+                    : <FormattedMessage
+                        id={submit_name}
+                        defaultMessage="submite" />}
+            </button>
         </div>
     )
 }
@@ -119,12 +120,9 @@ const mapStateToProps = state => {
         popup: state.shopping.popup,
         cards: state.cards.purchase,
         total: state.cards.total_price,
-        messageID: state.shopping.messageID,
         isPreloader: state.shopping.preloader,
         isDisabled: state.shopping.isDisabled,
         modal_name: state.userRoom.modal_name,
-        tel: state.userRoom.userData.tel,
-        isVerifyEmail: state.userRoom.isVerifyEmail,
         isValidToken: state.userRoom.isValidToken,
         submit_name: state.userRoom.submit_name
     }
@@ -134,12 +132,12 @@ const mapDispatchToProps = dispatch => {
 
     return {
         isPopup: () => dispatch(isPopupAC(true)),
-        popupMessage: message_id => dispatch(popupMessageAC(message_id)),
-        onsubmit: values => dispatch(formThunk(values)),
         setModalName: modal_name => dispatch(setModalNameAC(modal_name)),
         setSubmitName: submit_name => dispatch(setSubmitNameAC(submit_name)),
         preloader: () => dispatch(preloaderAC(false)),
-        disabled: () => dispatch(isDisabledAC(false))
+        disabled: () => dispatch(isDisabledAC(false)),
+        getTotalCost: () => dispatch(getTotalCostAC()),
+        submitOrder: () => dispatch(submitOrderThunk())
     }
 }
 

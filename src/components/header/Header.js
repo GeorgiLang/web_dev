@@ -32,7 +32,7 @@ const Header = ({
                 <Search />
                 <MenuButton menuClick={menuClick} active={active} />
                 <Link onClick={setFormName} className={s.user_link} to={isValidToken ? "/userroom" : "/login"}>
-                    <UserIcon className={`${s.user_icon} ${isValidToken ? s.user_icon_active : ''}`}/>
+                    <UserIcon className={`${s.user_icon} ${isValidToken && s.user_icon_active}`}/>
                 </Link>
                 <Link onClick={basket} className={s.basket_link} to={choosed > 0 ? "/purchases" : "/order"}>
                     <Basket

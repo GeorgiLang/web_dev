@@ -18,7 +18,9 @@ const UserRoom = ({
                 <li>Мои заказы</li>
                 <li>Сравнения</li>
                 <li>Список желаний</li>
-                <li onClick={isValidToken ? exit : null}><Link to={!isValidToken ? "/login" : "/userroom" }>{isValidToken  ? "Выйти" : "Войти"}</Link></li>
+                <li onClick={isValidToken ? exit : null}>
+                    <Link to={!isValidToken ? "/login" : "/userroom" }>{isValidToken  ? "Выйти" : "Войти"}</Link>
+                </li>
             </ul>
         </div>
     )

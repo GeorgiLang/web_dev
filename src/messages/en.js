@@ -2,6 +2,8 @@
 export default {
     'en': {
         "search.default": "Nothing found, try again",
+        "login.password" : "The password must contain numbers and Latin letters and must not coincide with the name and email",
+        "login.edit" : "Confirm changes",
         "login.confirm_order" : "Confirm the order",
         "login.check_email" : "Check and confirm your email",
         "login.first_name" : "First name",

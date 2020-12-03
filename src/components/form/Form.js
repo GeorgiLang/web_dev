@@ -87,7 +87,8 @@ let Form = ({
     onSubmit,
     tel,
     modal_name,
-    submit_name }) => {
+    submit_name,
+    style }) => {
 
     const intl = useIntl()
     let submitName = "login.sign_in"
@@ -95,7 +96,7 @@ let Form = ({
     submitName = submit_name
 
     return (
-        <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
+        <form className={s.form} style={style} onSubmit={handleSubmit(onSubmit)}>
             {modal_name !== "login" ? <Field
                 type="text"
                 name="first_name"
@@ -120,7 +121,7 @@ let Form = ({
                     })
                 )}
             /> : null}
-            {modal_name === ("send_order" || "full_register") ? <Field
+            {modal_name === ("edit_user_data" || "full_register") ? <Field
                 type="text"
                 name="last_name"
                 autoComplete="lastname"
@@ -152,8 +153,8 @@ let Form = ({
                 placeholder={"E-mail"}
                 label={"E-mail"}
                 validate={email()}
-            />
-            {modal_name === ("send_order" || "full_register") ? <Field
+            /> 
+            {modal_name === ("edit_user_data" || "full_register") ? <Field
                 type="tel"
                 name="tel"
                 component={inputMask}
@@ -169,14 +170,21 @@ let Form = ({
                 tel={tel}
                 mask={"+38 (099) 999-99-99"}
             /> : null}
-            {modal_name !== "send_order" ? <Field
+            {modal_name !== "edit_user_data" ? <Field
                 type="password"
                 name="password"
                 autoComplete="current-password"
                 component={input}
                 placeholder={"Password"}
                 label={"Password"}
-                validate={length({ min: 6, max: 20 })}
+                validate={combine(length({ min: 6, max: 20 }),
+                    format({
+                        with: /^[a-zA-Z1-9!@]+$/i,
+                        message: intl.formatMessage({
+                            id: "login.password",
+                            defaultMessage: "Введите ваши данные кирилицей"
+                        })
+                    }))}
             /> : null}
             {modal_name === 'login' ? <Field
                 type="checkbox"
