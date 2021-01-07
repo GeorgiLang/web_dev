@@ -8,11 +8,11 @@ import { FormattedMessage } from 'react-intl'
 import Preloader from '../../common/Preloader'
 import { popupAC, preloaderAC } from '../../redux/consult_reducer'
 import { Link } from 'react-router-dom'
+import Language from '../language/Language'
 
 const Popup = ({
     popup,
     isMessage,
-    locale,
     setLocale,
     messageID,
     preloader
@@ -21,14 +21,7 @@ const Popup = ({
     return (
         <div onClick={popup ? isMessage : null} className={s.base}>
             <div className={s.consult}>
-                <div className={s.language_btns}>
-                    {locale === "uk" ?
-                        null : <button onClick={() => setLocale("uk")}>UA</button>}
-                    {locale === "en" ?
-                        null : <button onClick={() => setLocale("en")}>EN</button>}
-                    {locale === "ru" ?
-                        null : <button onClick={() => setLocale("ru")}>RU</button>}
-                </div>
+                <Language style={s.language} setLanguage={setLocale}/>
                 <Link className={s.btn_remove} to="/"></Link>
                 {preloader ? <Preloader className={s.preloader} size="50px" /> : null}
                 <div className={s.container}>
@@ -61,7 +54,6 @@ const Popup = ({
 const mapStateToProps = state => {
 
     return {
-        locale: state.locale.locale,
         preloader: state.consult.preloader,
         popup: state.consult.popup,
         messageID: state.consult.messageID
@@ -75,7 +67,7 @@ const mapDispatchToProps = dispatch => {
             dispatch(consultAC(false))
             dispatch(preloaderAC(false))
         },
-        setLocale: (locale) => dispatch(localeAC(locale)),
+        setLocale: locale => dispatch(localeAC(locale)),
         isMessage: () => dispatch(popupAC(false))
     }
 }

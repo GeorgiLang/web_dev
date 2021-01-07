@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import s from './Purchases.module.css'
 import { connect } from 'react-redux'
 import { getTotalCostAC } from '../../redux/cards_reduсer'
-import { cleanPurchasesThunk, setQuentityThunk } from '../../redux/cards_functions'
+import { clearPurchasesThunk, setQuentityThunk, setPurchaseToUserData } from '../../redux/cards_functions'
 import { Redirect, Link } from 'react-router-dom'
 
 const Card = ({
@@ -61,7 +61,8 @@ export const Purchases = ({
     total_price,
     getTotalCost,
     setBasket,
-    onClick }) => {
+    onClick,
+    setPurchaseToUserData }) => {
 
     const _cards = cards.map(card =>
 
@@ -82,6 +83,10 @@ export const Purchases = ({
     useEffect(() => {
 
         getTotalCost()
+        return () => {
+            
+            setPurchaseToUserData()
+        }
 
     }, [getTotalCost])
 
@@ -118,10 +123,11 @@ const mapDispatchToProps = dispatch => {
     return {
         onClick: (id, action) => dispatch(setQuentityThunk(id, action)),
         setBasket: id => {
-            dispatch(cleanPurchasesThunk(id))
+            dispatch(clearPurchasesThunk(id))
             dispatch(getTotalCostAC())
         },
-        getTotalCost: () => dispatch(getTotalCostAC())
+        getTotalCost: () => dispatch(getTotalCostAC()),
+        setPurchaseToUserData: () => dispatch(setPurchaseToUserData())
     }
 }
 

@@ -1,9 +1,12 @@
-import ua from './uk'
+import uk from './uk'
 import en from './en'
 import ru from './ru'
 
-export default {
-    ...en,
+const message_list = {
+    
+    ...uk,
     ...ru,
-    ...ua
+    ...en
 }
+
+export default message_list

@@ -10,12 +10,12 @@ const menuActiveReducer = (state = initialState, action) => {
         case MENU_ACTIVE:
             return {
                 ...state,
-                active: state.active ? false : true
+                active: action.active
             }
         default: return state
     }
 }
 
-export const menuActiveAC = (active) => ({ type: 'MENU_ACTIVE', active })
+export const menuActiveAC = active => ({ type: 'MENU_ACTIVE', active })
 
 export default menuActiveReducer

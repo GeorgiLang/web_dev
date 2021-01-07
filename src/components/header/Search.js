@@ -65,7 +65,8 @@ const mapStateToProps = state => {
 
     return {
         model: state.search.model,
-        isSearch: state.search.isSearch
+        isSearch: state.search.isSearch,
+        isDisabled: state.shopping.isDisabled
     }
 }
 

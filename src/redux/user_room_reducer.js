@@ -1,8 +1,8 @@
 import { api } from '../Api/api'
-import { preloaderAC, isDisabledAC, submitOrderThunk } from './shopping_reducer'
+import { preloaderAC, isDisabledAC } from './shopping_reducer'
 import { linePreloaderAC } from './preloader_reducer'
 import { reset } from 'redux-form'
-import { cleanPurchasesThunk, addPurchaseToBasketThunk } from './cards_functions'
+import { clearPurchasesThunk, addPurchaseToBasketThunk, setCardInBasketThunk } from './cards_functions'
 
 const POPUP_MESSAGE = 'POPUP_MESSAGE'
 const IS_POPUP = 'IS_POPUP'
@@ -14,23 +14,27 @@ const MODAL_NAME = 'MODAL_NAME'
 const CLEAN_USER_DATA = 'CLEAN_USER_DATA'
 const SUBMIT_NAME = 'SUBMIT_NAME'
 const EDIT_BUTTON = 'EDIT_BUTTON'
+const EDIT_DISABLED = 'EDIT_DISABLED'
+const IS_CHECKED = 'IS_CHECKED'
 
 let initialState = {
     isValidToken: false,
     isVerifyEmail: false,
+    isChecked: true,
+    editDisabled: false,
+    editButton: false,
     modal_name: 'login',
     popup_message: 'login.wait',
     isPopup: false,
     submit_name: 'login.sign_in',
     liked: '',
-    editButton: false,
     userData: {
         first_name: '',
         last_name: '',
+        second_name: '',
         email: '',
         tel: '',
-        user_ID: 0,
-        checkbox: false
+        user_ID: 0
     }
 }
 
@@ -52,6 +56,12 @@ const userRoomReducer = (state = initialState, action) => {
                 ...state,
                 liked: action.liked
             }
+        case IS_CHECKED:
+            return {
+                ...state,
+                isChecked: action.isChecked
+            }
+
         case MODAL_NAME:
             return {
                 ...state,
@@ -67,12 +77,12 @@ const userRoomReducer = (state = initialState, action) => {
                 ...state,
                 userData: {
                     ...state.userData,
-                    first_name: action.userData.first_name ? action.userData.first_name : state.userData.first_name,
-                    last_name: action.userData.last_name ? action.userData.last_name : state.userData.last_name,
-                    user_ID: action.userData.user_ID ? action.userData.user_ID : state.userData.user_ID,
-                    email: action.userData.email ? action.userData.email : state.userData.email,
-                    tel: action.userData.tel ? action.userData.tel : state.userData.tel,
-                    checkbox: (action.checkbox !== undefined) ? action.checkbox : state.userData.checkbox
+                    first_name: action.userData.first_name,
+                    last_name: action.userData.last_name,
+                    second_name: action.userData.second_name,
+                    user_ID: action.userData.user_ID,
+                    email: action.userData.email,
+                    tel: action.userData.tel
                 }
             }
         case POPUP_MESSAGE:
@@ -90,6 +100,11 @@ const userRoomReducer = (state = initialState, action) => {
                 ...state,
                 editButton: action.editButton
             }
+        case EDIT_DISABLED:
+            return {
+                ...state,
+                editDisabled: action.editDisabled
+            }
         case CLEAN_USER_DATA:
             return {
                 ...state,
@@ -97,10 +112,10 @@ const userRoomReducer = (state = initialState, action) => {
                     ...state.userData,
                     first_name: '',
                     last_name: '',
+                    second_name: '',
                     email: '',
                     tel: '',
-                    user_ID: 0,
-                    checkbox: false
+                    user_ID: 0
                 }
             }
         default: return state
@@ -119,8 +134,8 @@ export const setModalNameAC = modal_name =>
 export const setSubmitNameAC = submit_name =>
     ({ type: 'SUBMIT_NAME', submit_name })
 
-export const userDataAC = (userData, checkbox) =>
-    ({ type: 'USER_DATA', userData, checkbox })
+export const userDataAC = userData =>
+    ({ type: 'USER_DATA', userData })
 
 export const isCheckedAC = isChecked =>
     ({ type: 'IS_CHECKED', isChecked })
@@ -138,9 +153,13 @@ export const cleanUserDataAC = () =>
     ({ type: 'CLEAN_USER_DATA' })
 
 export const editButtonAC = editButton =>
-    ({ type: 'EDIT_BUTTON', editButton })    
+    ({ type: 'EDIT_BUTTON', editButton })
 
-const cleanAndReport = (dispatch, message) => {
+export const editDisabledAC = editDisabled =>
+    ({ type: 'EDIT_DISABLED', editDisabled })
+
+
+const cleanAndReport = message => dispatch => {
 
     dispatch(preloaderAC(false))
     dispatch(isDisabledAC(false))
@@ -149,10 +168,27 @@ const cleanAndReport = (dispatch, message) => {
     dispatch(isPopupAC(true))
 }
 
-export const isValidTokenThunk = checkbox => dispatch => {
+export const getLocalStorageValue = value => {
 
-    let token = localStorage.getItem('token') ? localStorage.getItem('token') : sessionStorage.getItem('token')
-    let user_email = localStorage.getItem('user_email') ? localStorage.getItem('user_email') : sessionStorage.getItem('user_email')
+    return localStorage.getItem(value) ? localStorage.getItem(value) : sessionStorage.getItem(value)
+}
+
+const clearStorage = () => {
+    localStorage.clear()
+    sessionStorage.clear()
+}
+
+const setUserDataFromStorage = () => dispatch => {
+
+    let userData = localStorage.getItem('userData') ? localStorage.getItem('userData') : sessionStorage.getItem('userData')
+    let user_data = JSON.parse(userData)
+    dispatch(userDataAC(user_data))
+}
+
+export const isValidTokenThunk = () => dispatch => {
+
+    let token = getLocalStorageValue('token')
+    let user_email = getLocalStorageValue('user_email')
 
     if (token && user_email) {
 
@@ -165,21 +201,16 @@ export const isValidTokenThunk = checkbox => dispatch => {
             if (res.data.data.status === 200) {
 
                 dispatch(isValidTokenAC(true))
-                dispatch(getUserDataThunk(checkbox))
-                dispatch(linePreloaderAC(false))
+                dispatch(setUserDataFromStorage())
             } else {
 
                 dispatch(isValidTokenAC(false))
-                sessionStorage.removeItem('token')
-                sessionStorage.removeItem('user_email')
+                clearStorage()
             }
-
-        }).catch((error) => {
+        }).catch(() => {
 
             dispatch(isValidTokenAC(false))
-            sessionStorage.removeItem('token')
-            sessionStorage.removeItem('user_email')
-            console.log(error.message)
+            clearStorage()
         })
     }
 }
@@ -200,7 +231,7 @@ const setPurchaseToBasketFromStorage = () => dispatch => {
 export const tokenListenerThunk = path => dispatch => {
 
     dispatch(setPurchaseToBasketFromStorage())
-    
+
     if (path[3] === 'token') {
 
         dispatch(linePreloaderAC(true))
@@ -220,126 +251,63 @@ export const tokenListenerThunk = path => dispatch => {
             "first_name": username
         }
 
-        api.setUserData(data, user_ID, token).then((res) => {
+        api.userData(user_ID, token, data).then((res) => {
 
-            dispatch(isVerifyEmailAC(true))
-            let userData = {
-                email: res.data.email,
-                first_name: username,
-                user_ID: res.data.id
-            }
-            let user_data = JSON.stringify(userData)
-            sessionStorage.setItem('userData', user_data)
-            dispatch(userDataAC(userData))
-            dispatch(isValidTokenThunk())
-
-        }).catch((error) => {
+            dispatch(userData(user_ID, token, res.data, false))
+            dispatch(isValidTokenThunk(true))
+            dispatch(linePreloaderAC(false))
+        }).catch(() => {
 
             dispatch(isPopupAC(true))
-            console.log(error.message)
+            dispatch(linePreloaderAC(false))
         })
     } else {
 
-        dispatch(isValidTokenThunk())
+        dispatch(isValidTokenThunk(false))
     }
 }
 
-export const setUserDataThunk = values => dispatch => {
+const userData = (user_ID, token, data, isChecked) => dispatch => {
 
-    let token = values.checkbox ? localStorage.getItem('token') : sessionStorage.getItem('token')
-    let user_ID = values.checkbox ? localStorage.getItem('user_ID') : sessionStorage.getItem('user_ID')
+    clearStorage()
 
-    console.log(token, user_ID)
-
-    if (token && user_ID) {
-
-        let data = {
-            first_name: values.first_name,
-            last_name: values.last_name,
-            email: values.email,
-            tel: values.tel
-        }
-
-        api.setUserData(data, user_ID, token).then((res) => {
-
-            localStorage.removeItem('userData') 
-            sessionStorage.removeItem('userData')
-
-            dispatch(likedAC(res.data.liked))
-            dispatch(isVerifyEmailAC(+res.data.verified_email))
-            let userData = {
-                first_name: res.data.first_name,
-                last_name: res.data.last_name,
-                email: res.data.email,
-                user_ID: res.data.id,
-                tel: res.data.tel
-            }
-            let user_data = JSON.stringify(userData)
-
-            if (values.checkbox) {
-                localStorage.setItem('userData', user_data)
-            } else {
-                sessionStorage.setItem('userData', user_data)
-            }
-            dispatch(userDataAC(userData))
-            dispatch(preloaderAC(false))
-            dispatch(isDisabledAC(false))
-
-        }).catch((error) => {
-            
-            dispatch(preloaderAC(false))
-            dispatch(isDisabledAC(false))
-            console.log(error.message)
-        })
+    let userData = {
+        first_name: data.first_name,
+        last_name: data.last_name,
+        second_name: data.second_name,
+        email: data.email,
+        user_ID: data.id,
+        tel: data.tel
     }
-}
+    let user_data = JSON.stringify(userData)
 
-export const getUserDataThunk = (checkbox)=> dispatch => {
+    dispatch(isValidTokenAC(true))
+    dispatch(likedAC(data.liked))
+    dispatch(isVerifyEmailAC(+data.verified_email))
+    dispatch(userDataAC(userData))
 
-    let token = localStorage.getItem('token') ? localStorage.getItem('token') : sessionStorage.getItem('token')
-    let user_ID = localStorage.getItem('user_ID') ? localStorage.getItem('user_ID') : sessionStorage.getItem('user_ID')
-
-    //token was inspect for valid at first load
-    if (token && user_ID) {
-
-        api.getUserData(user_ID, token).then((res) => {
-
-            dispatch(likedAC(res.data.liked))
-            dispatch(isVerifyEmailAC(+res.data.verified_email))
-            let userData = {
-                first_name: res.data.first_name,
-                last_name: res.data.last_name,
-                email: res.data.email,
-                user_ID: res.data.id,
-                tel: res.data.tel
-            }
-            let user_data = JSON.stringify(userData)
-
-            if (checkbox) {
-                localStorage.setItem('userData', user_data)
-            } else {
-                sessionStorage.setItem('userData', user_data)
-            }
-            
-            dispatch(userDataAC(userData))
-
-        }).catch((error) => {
-
-            let message = "login.error"
-            cleanAndReport(dispatch, message)
-            console.log(error.response.data.message)
-        })
+    if (isChecked) {
+        localStorage.setItem('token', token)
+        localStorage.setItem('user_email', data.email)
+        localStorage.setItem('user_ID', user_ID)
+        localStorage.setItem('userData', user_data)
+    } else {
+        sessionStorage.setItem('token', token)
+        sessionStorage.setItem('user_email', data.email)
+        sessionStorage.setItem('user_ID', user_ID)
+        sessionStorage.setItem('userData', user_data)
     }
 }
 
 export const formThunk = values => (dispatch, getState) => {
- 
+
     dispatch(preloaderAC(true))
     dispatch(isDisabledAC(true))
 
     let modal_name = getState().userRoom.modal_name
+    let isChecked = getState().userRoom.isChecked
 
-    const { first_name, email, password, checkbox } = values
+    const { first_name, email, password } = values
 
     //register username latin only
     if (modal_name === 'register') {
@@ -370,23 +338,21 @@ export const formThunk = values => (dispatch, getState) => {
 
                     api.verifyEmail(verify).then(() => {
 
-                        cleanAndReport(dispatch, "login.check_email")
-                    }).catch((error) => {
+                        dispatch(cleanAndReport("login.check_email"))
+                    }).catch(() => {
 
-                        cleanAndReport(dispatch, "login.error")
-                        console.log(error.response.data.message)
+                        dispatch(cleanAndReport("login.error"))
                     })
                 })
             }
         }).catch((error) => {
 
-            let message = "login.error"
             if (error.response.data.code === 406) {
-                message = "login.exists"
-            }
 
-            cleanAndReport(dispatch, message)
-            console.log(error.response.data.message)
+                dispatch(cleanAndReport("login.exists"))
+            } else {
+                dispatch(cleanAndReport("login.error"))
+            }
         })
     } else if (modal_name === 'login') {
 
@@ -397,68 +363,89 @@ export const formThunk = values => (dispatch, getState) => {
 
         api.getToken(_data).then(res => {
 
-            api.getUserData(res.data.id, res.data.token).then((response) => {
+            api.userData(res.data.id, res.data.token).then((response) => {
 
                 if (response.data.verified_email === "1") {
-                    
-                    if (checkbox) {
-                        localStorage.setItem('token', res.data.token)
-                        localStorage.setItem('user_email', res.data.user_email)
-                        localStorage.setItem('user_ID', res.data.id)
-                    } else {
-                        sessionStorage.setItem('token', res.data.token)
-                        sessionStorage.setItem('user_email', res.data.user_email)
-                        sessionStorage.setItem('user_ID', res.data.id)
+
+                    dispatch(userData(res.data.id, res.data.token, response.data, isChecked))
+
+                    if (response.data.purchases) {
+
+                        let purchases = JSON.parse(response.data.purchases)
+
+                        for (let i = 0; i < purchases.length; i++) {
+
+                            dispatch(setCardInBasketThunk(purchases[i].parent_id, purchases[i].category, false, purchases[i].id))
+                        }
                     }
-                    dispatch(isValidTokenThunk(checkbox))
                 } else {
 
                     dispatch(popupMessageAC("login.check_email"))
                     dispatch(isPopupAC(true))
                 }
-
                 dispatch(preloaderAC(false))
                 dispatch(isDisabledAC(false))
                 dispatch(reset('order'))
-            }).catch((error) => {
+            }).catch(() => {
 
-                cleanAndReport(dispatch, "login.invalid")
-                console.log(error.message)
+                dispatch(cleanAndReport("login.invalid"))
             })
-
-        }).catch((error) => {
-
-            cleanAndReport(dispatch, "login.invalid")
-            console.log(error.message)
+        }).catch(() => {
+            dispatch(cleanAndReport("login.invalid"))
         })
+    } else if (modal_name === 'forget') {
 
-    } else if (modal_name === 'edit_user_data') {
+        let data = {
+            "user_login": `${email}`
+        }
+        api.registerUser(data, 'lost-password').then(res => {
 
-        dispatch(setUserDataThunk(values))
-        dispatch(preloaderAC(false))
-        dispatch(isDisabledAC(false))
-        dispatch(setModalNameAC("login.sign_in"))
+            dispatch(cleanAndReport("login.reset_password"))
+        }).catch(() => {
+            dispatch(cleanAndReport("login.invalid"))
+        })
     }
 }
 
 export const exitThunk = () => dispatch => {
 
+    dispatch(preloaderAC(false))
     dispatch(cleanUserDataAC())
     dispatch(isVerifyEmailAC(false))
     dispatch(isValidTokenAC(false))
-    dispatch(cleanPurchasesThunk())
+    dispatch(clearPurchasesThunk())
     dispatch(setModalNameAC('login'))
     dispatch(setSubmitNameAC('login.sign_in'))
-    sessionStorage.removeItem('token')
-    sessionStorage.removeItem('user_email')
-    sessionStorage.removeItem('userData')
-    sessionStorage.removeItem('user_ID')
-    sessionStorage.removeItem('username')
-    localStorage.removeItem('token')
-    localStorage.removeItem('user_email')
-    localStorage.removeItem('userData')
-    localStorage.removeItem('user_ID')
-    localStorage.removeItem('username')
+    clearStorage()
+}
+
+export const editFormThunk = values => (dispatch, getState) => {
+
+    dispatch(editDisabledAC(true))
+    dispatch(preloaderAC(true))
+
+    let token = getLocalStorageValue('token')
+    let user_ID = getLocalStorageValue('user_ID')
+    let isChecked = getState().userRoom.isChecked
+
+    let data = {
+        "first_name": `${values.first_name}`,
+        "last_name": `${values.last_name}`,
+        "second_name": `${values.second_name}`,
+        "email": `${values.email}`,
+        "tel": `${values.tel}`
+    }
+
+    api.userData(user_ID, token, data).then((res) => {
+
+        dispatch(editButtonAC(false))
+        dispatch(preloaderAC(false))
+        dispatch(editDisabledAC(false))
+        dispatch(userData(user_ID, token, res.data, isChecked))
+
+    }).catch(() => {
+        dispatch(cleanAndReport("login.invalid"))
+    })
 }
 
 export default userRoomReducer

@@ -50,23 +50,15 @@ export const api = {
             data
         })        
     },
-    getUserData(user_ID, token) {
+    userData(user_ID, token, data, setData = true) {
 
         return axios({
             method: 'post',
-            url: `https://rw.langovets.com.ua/wp-json/wp/v2/users/${user_ID}?_fields=first_name,last_name,email,id,tel,liked,verified_email`,
-            headers: {'Authorization': `Bearer ${token}`}
-        })
-    },  
-    setUserData(data, user_ID, token) {
-        
-        return axios({
-            method: 'post',
-            url: `https://rw.langovets.com.ua/wp-json/wp/v2/users/${user_ID}?_fields=first_name,last_name,email,id,tel,liked,verified_email`,
+            url: `https://rw.langovets.com.ua/wp-json/wp/v2/users/${user_ID}?_fields=${setData ? 'first_name,last_name,second_name,email,id,tel,liked,verified_email,purchases,purchased' : 'id'}`,
             headers: {'Authorization': `Bearer ${token}`},
             data
         })
-    }, 
+    },  
     registerUser(data, action) {
 
         return axios({

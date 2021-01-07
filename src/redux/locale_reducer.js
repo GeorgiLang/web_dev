@@ -1,16 +1,18 @@
-const SET_LOCALE = 'SET_LOCALE'
+import locale from '../common/locale'
 
-const language = window.navigator.language.slice(0, 2)
+const SET_LOCALE = 'SET_LOCALE'
 
 let initialState = {
 
-    locale: language !== 'uk' && language !== 'ru' && language !== 'en' ? 'en' : language
+    locale: locale !== 'uk' && locale !== 'ru' && locale !== 'en' ? 'en' : locale
 }
 
 const localeReducer = (state = initialState, action) => {
 
     switch (action.type) {
+
         case SET_LOCALE:
+            
             return {
                 ...state,
                 locale: action.locale
@@ -19,7 +21,7 @@ const localeReducer = (state = initialState, action) => {
     }
 }
 
-export const localeAC = (locale) =>
+export const localeAC = locale =>
 
     ({ type: 'SET_LOCALE', locale })
 

@@ -1,7 +1,7 @@
 
 const ADD_PURCHASE_TO_BASKET = 'ADD_PURCHASE_TO_BASKET'
 const DELETE_ALL_CARDS = 'DELETE_ALL_CARDS'
-const CLEAN_PURCHASE = 'CLEAN_PURCHASE'
+const CLEAR_PURCHASE = 'CLEAR_PURCHASE'
 const SET_ALL_CARDS = 'SET_ALL_CARDS'
 const SET_CARDS = 'SET_CARDS'
 const CURRENT_PAGE = 'CURRENT_PAGE'
@@ -85,7 +85,7 @@ const cardsReducer = (state = initialState, action) => {
                 all_cards: [],
                 isLoading: false
             }
-        case CLEAN_PURCHASE:
+        case CLEAR_PURCHASE:
             return {
                 ...state,
                 purchase: action.id ? state.purchase.filter(card => card.id !== action.id) : []
@@ -171,8 +171,8 @@ export const isDisabledAC = isDisabled =>
 export const deleteAllCardsAC = () =>
     ({ type: "DELETE_ALL_CARDS" })
 
-export const cleanPurchasesAC = id =>
-    ({ type: "CLEAN_PURCHASE", id })
+export const clearPurchasesAC = id =>
+    ({ type: "CLEAR_PURCHASE", id })
 
 export const getTotalCostAC = () =>
     ({ type: "GET_TOTAL_COST" })

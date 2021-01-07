@@ -25,13 +25,15 @@ const OrderForm = ({
     disabled,
     submit_name,
     isValidToken,
+    isEditButton,
     preloader
 }) => {
 
     useEffect(() => {
-
+        
         preloader()
         disabled()
+        getTotalCost()
         setSubmitName("login.confirm_order")
 
     }, [setSubmitName, setModalName, preloader, disabled, getTotalCost])
@@ -98,18 +100,18 @@ const OrderForm = ({
                 <Link onClick={sign_in} to="/login"><button disabled={isDisabled}>Я постоянный клиент</button></Link>
                 <Link onClick={sign_up} to="/login"><button disabled={isDisabled}>Зарегестрироваться</button></Link>
             </div> }
-            <Personal />
-            <button
+            {isValidToken && cards.length > 0 ? <Personal /> : null}
+            {!isEditButton && isValidToken && cards.length > 0 ?  <button
                 onClick={submitOrder}
                 className={s.confirm}
-                type="submit"
+                type="button"
                 disabled={isDisabled}>
                 {isPreloader
-                    ? <Preloader size="40px" />
+                    ? <Preloader className={s.preloader} size="40px" />
                     : <FormattedMessage
                         id={submit_name}
                         defaultMessage="submite" />}
-            </button>
+            </button> : null}
         </div>
     )
 }
@@ -124,7 +126,8 @@ const mapStateToProps = state => {
         isDisabled: state.shopping.isDisabled,
         modal_name: state.userRoom.modal_name,
         isValidToken: state.userRoom.isValidToken,
-        submit_name: state.userRoom.submit_name
+        submit_name: state.userRoom.submit_name,
+        isEditButton: state.userRoom.editButton
     }
 }
 

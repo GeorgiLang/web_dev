@@ -1,13 +1,25 @@
-
-export default {
+const messages_ru = {
     'ru': {
+        "menu.home": "главная",
+        "menu.shop": "магазин",
+        "menu.service": "услуги",
+        "menu.contacts": "контакты",
+        "menu.consult": "консультация",
         "search.default": "Ничего не найдено, попробуйте изменить запрос!",
-        "login.password" : "Пароль должен содержать цифры и латинские буквы и не должен совпадать с именем и email",
+        "login.remember": "Запомнить меня",
+        "login.remind": "Напомнить пароль",
+        "login.remembered": "Я вспомнил!",
+        "login.warning_password" : "Пароль должен содержать цифры и латинские буквы и не должен совпадать с именем и email",
+        "login.reset_password": "Пароль сброшен, проверьте свою электронную почту и перейдите по ссылке",
+        "login.reset": "Сбросить пароль",
         "login.edit" : "Подтверждаю изменения",
+        "login.personal": "Введите свои данные",
         "login.confirm_order" : "Заказ подтверждаю",
         "login.check_email" : "Проверьте и подтвердите свою электронную почту",
         "login.first_name" : "Имя",
         "login.last_name" : "Фамилия",
+        "login.email": "Эл. почта",
+        "login.password": "Пароль",
         "login.sign_in" : "Войти",
         "login.sign_up" : "Зарегестрироваться",
         "login.phone" : "Номер телефона",
@@ -72,3 +84,5 @@ export default {
         "form.errors.wrongLength" : "неправильная длина (необходимо {count, number} {count, plural, one {буква} other {букв}})"
     }
 }
+
+export default messages_ru

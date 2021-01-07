@@ -6,6 +6,7 @@ import { exitThunk } from '../../redux/user_room_reducer'
 
 
 const UserRoom = ({
+
     isValidToken,
     userData,
     exit }) => {
@@ -15,7 +16,7 @@ const UserRoom = ({
             <ul className={s.user_menu}>
                 <li><Link to="/personal">{userData.first_name ? `${userData.first_name} ${userData.last_name}`: "Личная информация"}</Link></li>
                 <li><Link to="/purchases">Корзина</Link></li>
-                <li>Мои заказы</li>
+                <li><Link to="/order">Мои заказы</Link></li>
                 <li>Сравнения</li>
                 <li>Список желаний</li>
                 <li onClick={isValidToken ? exit : null}>
@@ -35,6 +36,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => {
+
     return {
         exit: () => dispatch(exitThunk())
     }

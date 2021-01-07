@@ -10,6 +10,7 @@ import {
 import { nextCardThunk } from './cards_functions'
 import { linePreloaderAC } from './preloader_reducer'
 import { setCards } from './cards_functions'
+import { isDisabledAC } from './shopping_reducer'
 
 const IS_SEARCH = 'IS_SEARCH'
 const IS_NOT_FOUND = 'IS_NOT_FOUND'
@@ -60,6 +61,7 @@ export const searchThunk = model => (dispatch, getState) => {
 
     dispatch(linePreloaderAC(true))
     dispatch(deleteAllCardsAC())
+    dispatch(isDisabledAC(true))
     let searching = categories => {
 
         dispatch(currentCategoryAC("all_categories"))
@@ -90,7 +92,6 @@ export const searchThunk = model => (dispatch, getState) => {
                     }
                     resolve()
                 })
-
             })
             all_search.push(search)
         }
@@ -111,6 +112,7 @@ export const searchThunk = model => (dispatch, getState) => {
                 dispatch(reset('search'))
                 dispatch(linePreloaderAC(false))
             }
+            dispatch(isDisabledAC(false))
         })
     }
 

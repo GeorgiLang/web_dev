@@ -15,14 +15,16 @@ import {
     setCardInBasketAC,
     setQuentityAC,
     getTotalCostAC,
-    cleanPurchasesAC
+    clearPurchasesAC
 } from './cards_reduсer'
 import { setFullCardAC, isLoadingBasketAC } from './fullCard_reducer'
 import { baseStorageAC } from './storage_reducer'
+import { getLocalStorageValue } from './user_room_reducer'
 
 let per_page = 3
 let total_cards = 0
 let _cards = []
+
 
 export const setCards = data => {
 
@@ -191,7 +193,7 @@ export const nextCardsThunk = () => (dispatch, getState) => {
     }
 }
 
-export const setCardInBasketThunk = (parent_id, category, full, id) => (dispatch, getState) => {
+export const setCardInBasketThunk = (parent_id, category, full, id) => dispatch => {
 
     let current_category = category
     let ID = id;
@@ -243,24 +245,62 @@ export const setCardInBasketThunk = (parent_id, category, full, id) => (dispatch
                 dispatch(addPurchaseToBasketAC(purchase))
                 dispatch(isLoadingCardAC(false))
             }
-            updatePurchaseInStorage(getState)
+            dispatch(updatePurchaseInStorage())
+            dispatch(setPurchaseToUserData())
         })
     })
 }
 
-export const cleanPurchasesThunk = id => (dispatch, getState) => {
+export const clearPurchasesThunk = id => dispatch => {
 
-    dispatch(cleanPurchasesAC(id))
-    updatePurchaseInStorage(getState)
+    dispatch(clearPurchasesAC(id))
+    dispatch(updatePurchaseInStorage())
 }
 
-export const updatePurchaseInStorage = getState => {
+export const updatePurchaseInStorage = () => (dispatch, getState) => {
 
-        sessionStorage.getItem('purchase') && sessionStorage.removeItem('purchase')
-        let purchases = getState().cards.purchase
+    sessionStorage.getItem('purchase') && sessionStorage.removeItem('purchase')
+    let purchase = getState().cards.purchase
 
-        let json_purchase = JSON.stringify(purchases)
-        sessionStorage.setItem('purchase', json_purchase)
+    let json_purchase = JSON.stringify(purchase)
+    sessionStorage.setItem('purchase', json_purchase)
+}
+
+export const setPurchaseToUserData = () => (dispatch, getState) => {
+
+    let isValidToken = getState().userRoom.isValidToken
+    if (isValidToken) {
+
+        let purchase = getState().cards.purchase
+        
+        let token = getLocalStorageValue('token')
+        let user_ID = getLocalStorageValue('user_ID')
+
+        if (purchase.length > 0) {
+
+            let purchase_list = []
+
+            for (let i = 0; i < purchase.length; i++) {
+
+                let arr = {
+                    category: purchase[i].category,
+                    id: purchase[i].id,
+                    parent_id: purchase[i].parent_id
+                }
+                purchase_list.push(arr)
+            }
+
+            let purchases = JSON.stringify(purchase_list)
+
+            api.userData(user_ID, token, {"purchases": `${purchases}`}, false).then((res) => {
+
+            })
+        } else {
+            api.userData(user_ID, token, {"purchases": ""}, false).then((res) => {
+
+            })
+        }
+    }
 }
 
 export const addPurchaseToBasketThunk = purchase => (dispatch, getState) => {

@@ -1,12 +1,25 @@
-export default {
+const messages_uk = {
     'uk': {
+        "menu.home": "головна",
+        "menu.shop": "магазин",
+        "menu.service": "послуги",
+        "menu.contacts": "контакти",
+        "menu.consult": "консультація",
         "search.default": "Нічого не знайдено, спробуйте змінити запит!",
-        "login.password" : "Пароль повинен містити цифри і латинські букви і не повинен збігатися з ім'ям і email",
+        "login.remember": "Запам'ятати мене",
+        "login.remind": "Нагадати пароль",
+        "login.remembered": "Я згадав!",
+        "login.warning_password" : "Пароль повинен містити цифри і латинські букви і не повинен збігатися з ім'ям і email",
+        "login.reset_password": "Пароль скинуто, перевірте свою електронну пошту і перейдіть за посиланням",
+        "login.reset": "Скинути пароль",
         "login.confirm_order" : "Замовлення підтверджую",
         "login.edit" : "Підтверджую зміни",
+        "login.personal": "Введіть свої дані",
         "login.check_email" : "Перевірте та підтвердьте свою електронну адресу",
         "login.first_name" : "Ім'я",
         "login.last_name" : "Прізвище",
+        "login.email": "Ел. пошта",
+        "login.password": "Пароль",
         "login.phone" : "Номер телефону",
         "login.sign_in" : "Увійти",
         "login.sign_up" : "Зареєструватися",
@@ -71,4 +84,6 @@ export default {
         "form.errors.wrongLength" : "неправильна довжина (необхідно {count, number} {count, plural, one {літера} other {літер}})"
     }
 }
+
+export default messages_uk
 

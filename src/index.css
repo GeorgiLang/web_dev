@@ -497,6 +497,7 @@ button {
 a {
     text-decoration: none;
     outline: none !important; 
+    color: inherit;
 }
 
 .page {

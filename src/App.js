@@ -8,7 +8,7 @@ import FullCardContainer from './components/fullcard/FullCardContainer'
 import Purchases from './components/purchases/Purchases'
 import Categories from './components/categories/Categories'
 import LinePreloader from './common/LinePreloader'
-import I18Provider from './messages/provider'
+import { IntlProvider } from 'react-intl'
 import logoReact from './img/logo512.png'
 import logoWP from './img/WP-logotype.png'
 import { screenWidthAC } from './redux/cards_reduсer'
@@ -17,32 +17,31 @@ import Login from './components/login/Login'
 import PopupMessage from './components/popup_message/PopupMessage'
 import UserRoom from './components/userroom/UserRoom'
 import Personal from './components/personal/Personal'
+import messages from './messages/index'
 
 const OrderForm = React.lazy(() => import('./components/order/Order'))
 const Popup = React.lazy(() => import('./components/popup/Popup'))
 
 const App = ({
-    locale,
     linePreloader,
     setScreenWidth,
     tokenListener,
     popup_message,
     isPopup,
     deletePopup,
-    getUserData }) => {
+    locale }) => {
     
     let location = useLocation()
     useEffect(() => {
 
         let path = location.pathname.split('/')
-
+        
         setScreenWidth()
         tokenListener(path)
-
-    }, [setScreenWidth, tokenListener, getUserData])
+    }, [setScreenWidth, tokenListener])
 
     return (
-        <I18Provider locale={locale}>
+        <IntlProvider locale={locale} messages={messages[locale]} defaultLocale="en">
             {linePreloader ? <LinePreloader /> : null}
             <Header />
             <div className="container">
@@ -78,11 +77,12 @@ const App = ({
                 </Switch> 
                 {isPopup ? <PopupMessage popup_message={popup_message} deletePopup={deletePopup}/> : null}
             </div>
-        </I18Provider>
+        </IntlProvider>
     )
 }
 
 const mapStateToProps = state => {
+
     return {
         locale: state.locale.locale,
         popup: state.consult.isVisible,

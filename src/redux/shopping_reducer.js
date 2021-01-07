@@ -1,11 +1,10 @@
 import { api } from '../Api/api.js'
-import { cleanPurchasesThunk } from './cards_functions'
+import { clearPurchasesThunk, setPurchaseToUserData } from './cards_functions'
 import { reset } from 'redux-form'
-import { popupMessageAC, isPopupAC } from './user_room_reducer'
+import { popupMessageAC, isPopupAC, editButtonAC, getLocalStorageValue } from './user_room_reducer'
 
 const IS_DISABLED = 'IS_DISABLED'
 const PRELOADER = 'PRELOADER'
-const CONSULT = 'CONSULT'
 
 const initialState = {
     preloader: false,
@@ -26,20 +25,16 @@ const shoppingReducer = (state = initialState, action) => {
                 ...state,
                 isDisabled: action.bool
             }
-        case CONSULT:
-            return {
-                ...state,
-                isVisible: action.bool
-            }
         default:
             return state
     }
 }
 
-export const isDisabledAC = (bool) => ({ type: "IS_DISABLED", bool })
-export const preloaderAC = (bool) => ({ type: "PRELOADER", bool })
+export const isDisabledAC = bool => ({ type: "IS_DISABLED", bool })
+export const preloaderAC = bool => ({ type: "PRELOADER", bool })
 
-const cleanSendOrder = message_id => dispatch => {
+const clearSentOrder = message_id => dispatch => {
+
     dispatch(preloaderAC(false))
     dispatch(isDisabledAC(false))
     dispatch(popupMessageAC(message_id))
@@ -51,14 +46,13 @@ export const submitOrderThunk = () => (dispatch, getState) => {
     let values = getState().userRoom.userData
     let purchases = getState().cards.purchase
 
-    console.log(values)
-
     if (purchases.length > 0) { 
 
         dispatch(preloaderAC(true))
         dispatch(isDisabledAC(true))
 
-        const { first_name, last_name, email, tel } = values
+        const { first_name, last_name, second_name, email, tel } = values
+        
         let order = ''
 
         for (let i = 0; i < purchases.length; i++) {
@@ -72,28 +66,79 @@ export const submitOrderThunk = () => (dispatch, getState) => {
 
         fileData.append('first_name', first_name)
         fileData.append('last_name', last_name)
+        fileData.append('second_name', second_name)
         fileData.append('email', email)
         fileData.append('tel', tel)
         fileData.append('order', order)
 
-        api.sendOrder(fileData).then((response) => {
+        if (first_name && last_name && email && tel) {
+        
+            api.sendOrder(fileData).then(response => {
 
-            if (response.data === 200) {
+                if (response.data === 200) {
 
-                dispatch(cleanSendOrder("order.success"))
-                dispatch(cleanPurchasesThunk())
-                dispatch(reset('order'))
+                    dispatch(clearPurchasesThunk())
+                    dispatch(setPurchaseToUserData())
+                    setPurchasedToUserData(purchases)
+                    dispatch(reset('order'))
+                    dispatch(clearSentOrder("order.success"))
+                } else if (response.data === 404) {
 
-            } else if (response.data === 404) {
+                    dispatch(clearSentOrder("order.error"))
+                }
+                return response
 
-                dispatch(cleanSendOrder("order.error"))
-            }
-        }).catch(() => {
-            dispatch(cleanSendOrder("order.error"))
-        })
+            }).catch(error => {
+                console.log(error.message)
+                dispatch(clearSentOrder("order.error"))
+            })
+        } else {
+            dispatch(editButtonAC(true))
+            dispatch(clearSentOrder("login.personal"))
+        }
     } else {
-        dispatch(cleanSendOrder("order.empty"))
+        dispatch(clearSentOrder("order.empty"))
     }
+}
+
+const setPurchasedToUserData = purchase => {
+
+    let token = getLocalStorageValue('token')
+    let user_ID = getLocalStorageValue('user_ID')
+
+    let purchase_list = []
+
+    for (let i = 0; i < purchase.length; i++) {
+
+        let arr = {
+            category: purchase[i].category,
+            id: purchase[i].id,
+            parent_id: purchase[i].parent_id
+        }
+        purchase_list.push(arr)
+    }
+
+    api.userData(user_ID, token).then(response => {
+
+        let json_purchased = []
+
+        if (response.data.purchased) {
+            json_purchased = JSON.parse(response.data.purchased) 
+        }
+
+        for (let i = 0; i < json_purchased.length; i++) {
+
+            purchase_list.push(json_purchased[i])
+        }
+        
+        
+
+        let purchased = JSON.stringify(purchase_list)
+
+        api.userData(user_ID, token, {"purchased": `${purchased}`}, false).then((res) => {
+
+        })
+    })
 }
 
 export default shoppingReducer

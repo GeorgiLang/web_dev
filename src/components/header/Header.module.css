@@ -16,8 +16,19 @@ header {
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-end;
-	padding: 20px 20px 10px;
-	margin: auto;
+	padding: 4px 20px 10px;
+	margin: 0 auto;
+}
+
+.top_block{
+	display: flex;
+	justify-content: flex-end;
+	align-items: flex-end;
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 970px;
+	padding: 10px 22px;
+	margin: 0 auto;
 }
 
 .menu {
@@ -40,23 +51,9 @@ header {
 	margin: 0 2% 2px;
 }
 
-.menu li:last-child {
-	position: relative;
-}
-
-.menu li:last-child::before {
-	position: absolute;
-	content: '';
-	top: calc(50% - 2px);
-	right: -12px;
-	width: 6px;
-	height: 6px;
-	background-color: rgb(255, 166, 0);
-	border-radius: 50%;
-}
-
 .menu a {
-	display: block;
+	display: flex;
+	font-size: 16px;
 	text-transform: uppercase;
 	text-align: center;
 	color: rgb(255, 255, 255);
@@ -74,42 +71,9 @@ header {
 	border-bottom: 2px solid rgb(255, 165, 0);
 }
 
-.menu_btn {
-	display: none;
-	width: 36px;
-	min-width: 36px;
-	height: 36px;
-	cursor: pointer;
-	margin: 10px 14px 10px 5px;	
-}
-
 .btn_on,
 .btn_off {
-	position: absolute;
-	width: 36px;
-	height: 36px;
-	transition: all 0.3s ease;
-	user-select: none;
-}
-
-.btn_on {
-	fill: rgba(255, 165, 0, 1);
-	transform: scale(1);
-}
-
-.btn_off {
-	fill: rgba(128, 128, 128, 0);
-	transform: scale(0);
-}
-
-.active .btn_on {
-	fill: rgba(255, 165, 0, 0);
-	transform: scale(0);	
-}
-
-.active .btn_off {
-	fill: rgba(128, 128, 128, 1);
-	transform: scale(1);
+	display: none;
 }
 
 .logo {
@@ -141,14 +105,22 @@ header {
 	height: 36px;
 	display: flex;
     align-items: flex-end;
-	margin-left: 14px;
+	margin-left: 24px;
 }
 
 .user_link {
-	height: 36px;
 	display: flex;
     align-items: flex-end;
-	margin-left: 20px;
+	margin: 0 20px;
+	color: rgb(255, 255, 255);
+}
+
+.user_link span {
+	display: block;
+	font-size: 14px;
+	line-height: 12px;
+	margin-left: 10px;
+	text-transform: capitalize;
 }
 
 .menu_user_link {
@@ -156,8 +128,9 @@ header {
 }
 
 .user_icon {
-	height: 28px;
-	width: 25px;
+	display: block;
+	height: 21px;
+    width: 18px;
 	fill: rgb(200, 200, 200);
 }
 
@@ -253,12 +226,27 @@ header {
 	color: rgb(136, 136, 136);
 }
 
-@media only screen and (max-width: 960px) {
+.language {
+	display: flex;
+	height: 12px;
+}
 
-	.header {
-		flex-wrap: wrap;
-		padding: 12px 20px 6px;
-	}
+.language button {
+	display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 12px;
+    margin-left: 10px;
+}
+
+.language button svg {
+	height: 12px;
+	width: 16px;
+}
+
+.display {
+	display: none;
 }
 
 @media only screen and (max-width: 665px) {
@@ -270,11 +258,33 @@ header {
 
 @media only screen and (max-width: 620px) {
 
+	.top_block {
+		padding: 0;
+	}
+
 	.header {
-		height: 56px;
+		height: 60px;
 		align-items: center;
-		padding: 0 20px;
-		flex-wrap: nowrap;
+	}
+
+	.language {
+		display: none;
+	}
+
+	.language button {
+		margin-left: 0;
+		margin-right: 12px;
+	}
+
+	.language.display  {
+		display: flex;
+		justify-content: flex-start;
+		padding: 8px 30px;
+		margin: 10px 0;
+	}
+
+	.display {
+		display: flex;
 	}
 
 	.logo {
@@ -283,10 +293,12 @@ header {
 
 	.menu {
 		width: 100%;
-		max-width: 420px;
+		max-width: 300px;
 		position: absolute;
-		top: 100%;
+		top: 0;
 		left: 0;
+		flex-direction: column;
+		align-items: flex-start;
 		transform: translateX(-100%);
 		padding: 0;
 		background-color: rgb(55, 65, 55);
@@ -302,11 +314,15 @@ header {
 	.menu li {
 		margin: 0;
 	}
-	.menu li:last-child::before {
-		top: calc(50% - 5px);
-		right: 0;
-		left: 108px;
+
+	.menu a:hover {
+		border-bottom: 2px solid rgb(255, 165, 0);
 	}
+	
+	.menu .active {
+		border-bottom: 2px solid rgb(255, 255, 255);
+	}
+
 	.menu_active {
 		transform: translateX(0);
 	}
@@ -316,6 +332,7 @@ header {
 	}
 
 	.menu a {
+		align-items: center;
 		padding: 8px 30px;
 		margin: 10px 0;
 		border-bottom: 2px solid rgb(255, 255, 255, 0.1);
@@ -326,7 +343,30 @@ header {
 		width: 110px;
 	}
 
-	.menu_btn {
+	.btn_on,
+	.btn_off {
+		width: 36px;
+		min-width: 36px;
+		height: 36px;
+		cursor: pointer;
+		user-select: none;
+	}
+
+	.btn_on {
+		display: block;
+		fill: rgba(255, 165, 0, 1);
+		margin: 10px 14px 10px 5px;
+	}
+
+	.btn_off {
+		display: block;
+		fill: rgba(128, 128, 128, 1);
+		position: absolute;
+		top: 10px;
+		right: 20px;
+	}
+
+	.btn_on {
 		display: block;
 		order: 1;
 	}
@@ -334,7 +374,15 @@ header {
 	.user_link {
 		display: none;
 	}
-	
+
+	.user_icon {
+		margin-bottom: 6px;
+	}
+
+	.user_link span {
+		line-height: 16px;
+	}
+
 	.menu_user_link {
 		display: block;
 	}

@@ -1,13 +1,25 @@
-
-export default {
+const messages_en = {
     'en': {
+        "menu.home": "home",
+        "menu.shop": "shop",
+        "menu.service": "service",
+        "menu.contacts": "contacts",
+        "menu.consult": "consult",
         "search.default": "Nothing found, try again",
-        "login.password" : "The password must contain numbers and Latin letters and must not coincide with the name and email",
+        "login.remember": "Remember me",
+        "login.remind": "Remind password",
+        "login.remembered": "I remembered!",
+        "login.warning_password" : "The password must contain numbers and Latin letters and must not coincide with the name and email",
+        "login.reset_password": "Password has been reset, check your email and follow the link",
+        "login.reset": "Password reset",
         "login.edit" : "Confirm changes",
+        "login.personal": "Enter your details",
         "login.confirm_order" : "Confirm the order",
         "login.check_email" : "Check and confirm your email",
         "login.first_name" : "First name",
         "login.last_name" : "Last name",
+        "login.email": "E-mail",
+        "login.password": "Password",
         "login.sign_in" : "Sign in",
         "login.sign_up" : "Sign up",
         "login.phone" : "Phone number",
@@ -72,3 +84,5 @@ export default {
         "form.errors.wrongLength" : "is the wrong length (should be {count, number} {count, plural, one {character} other {characters}})"
     }
 }
+
+export default messages_en
