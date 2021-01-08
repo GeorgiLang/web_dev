@@ -11,14 +11,8 @@
     margin: 0 auto;
     box-sizing: border-box;
     background-color: rgba(255, 255, 255, 0.7);
-    padding: 20px;
+    padding: 20px 20px 30px;
     border-radius: 6px;
-}
-
-.wrapper_form > p {
-    font-size: 26px;
-    margin-bottom: 10px;
-    text-align: center;
 }
 
 .wrapper_form > button {
@@ -59,7 +53,7 @@
 .input_wrap p {
     position: absolute;
     min-height: 30px;
-    width: 90%;
+    width: 75%;
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;

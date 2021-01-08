@@ -9,6 +9,7 @@ import InputTel from '../form/InputTel'
 import InputEmail from '../form/InputEmail'
 import InputSecondName from '../form/InputSecondName'
 import Preloader from '../../common/Preloader'
+import { FormattedMessage } from 'react-intl'
 
 const Personal = ({
     userData,
@@ -18,10 +19,9 @@ const Personal = ({
     isEditButton,
     editButton }) => {
 
-
     return (
-
         <form className={s.form} onSubmit={handleSubmit(editForm)}>
+
             <div className={s.edit}
                 onClick={() => { editButton(!isEditButton) }}>
                 {!isEditButton
@@ -34,27 +34,27 @@ const Personal = ({
             </div>
             <div className={s.personal_box}>
                 <div className={s.wrap}>
-                    <span>Имя:</span>
+                    <span><FormattedMessage id="login.first_name" defaultMessage="First_name"/>:</span>
                     {isEditButton ? <InputFirstName isLabel={false} style={s.input_wrap} />
                         : <span>{userData.first_name}</span>}
                 </div>
                 <div className={s.wrap}>
-                    <span>Фамилия:</span>
+                    <span><FormattedMessage id="login.last_name" defaultMessage="Last_name"/>:</span>
                     {isEditButton ? <InputLastName isLabel={false} style={s.input_wrap} />
                         : <span>{userData.last_name}</span>}
                 </div>
                 <div className={s.wrap}>
-                    <span>Отчество:</span>
+                    <span><FormattedMessage id="login.second_name" defaultMessage="Second_name"/>:</span>
                     {isEditButton ? <InputSecondName isLabel={false} style={s.input_wrap} />
                         : <span>{userData.second_name}</span>}
                 </div>
                 <div className={s.wrap}>
-                    <span>Телефон:</span>
+                    <span><FormattedMessage id="login.phone" defaultMessage="Phone number"/>:</span>
                     {isEditButton ? <InputTel isLabel={false} style={s.input_wrap} />
                         : <span>{userData.tel}</span>}
                 </div>
                 <div className={s.wrap}>
-                    <span>Email:</span>
+                    <span><FormattedMessage id="login.email" defaultMessage="E-mail"/>:</span>
                     {isEditButton ? <InputEmail isLabel={false} style={s.input_wrap} />
                         : <span>{userData.email}</span>}
                 </div>
@@ -78,6 +78,7 @@ const mapStateToProps = state => {
         initialValues: state.userRoom.userData,
         userData: state.userRoom.userData,
         editDisabled: state.userRoom.editDisabled,
+        isValidToken: state.userRoom.isValidToken,
         isEditButton: state.userRoom.editButton
     }
 }

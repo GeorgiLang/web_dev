@@ -18,6 +18,7 @@ const messages_en = {
         "login.check_email" : "Check and confirm your email",
         "login.first_name" : "First name",
         "login.last_name" : "Last name",
+        "login.second_name": "Second_name",
         "login.email": "E-mail",
         "login.password": "Password",
         "login.sign_in" : "Sign in",

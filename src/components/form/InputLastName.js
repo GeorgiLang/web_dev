@@ -3,7 +3,6 @@ import { Field } from 'redux-form'
 import { input } from './inputs'
 import { combine, required, length, format } from 'redux-form-validators'
 import { useIntl } from 'react-intl'
-import '../../messages/translate'
 
 const InputLastName = ({style, isLabel}) => {
 
@@ -29,10 +28,7 @@ const InputLastName = ({style, isLabel}) => {
                 length({ min: 2, max: 20 }),
                 format({
                     with: /^[А-ЯІЇЄ*-]+$/i,
-                    message: intl.formatMessage({
-                        id: "login.only_cyrillic",
-                        defaultMessage: "Введите ваши данные кирилицей"
-                    })
+                    message: "login.only_cyrillic"
                 })
             )}
         />

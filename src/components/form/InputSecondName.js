@@ -3,7 +3,6 @@ import { Field } from 'redux-form'
 import { input } from './inputs'
 import { combine, length, format } from 'redux-form-validators'
 import { useIntl } from 'react-intl'
-import '../../messages/translate'
 
 const InputSecondName = ({style, isLabel}) => {
 
@@ -13,25 +12,24 @@ const InputSecondName = ({style, isLabel}) => {
         <Field
             type="text"
             name="second_name"
+            autoComplete="second_name"
+            component={input}
             style={style}
             isLabel={isLabel}
-            autoComplete="secondname"
-            component={input}
             placeholder={intl.formatMessage({
-                id: "login.second_name",
+                id: "login.first_name",
                 defaultMessage: "Отчество"
             })}
             label={intl.formatMessage({
-                id: "login.second_name",
+                id: "login.first_name",
                 defaultMessage: "Отчество"
             })}
-            validate={combine(format({
+            validate={combine(
+                length({min: 0, max: 20 }),
+                format({
                     with: /^$|^[А-ЯІЇЄ*-]+$/i,
-                    message: intl.formatMessage({
-                        id: "login.only_cyrillic",
-                        defaultMessage: "Введите ваши данные кирилицей"
-                    })
-                }),length({min: 0, max: 20 })
+                    message: "login.only_cyrillic"
+                })
             )}
         />
     )

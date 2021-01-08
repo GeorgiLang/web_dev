@@ -3,7 +3,6 @@ import { Field } from 'redux-form'
 import { input } from './inputs'
 import { combine, format, length } from 'redux-form-validators'
 import { useIntl } from 'react-intl'
-import '../../messages/translate'
 
 const InputPassword = ({style, isLabel}) => {
 

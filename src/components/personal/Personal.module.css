@@ -18,7 +18,14 @@
 }
 
 .wrap span:first-child {
-    min-width: 120px;
+    min-width: 140px;
+    margin-right: 20px;
+}
+
+.wrap span:last-child {
+    color: black;
+    width: 100%;
+    max-width: 280px;
 }
 
 .confirm {
@@ -114,6 +121,8 @@
 @media only screen and (max-width: 480px) {
 
     .wrap span:first-child {
-        min-width: 100px;
+        min-width: 120px;
+        margin-right: 10px;
     }
+
 }

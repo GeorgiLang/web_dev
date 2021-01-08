@@ -103,7 +103,7 @@ const Form = ({
                     </span>
                 </div>
                 <button className={s.submit} type="submit" disabled={isDisabled}>
-                    <FormattedMessage id="msg.submit" />
+                    <FormattedMessage id="msg.submit" defaultMessage="submit"/>
                 </button>
             </div>
         </form>

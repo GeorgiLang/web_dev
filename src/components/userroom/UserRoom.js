@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import s from './UserRoom.module.css'
 import { connect } from 'react-redux'
 import { exitThunk } from '../../redux/user_room_reducer'
-
+import { Redirect } from 'react-router-dom'
 
 const UserRoom = ({
 
@@ -12,6 +12,7 @@ const UserRoom = ({
     exit }) => {
 
     return (
+        !isValidToken ? <Redirect to="/login" /> : 
         <div className={s.container}>
             <ul className={s.user_menu}>
                 <li><Link to="/personal">{userData.first_name ? `${userData.first_name} ${userData.last_name}`: "Личная информация"}</Link></li>

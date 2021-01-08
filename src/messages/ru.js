@@ -18,6 +18,7 @@ const messages_ru = {
         "login.check_email" : "Проверьте и подтвердите свою электронную почту",
         "login.first_name" : "Имя",
         "login.last_name" : "Фамилия",
+        "login.second_name": "Отчество",
         "login.email": "Эл. почта",
         "login.password": "Пароль",
         "login.sign_in" : "Войти",

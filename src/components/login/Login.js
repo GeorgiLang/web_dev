@@ -42,7 +42,6 @@ const Login = ({
     return (
         isValidToken && modal_name !== "edit_user_data" ? <Redirect to="/userroom" /> : <div className={s.container}>
             <div className={s.wrapper_form}>
-                <p>Вхід</p>
                 <form className={s.form} onSubmit={handleSubmit(onsubmit)}>
                     {modal_name === "register" ? <InputFirstName isLabel={true} style={s.input_wrap} /> : null}
                     <InputEmail isLabel={true} style={s.input_wrap} />

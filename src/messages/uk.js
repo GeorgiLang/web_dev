@@ -18,6 +18,7 @@ const messages_uk = {
         "login.check_email" : "Перевірте та підтвердьте свою електронну адресу",
         "login.first_name" : "Ім'я",
         "login.last_name" : "Прізвище",
+        "login.second_name": "По батькові",
         "login.email": "Ел. пошта",
         "login.password": "Пароль",
         "login.phone" : "Номер телефону",
