@@ -21,8 +21,7 @@ const Form = ({
     return (
         <form className={s.form} onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
             <div className={s.input_container1}>
-                <Field
-                    className={s.input_wrapper}
+                <Field className={s.input_wrapper}
                     type="text"
                     name="name"
                     component={renderField}
@@ -34,8 +33,7 @@ const Form = ({
                         length({ min: 2, max: 30 })
                     )}
                 />
-                <Field
-                    className={s.input_wrapper}
+                <Field className={s.input_wrapper}
                     type="tel"
                     name="tel"
                     component={renderInputWithMask}
@@ -46,9 +44,9 @@ const Form = ({
                     )}
                     mask={"+38 (099) 999-99-99"}
                 />
-                <Field
-                    className={s.textarea}
+                <Field className={s.textarea}
                     name="text"
+                    type="textarea"
                     component={renderTextarea}
                     placeholder={intl.formatMessage({
                         id: "msg.placeholder_textarea",
@@ -57,8 +55,7 @@ const Form = ({
                     validate={length({ max: 240 })}
                 />
             </div>
-            <Field
-                type="file"
+            <Field type="file"
                 name="myfile"
                 component={renderInputForFiles}
                 value={null}
@@ -78,8 +75,7 @@ const Form = ({
             />
             <div className={s.input_container2}>
                 <div className={s.check}>
-                    <Field
-                        className={s.checkbox}
+                    <Field className={s.checkbox}
                         type="checkbox"
                         name="checkbox"
                         component={renderCheckbox}

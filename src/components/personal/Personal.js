@@ -21,7 +21,6 @@ const Personal = ({
 
     return (
         <form className={s.form} onSubmit={handleSubmit(editForm)}>
-
             <div className={s.edit}
                 onClick={() => { editButton(!isEditButton) }}>
                 {!isEditButton

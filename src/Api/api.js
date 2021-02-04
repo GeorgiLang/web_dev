@@ -89,11 +89,15 @@ export const api = {
     },
     getModelsIdCard(id, category) {
 
-        return instanse.get(`${category}/${id}?_fields=acf.models,acf.variants_name,acf.full_description`)
+        return instanse.get(`${category}/${id}?_fields=acf.models,acf.variants_name,acf.category_name`)
     },
-    searchProduct(category, product) {
+    getFullDescription(id, category) {
 
-        return instanse.get(`${category}?search=${product}`)
+        return instanse.get(`${category}/${id}?_fields=acf.full_description`)
+    },
+    searchProduct(category, product, all = ",acf.description,acf.price,acf.old_price,acf.product_name,acf.media,acf.in_stock,acf.models,type") {
+
+        return instanse.get(`${category}?search=${product}&_fields=id${all}`)
     }
 }
 

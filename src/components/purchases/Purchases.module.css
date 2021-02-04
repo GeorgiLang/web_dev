@@ -307,4 +307,8 @@
     .basket_item {
         flex-direction: column;
     }
+
+    .purchases {
+        padding: 3% 3% 30px;
+    }
 }

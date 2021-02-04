@@ -6,7 +6,7 @@ import menuActiveReducer from './menu_reducer'
 import fullCardsReducer from './fullCard_reducer'
 import thunkMiddleware from 'redux-thunk'
 import shoppingReducer from './shopping_reducer'
-import isPreloaderReducer from './preloader_reducer'
+import linePreloaderReducer from './preloader_reducer'
 import searchReducer from './search_reducer'
 import storageReducer from './storage_reducer'
 import userRoomReducer from './user_room_reducer'
@@ -17,7 +17,7 @@ let rootReducer = combineReducers({
     consult: consultReducer,
     full_card: fullCardsReducer,
     shopping: shoppingReducer,
-    preloader: isPreloaderReducer,
+    preloader: linePreloaderReducer,
     search: searchReducer,
     cards: cardsReducer,
     locale: localeReducer,

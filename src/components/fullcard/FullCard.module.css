@@ -9,29 +9,48 @@
 }
 
 .product_name {
-    font-size: 28px;
-    line-height: 34px;
-    padding: 0 20px;
+    width: 100%;
     box-sizing: border-box;
-    margin: 10px auto 30px;
-    min-height: 68px;
+}
+
+.preloader_box_product_name {
+    width: 100%;
+    overflow: hidden;
+    margin: 0 0 20px;
+    min-height: 70px;
+}
+
+.product_name h2 {
+    font-size: 26px;
+    line-height: 30px;
+    text-align: center;
+    margin: 10px 0 0;
 }
 
 .product_id {
     font-size: 16px;
-    padding: 20px 0 0 20px;
 }
 
 .actions {
     width: 50%;
+    display: flex;
+    flex-direction: column;
     box-sizing: border-box;
-    padding: 0 20px;
+    padding-left: 30px;
     margin: 0 0 0 auto;
 }
 
 .group {
     display: flex;
     flex-wrap: wrap;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.preloader_box_group {
+    min-height: 206px;
+    overflow: hidden;
 }
 
 .group_color,
@@ -118,22 +137,32 @@
     margin-right: 8px;
 }
 
-.price {
+.price { 
+    display: flex;
+    flex-wrap: wrap;   
     width: 100%;
     font-size: 18px;
-    display: flex;
-    flex-direction: column;
-    margin: 12px 0;
+    overflow: hidden;
 }
 
-.price span:first-child {
+.preloader_box_price {
+    min-height: 70px;
+    margin: 20px 0;
+    overflow: hidden;
+}
+
+.price p {
+    width: 100%;
+}
+
+.price p:first-child {
     margin-bottom: 10px;
     text-decoration: line-through;
     font-size: 24px;
     color: gray;
 }
 
-.price span:last-child {
+.price p:last-child {
     font-size: 36px;
     color: rgb(44, 147, 18);
     font-weight: 600;
@@ -166,7 +195,24 @@
 .description_block {
     width: 100%;
     box-sizing: border-box;
-    padding: 20px;
+    padding: 20px 0;
+}
+
+.description_block button {
+    display: flex;
+    align-items: center;
+    padding: 4px 20px;
+    min-width: 200px;
+    border-radius: 4px;
+    margin: 20px 0;
+    border: 2px solid rgb(120, 120, 120);
+}
+
+.description_block button svg {
+    width: 20px;
+    height: 20px;
+    fill: rgb(128, 128, 128);
+    margin-left: 20px;
 }
 
 .description_block h3 {
@@ -204,18 +250,49 @@
 }
 
 .gallery {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(255, 255, 255);
+    z-index: 4;
+}
+
+.box_gallery {
+    position: relative;
+    width: 50%;
+    min-height: 500px;
+    overflow: hidden;
+}
+
+.preloader_box_gallery {
+    position: absolute;
     top: 0;
     left: 0;
-    width: 50%;
-    height: 500px;
-    background-color: rgb(255, 255, 255);
-    flex-direction: column;
-    display: flex;
-    z-index: 4;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+}
+
+.background {
+    background-color: rgb(235, 235, 235);
+}
+
+.display {
+    display: none;
 }
 
 
 @media only screen and (max-width: 768px) {
+
+    .card {
+        max-width: 620px;
+        margin: 0 auto;
+    }
+
+    .box_gallery {
+        min-height: 460px;
+    }
 
     .product_color button {
         height: 38px;
@@ -233,6 +310,10 @@
         width: 16px;
         height: 20px;
         font-size: 20px;
+    }
+
+    .preloader_box_group {
+        min-height: 186px;
     }
 
     .group_color {
@@ -259,16 +340,18 @@
         padding: 0 20px;
         margin: 10px 10px 10px 0;
     }
+
 }
 
 @media only screen and (max-width: 665px) {
 
-    .card {
-        padding: 0;
-    }
-
     .group {
         width: 100%;
+    }
+
+    .preloader_box_group {
+        width: 100%;
+        min-height: 98px;
         margin-top: 30px;
     }
 
@@ -284,23 +367,26 @@
     .description {
         width: 100%;
     }    
-    
-    .gallery {
+
+    .box_gallery {
         width: 100%;
-        box-sizing: border-box;
-        padding: 0 20px;
-        margin: 0 auto;
+        min-height: 500px;
     }
 
     .actions {
         width: 100%;
+        padding-left: 0;
     }
 
     .action_buttons button {
         padding: 0 30px;
-        margin: 10px 30px 10px 0;
+    }
+
+    .description_block {
+        padding: 20px 0;
     }
 }
+
 
 @media only screen and (max-width: 480px) {
 
@@ -315,8 +401,15 @@
 
     .product_name {
         font-size: 20px;
-        min-height: 48px;
         line-height: 24px;
+    }
+
+    .box_gallery {
+        min-height: 400px;
+    }
+
+    .preloader_box_product_name {
+         min-height: 48px;
     }
 
 }

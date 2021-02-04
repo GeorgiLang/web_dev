@@ -23,14 +23,14 @@ const shoppingReducer = (state = initialState, action) => {
         case IS_DISABLED:
             return {
                 ...state,
-                isDisabled: action.bool
+                isDisabled: action.isDisabled
             }
         default:
             return state
     }
 }
 
-export const isDisabledAC = bool => ({ type: "IS_DISABLED", bool })
+export const isDisabledAC = isDisabled => ({ type: "IS_DISABLED", isDisabled })
 export const preloaderAC = bool => ({ type: "PRELOADER", bool })
 
 const clearSentOrder = message_id => dispatch => {
@@ -57,7 +57,7 @@ export const submitOrderThunk = () => (dispatch, getState) => {
 
         for (let i = 0; i < purchases.length; i++) {
             order += `<b>ID:</b><span style="color:darkred"> ${purchases[i].id}</span><br>
-            <b>Наименование товара:</b><span style="color:darkblue"> <a href='https://react.langovets.com.ua/fullcard/${purchases[i].category}/${purchases[i].parent_id}/${purchases[i].id}'>${purchases[i].product_name}</a></span><br>
+            <b>Наименование товара:</b><span style="color:darkblue"> <a href='https://react.langovets.com.ua/shop/${purchases[i].category}/fullcard/${purchases[i].parent_id}/${purchases[i].id}'>${purchases[i].product_name}</a></span><br>
             <b>Количество:</b> ${purchases[i].quentity}<br>
             <b>Цена:</b><span style="color:darkgreen"> ${purchases[i].price}</span><br>`
         }

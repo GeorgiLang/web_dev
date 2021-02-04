@@ -21,7 +21,7 @@ const Popup = ({
     return (
         <div onClick={popup ? isMessage : null} className={s.base}>
             <div className={s.consult}>
-                <Language style={s.language} setLanguage={setLocale}/>
+                <Language className={s.language} setLanguage={setLocale}/>
                 <Link className={s.btn_remove} to="/"></Link>
                 {preloader ? <Preloader className={s.preloader} size="50px" /> : null}
                 <div className={s.container}>

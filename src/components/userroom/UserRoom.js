@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import s from './UserRoom.module.css'
 import { connect } from 'react-redux'
@@ -9,7 +9,13 @@ const UserRoom = ({
 
     isValidToken,
     userData,
+    scrollToTop,
     exit }) => {
+
+    useEffect(() => {
+
+        scrollToTop()
+    }, [])
 
     return (
         !isValidToken ? <Redirect to="/login" /> : 

@@ -1,105 +1,124 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './index.css'
 import Header from './components/header/Header'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Route, Switch, useLocation } from 'react-router-dom'
-import CardContainer from './components/card/CardContainer'
+import Shop from './components/shop/Shop'
 import FullCardContainer from './components/fullcard/FullCardContainer'
 import Purchases from './components/purchases/Purchases'
-import Categories from './components/categories/Categories'
 import LinePreloader from './common/LinePreloader'
 import { IntlProvider } from 'react-intl'
 import logoReact from './img/logo512.png'
 import logoWP from './img/WP-logotype.png'
-import { screenWidthAC } from './redux/cards_reduсer'
 import { tokenListenerThunk, isPopupAC } from './redux/user_room_reducer'
 import Login from './components/login/Login'
 import PopupMessage from './components/popup_message/PopupMessage'
 import UserRoom from './components/userroom/UserRoom'
 import Personal from './components/personal/Personal'
 import messages from './messages/index'
+import ScrollToTop from './common/ScrollToTop'
+import { linePreloaderAC } from './redux/preloader_reducer'
+import smoothscroll from 'smoothscroll-polyfill'
 
+// kick off the polyfill!
+smoothscroll.polyfill()
 const OrderForm = React.lazy(() => import('./components/order/Order'))
 const Popup = React.lazy(() => import('./components/popup/Popup'))
 
-const App = ({
-    linePreloader,
-    setScreenWidth,
-    tokenListener,
-    popup_message,
-    isPopup,
-    deletePopup,
-    locale }) => {
-    
-    let location = useLocation()
+const Home = ({scrollToTop}) => {
+
+    const dispatch = useDispatch()
+
     useEffect(() => {
 
-        let path = location.pathname.split('/')
-        
-        setScreenWidth()
-        tokenListener(path)
-    }, [setScreenWidth, tokenListener])
+        scrollToTop()
+        dispatch(linePreloaderAC(false))
+    }, [])
 
     return (
-        <IntlProvider locale={locale} messages={messages[locale]} defaultLocale="en">
-            {linePreloader ? <LinePreloader /> : null}
-            <Header />
-            <div className="container">
-                <Switch>
-                    <Route exact path='/'>
-                        <div className="yellow page">
-                            <div className="logos">
-                                <div><img src={logoReact} alt="Logo React" /></div>
-                                <div><img src={logoWP} alt="Logo Wordpress" /></div>
-                            </div>
-                        </div>
-                    </Route>
-                    <Route path='/shop/:category/:models'><CardContainer /></Route>
-                    <Route path='/purchases'><Purchases /></Route>
-                    <Route path='/shop'><Categories /></Route>
-                    <Route path='/service'><div className="blue page">Service</div></Route>
-                    <Route path='/price'><div className="pink page">Price</div></Route>
-                    <Route path='/contacts'><div className="green page">Contacts</div></Route>
-                    <Route path='/userroom'><UserRoom /></Route>
-                    <Route path='/order'>
-                        <React.Suspense fallback={<LinePreloader />}>
-                            <OrderForm />
-                        </React.Suspense>
-                    </Route>
-                    <Route path='/fullcard/:category/:id/:id'><FullCardContainer /></Route>
-                    <Route path='/consult'>
-                        <React.Suspense fallback={<LinePreloader />}>
-                            <Popup />
-                        </React.Suspense>
-                    </Route>               
-                    <Route path='/login'><Login /></Route>
-                    <Route path='/personal'><Personal /></Route>
-                </Switch> 
-                {isPopup ? <PopupMessage popup_message={popup_message} deletePopup={deletePopup}/> : null}
+        <div className="yellow page">
+            <div className="logos">
+                <div><img src={logoReact} alt="Logo React" /></div>
+                <div><img src={logoWP} alt="Logo Wordpress" /></div>
+            </div>
+        </div>
+    )
+}
+
+const App = () => {
+
+    const locale = useSelector(state => state.locale.locale)
+    const linePreloader = useSelector(state => state.preloader.linePreloader)
+    const popup_message = useSelector(state => state.userRoom.popup_message)
+    const isPopup = useSelector(state => state.userRoom.isPopup)
+    const current_page = useSelector(state => state.cards.current_page)
+    const isDelete = useSelector(state => state.cards.isDelete)
+
+    let location = useLocation()
+    let path = location.pathname.split('/')
+    const dispatch = useDispatch()
+    const container = useRef(null)
+    const [isVisible, setIsVisible] = useState(false)
+
+    let time = 0
+    const toggleVisibility = () => {
+
+        clearTimeout(time)
+        time = setTimeout(() => container.current.scrollTop > 200 ? setIsVisible(true) : setIsVisible(false), 500)
+    }
+
+    const scrollToTop = () => {
+
+        if (isDelete) {
+            container.current.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            })
+        }
+    }
+
+    useEffect(() => {
+
+        scrollToTop(isDelete)
+    }, [current_page])
+
+    useEffect(() => {
+        
+        dispatch(tokenListenerThunk(path))
+    }, [])
+
+    return (
+        <IntlProvider locale={locale} messages={messages[locale]} defaultLocale="en">  
+            <div onScroll={toggleVisibility} ref={container} className="body">
+                {linePreloader ? <LinePreloader /> : null}
+                <Header scrollToTop={scrollToTop} />
+                <div className="container">
+                    <Switch>
+                        <Route exact path='/'><Home scrollToTop={scrollToTop}/></Route>
+                        <Route path='/shop'><Shop scrollToTop={scrollToTop}/></Route>
+                        <Route path='/purchases'><Purchases scrollToTop={scrollToTop}/></Route>
+                        <Route path='/service'><div className="blue page">Service</div></Route>
+                        <Route path='/contacts'><div className="green page">Contacts</div></Route>
+                        <Route path='/userroom'><UserRoom scrollToTop={scrollToTop}/></Route>
+                        <Route path='/order'>
+                            <React.Suspense fallback={<LinePreloader />}>
+                                <OrderForm scrollToTop={scrollToTop}/>
+                            </React.Suspense>
+                        </Route>
+                        <Route path='/consult'>
+                            <React.Suspense fallback={<LinePreloader />}>
+                                <Popup />
+                            </React.Suspense>
+                        </Route>
+                        <Route path='/login'><Login /></Route>
+                        <Route path='/personal'><Personal /></Route>
+                    </Switch>
+                    <ScrollToTop isVisible={isVisible} scrollToTop={scrollToTop} container={container} />
+                    {isPopup ? <PopupMessage popup_message={popup_message} deletePopup={() => dispatch(isPopupAC(false))} /> : null}
+                </div>
             </div>
         </IntlProvider>
     )
 }
 
-const mapStateToProps = state => {
-
-    return {
-        locale: state.locale.locale,
-        popup: state.consult.isVisible,
-        categories: state.cards.categories,
-        linePreloader: state.preloader.linePreloader,
-        popup_message: state.userRoom.popup_message,
-        isPopup: state.userRoom.isPopup
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-
-    return {
-        setScreenWidth: () => dispatch(screenWidthAC(window.innerWidth)),
-        tokenListener: path => dispatch(tokenListenerThunk(path)),
-        deletePopup: () => dispatch(isPopupAC(false))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default App

@@ -4,11 +4,8 @@ import { Link } from 'react-router-dom'
 
 const ColorButtons = ({
     current_model,
-    current_color,
-    parent_id,
-    models_group,
-    category,
-    setExtraCard }) => {
+    category_name,
+    models_group }) => {
 
     let list_buttons = []
     let color_name = ''
@@ -18,13 +15,16 @@ const ColorButtons = ({
         let iDs = []
 
         color_name = models_group[i].color_name
-        current_color = models_group[i].color
+        let current_color = models_group[i].color
 
         let ID = 0
-
+        let product_name = ''
         for (let key in models_group[i].models_vars) {
 
             if (models_group[i].models_vars[key].id) {
+
+                product_name = models_group[i].models_vars.models_var1.product_name
+
                 iDs.push(models_group[i].models_vars[key].id)
                 ID = models_group[i].models_vars[key].id
             }
@@ -36,12 +36,8 @@ const ColorButtons = ({
         current_product ? method = 'unshift' : method = 'push'
 
         list_buttons[method](
-            <Link className={s.product_color} to={`/fullcard/${category}/${parent_id}/${iDs[0]}`} key={ID}>
-                <button
-                    disabled={current_product}
-                    onClick={() => {
-                        setExtraCard(iDs[0], category)
-                    }}>
+            <Link className={s.product_color} to={`${iDs[0]}?category_name=${category_name}&product_name=${product_name}`} key={ID}>
+                <button disabled={current_product}>
                     <span style={{ backgroundColor: current_color }}></span>
                     <span>{color_name}</span>
                 </button>

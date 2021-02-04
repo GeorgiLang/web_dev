@@ -1,6 +1,5 @@
 import React from 'react'
 import s from './Header.module.css'
-import MenuButton from './MenuButton.js'
 import { NavLink, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { consultAC } from '../../redux/consult_reducer'
@@ -14,6 +13,7 @@ import { setSubmitNameAC, setModalNameAC } from '../../redux/user_room_reducer'
 import Language from '../language/Language'
 import { localeAC } from '../../redux/locale_reducer'
 import { FormattedMessage } from 'react-intl'
+import Breadcrumbs from '../breadcrumbs/Breadcrumbs'
 
 const Header = ({
     isMenu,
@@ -21,6 +21,7 @@ const Header = ({
     choosed,
     isLoadingCard,
     basket,
+    scrollToTop,
     isValidToken,
     setFormName,
     setLanguage,
@@ -33,7 +34,12 @@ const Header = ({
             <div className={s.top_block}>
                 <Link onClick={setFormName} className={s.user_link} to={isValidToken ? "/userroom" : "/login"}>
                     <UserIcon className={`${s.user_icon} ${isValidToken && s.user_icon_active}`} />
-                    <span>{isValidToken ? `Wellcome ${first_name} ${last_name}` : "Войти"}</span>
+                    <span>{isValidToken
+                        ? `${first_name} ${last_name}`
+                        : <FormattedMessage
+                            id="login.sign_in"
+                            defaultMessage="Sign_in" />}
+                    </span>
                 </Link>
                 <Language className={s.language} setLanguage={setLanguage} />
             </div>
@@ -45,7 +51,7 @@ const Header = ({
                     <path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z" />
                 </svg>
                 <Search />
-                <Link onClick={basket} className={s.basket_link} to={choosed > 0 ? "/purchases" : "/order"}>
+                <Link onClick={basket} className={s.basket_link} to={choosed > 0 ? '/purchases' : '/order'}>
                     <Basket
                         choosed={choosed}
                         isLoadingCard={isLoadingCard}
@@ -61,7 +67,7 @@ const Header = ({
                     <li className={s.menu_user_link}>
                         <Link onClick={setFormName} className={s.user_link} to={isValidToken ? "/userroom" : "/login"}>
                             <UserIcon className={`${s.user_icon} ${isValidToken ? s.user_icon_active : ''}`} />
-                            {isValidToken ? <span>Wellcome {`${first_name} ${last_name}`}</span> : <span>Войти</span>}
+                            {isValidToken ? <span>{`${first_name} ${last_name}`}</span> : <span><FormattedMessage id="login.sign_in" defaultMessage="Sign_in" /></span>}
                         </Link>
                     </li>
                     <li><NavLink activeClassName={s.active} exact to="/">
@@ -74,12 +80,12 @@ const Header = ({
                             id="menu.shop"
                             defaultMessage="shop" />
                     </NavLink></li>
-                    <li><NavLink activeClassName={s.active} to="/service">
+                    <li><NavLink activeClassName={s.active} onClick={scrollToTop} to="/service">
                         <FormattedMessage
                             id="menu.service"
                             defaultMessage="service" />
                     </NavLink></li>
-                    <li><NavLink activeClassName={s.active} to="/contacts">
+                    <li><NavLink activeClassName={s.active} onClick={scrollToTop} to="/contacts">
                         <FormattedMessage
                             id="menu.contacts"
                             defaultMessage="contacts" />
@@ -91,6 +97,7 @@ const Header = ({
                     </NavLink></li>
                 </ul>
             </nav>
+            <Breadcrumbs />
         </header>
     )
 }

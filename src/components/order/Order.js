@@ -3,14 +3,16 @@ import s from './Order.module.css'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
-import { isPopupAC,
+import {
+    isPopupAC,
     setModalNameAC,
-    setSubmitNameAC } from '../../redux/user_room_reducer'
+    setSubmitNameAC
+} from '../../redux/user_room_reducer'
 import '../../messages/translate'
 import { preloaderAC, isDisabledAC } from '../../redux/shopping_reducer'
 import Personal from '../personal/Personal'
 import Preloader from '../../common/Preloader'
-import { getTotalCostAC } from '../../redux/cards_reduсer'
+import { getTotalCostAC} from '../../redux/cards_reduсer'
 import { submitOrderThunk } from '../../redux/shopping_reducer'
 
 const OrderForm = ({
@@ -23,6 +25,7 @@ const OrderForm = ({
     isDisabled,
     getTotalCost,
     disabled,
+    scrollToTop,
     submit_name,
     isValidToken,
     isEditButton,
@@ -30,13 +33,18 @@ const OrderForm = ({
 }) => {
 
     useEffect(() => {
-        
+
+        scrollToTop()
+    }, [])
+
+    useEffect(() => {
+
         preloader()
         disabled()
         getTotalCost()
         setSubmitName("login.confirm_order")
 
-    }, [setSubmitName, setModalName, preloader, disabled, getTotalCost])
+    }, [setSubmitName, preloader, disabled, getTotalCost])
 
     const sign_in = () => {
 
@@ -65,13 +73,13 @@ const OrderForm = ({
                     {cards.map(card =>
                         <div key={card.id} className={s.card}>
                             <div className={s.product_image}>
-                                <Link to={`/fullcard/${card.category}/${card.parent_id}/${card.id}`}>
+                                <Link to={`shop/${card.category}/fullcard/${card.parent_id}/${card.id}?category_name=${card.category_name}&product_name=${card.product_name}`}>
                                     <img src={card.full_media.img1} alt={card.product_name} />
                                 </Link>
                             </div>
                             <div className={s.card_inner}>
                                 <div className={s.description}>
-                                    <Link to={`/fullcard/${card.category}/${card.parent_id}/${card.id}`}>
+                                    <Link to={`shop/${card.category}/fullcard/${card.parent_id}/${card.id}?category_name=${card.category_name}&product_name=${card.product_name}`}>
                                         <h3 className={s.card_name}>{card.product_name}</h3>
                                     </Link>
                                     <p className={s.price}>{(+card.price).toLocaleString()} грн.</p>
@@ -84,8 +92,8 @@ const OrderForm = ({
                         </div>
                     )}
                     {cards.length !== 0 && <div className={s.total_price}>
-                        <Link to="/purchases"><span>редактировать</span></Link>
-                        <span>Всего: {total.toLocaleString()} грн.</span>
+                        <Link to="/purchases"><span><FormattedMessage id="order.edit" defaultMessage="редактировать"/></span></Link>
+                        <span><FormattedMessage id="order.total" defaultMessage="Всего"/> : {total.toLocaleString()} грн.</span>
                     </div>}
                 </div>
                 <Link className={s.to_shopping} to='/shop'>
@@ -97,11 +105,19 @@ const OrderForm = ({
                 </Link>
             </div>
             {isValidToken ? null : <div className={s.switch_btn}>
-                <Link onClick={sign_in} to="/login"><button disabled={isDisabled}>Я постоянный клиент</button></Link>
-                <Link onClick={sign_up} to="/login"><button disabled={isDisabled}>Зарегестрироваться</button></Link>
-            </div> }
+                <Link onClick={sign_in} to="/login">
+                    <button disabled={isDisabled}>
+                        <FormattedMessage id="order.regular_customer" defaultMessage="Я постоянный клиент" />
+                    </button>
+                </Link>
+                <Link onClick={sign_up} to="/login">
+                    <button disabled={isDisabled}>
+                        <FormattedMessage id="login.sign_up" defaultMessage="Зарегестрироваться" />
+                    </button>
+                </Link>
+            </div>}
             {isValidToken && cards.length > 0 ? <Personal /> : null}
-            {!isEditButton && isValidToken && cards.length > 0 ?  <button
+            {!isEditButton && isValidToken && cards.length > 0 ? <button
                 onClick={submitOrder}
                 className={s.confirm}
                 type="button"

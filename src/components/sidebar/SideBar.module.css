@@ -1,0 +1,46 @@
+.container {
+	box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.9);
+    width: 100%;
+    padding: 20px;
+    margin-bottom: 14px;
+}
+
+.container li {
+    padding: 2px 0;
+    margin: 10px 0;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.container li:hover {
+    font-weight: 600;
+}
+
+.container li span {
+    font-weight: 600;
+}
+
+.container h2 {
+    margin: 10px 0;
+}
+
+.container h2 span {
+    font-weight: 600;
+}
+
+.container h2 span:first-child {
+    text-transform: capitalize;
+    font-size: 22px;
+}
+
+@media only screen and (max-width: 665px) {
+
+    .container {
+        width: 100%;
+        margin-right: 0px;
+        max-width: 620px;
+        border: 1px solid darkgrey;
+        margin-bottom: 14px;
+    }
+}

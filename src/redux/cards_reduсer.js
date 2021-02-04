@@ -2,7 +2,6 @@
 const ADD_PURCHASE_TO_BASKET = 'ADD_PURCHASE_TO_BASKET'
 const DELETE_ALL_CARDS = 'DELETE_ALL_CARDS'
 const CLEAR_PURCHASE = 'CLEAR_PURCHASE'
-const SET_ALL_CARDS = 'SET_ALL_CARDS'
 const SET_CARDS = 'SET_CARDS'
 const CURRENT_PAGE = 'CURRENT_PAGE'
 const IS_DISABLED = 'IS_DISABLED'
@@ -13,21 +12,39 @@ const CURRENT_CATEGORY = 'CURRENT_CATEGORY'
 const SET_CATEGORIES_LIST = 'SET_CATEGORIES_LIST'
 const IS_LOADING_CARD = 'IS_LOADING_CARD'
 const IS_LOADING = 'IS_LOADING'
-const SCREEN_WIDTH = 'SCREEN_WIDTH'
+const TOTAL_CARDS = 'TOTAL_CARDS'
+const PER_PAGE = 'PER_PAGE'
+const IS_DELETE = 'IS_DELETE'
+const FILTER = 'FILTER'
+const SET_PAGE_CARDS = 'SET_PAGE_CARDS'
+const IS_ONLINE = 'IS_ONLINE'
+const CATEGORY_NAME = 'CATEGORY_NAME'
 
 const initialState = {
-    screenWidth: 0,
     cards: [],
-    all_cards: [],
+    isOnline: true,
     purchase: [],
-    categories: [],
+    filter: 'relevant',
+    categories: [
+        {
+            acf: {
+                category: "",
+                category_name: ""
+            },
+            id: 0
+        }
+    ],
+    page_to_back: false,
     category: '',
-    current_page: 0,
+    category_name: '',
+    current_page: 1,
+    per_page: 2,
+    total_cards: 0,
     isDisabled: false,
     isLoading: false,
+    isDelete: true,
     isLoadingCard: false,
     total_price: 0,
-    page: 0,
     total: 0
 };
 
@@ -44,21 +61,15 @@ const cardsReducer = (state = initialState, action) => {
                         action.purchase
                     ]
                 }
+            } else {
+                return {
+                    ...state
+                }
             }
         case SET_CATEGORIES_LIST:
             return {
                 ...state,
                 categories: action.categories
-            }
-        case SCREEN_WIDTH:
-            return {
-                ...state,
-                screenWidth: action.screenWidth
-            }
-        case SET_ALL_CARDS:
-            return {
-                ...state,
-                all_cards: action.payload
             }
         case SET_CARDS:
             return {
@@ -68,10 +79,25 @@ const cardsReducer = (state = initialState, action) => {
                     action.card
                 ]
             }
+        case IS_ONLINE:
+            return {
+                ...state,
+                isOnline: action.isOnline
+            }
+        case SET_PAGE_CARDS:
+            return {
+                ...state,
+                cards: action.card
+            }
         case IS_LOADING:
             return {
                 ...state,
                 isLoading: action.isLoading
+            }
+        case IS_DELETE:
+            return {
+                ...state,
+                isDelete: action.isDelete
             }
         case IS_LOADING_CARD:
             return {
@@ -81,9 +107,7 @@ const cardsReducer = (state = initialState, action) => {
         case DELETE_ALL_CARDS:
             return {
                 ...state,
-                cards: [],
-                all_cards: [],
-                isLoading: false
+                cards: []
             }
         case CLEAR_PURCHASE:
             return {
@@ -93,12 +117,28 @@ const cardsReducer = (state = initialState, action) => {
         case CURRENT_PAGE:
             return {
                 ...state,
+                page_to_back: state.current_page > action.page  ? true : false,
                 current_page: action.page
+            }
+        case PER_PAGE:
+            return {
+                ...state,
+                per_page: action.per_page
+            }
+        case TOTAL_CARDS:
+            return {
+                ...state,
+                total_cards: action.total_cards
             }
         case CURRENT_CATEGORY:
             return {
                 ...state,
                 category: action.category
+            }
+        case CATEGORY_NAME:
+            return {
+                ...state,
+                category_name: action.category_name
             }
         case IS_DISABLED:
             return {
@@ -132,6 +172,11 @@ const cardsReducer = (state = initialState, action) => {
                     }
                     : card)
             }
+        case FILTER:
+            return {
+                ...state,
+                filter: action.filter
+            }
         case GET_TOTAL_COST:
             return {
                 ...state,
@@ -144,17 +189,20 @@ const cardsReducer = (state = initialState, action) => {
     }
 }
 
-export const screenWidthAC = screenWidth =>
-    ({ type: "SCREEN_WIDTH", screenWidth })
-
 export const addPurchaseToBasketAC = purchase =>
     ({ type: "ADD_PURCHASE_TO_BASKET", purchase })
 
-export const setAllCardsAC = payload =>
-    ({ type: "SET_ALL_CARDS", payload })
-
 export const setCardsAC = card =>
     ({ type: "SET_CARDS", card })
+
+export const isOnlineAC = isOnline =>
+    ({ type: "IS_ONLINE", isOnline })
+
+export const setPageCardsAC = card =>
+    ({ type: "SET_PAGE_CARDS", card })
+
+export const isDeleteAC = isDelete =>
+    ({ type: "IS_DELETE", isDelete })//ability to delete, deleted always but is block when use pagination on Cards.js. Special, when use the browser pagination
 
 export const isLoadingAC = isLoading =>
     ({ type: "IS_LOADING", isLoading })
@@ -180,14 +228,27 @@ export const getTotalCostAC = () =>
 export const setQuentityAC = (id, action) =>
     ({ type: "SET_QUENTITY", id, action })
 
-export const currentPageAC = page =>
-    ({ type: "CURRENT_PAGE", page })
+export const currentPageAC = (page, scroll_up) =>
+    ({ type: "CURRENT_PAGE", page, scroll_up })
+
+export const perPageAC = per_page =>
+    ({ type: "PER_PAGE", per_page })
+
+export const totalCardsAC = total_cards =>
+    ({ type: "TOTAL_CARDS", total_cards })
 
 export const currentCategoryAC = category =>
     ({ type: "CURRENT_CATEGORY", category })
 
+export const categoryNameAC = category_name =>
+    ({ type: "CATEGORY_NAME", category_name })
+
 export const setCategoriesList = categories =>
     ({ type: "SET_CATEGORIES_LIST", categories })
+
+export const setFilterAC = filter =>
+    ({ type: "FILTER", filter })
+
 
 export default cardsReducer
 

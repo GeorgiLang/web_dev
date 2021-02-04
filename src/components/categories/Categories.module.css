@@ -1,17 +1,17 @@
+
 .categories {
-    width: 100%;
-    max-width: 400px;
-    border-radius: 6px;
-    overflow: hidden;
+    width: 32%;
+    margin-right: 14px;;
 }
 
 .categories a {
     color: inherit;
     display: block;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 255, 0.7);
 }
 
 .categories li {
+    min-height: 44px;
     line-height: 44px;
     padding: 0 20px;
     border-bottom: 2px solid transparent;
@@ -19,12 +19,21 @@
 }
 
 .categories a:nth-child(odd) {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
-.categories li:hover,
-.categories li:active {
+.active li {
     border-bottom: 2px solid rgb(255, 165, 0);
     background-color: rgba(255, 255, 255, 1);
     color: rgb(255, 165, 0);
+}
+
+@media only screen and (max-width: 768px) {
+
+    .categories {
+        width: 100%;
+        margin-right: 0px;
+        max-width: 620px;
+        margin: 0 auto 14px;
+    }
 }

@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { getTotalCostAC } from '../../redux/cards_reduсer'
 import { clearPurchasesThunk, setQuentityThunk, setPurchaseToUserData } from '../../redux/cards_functions'
 import { Redirect, Link } from 'react-router-dom'
+import { FormattedMessage } from 'react-intl'
 
 const Card = ({
     card_name,
@@ -11,7 +12,8 @@ const Card = ({
     setBasket,
     id,
     media,
-    onClick,
+    category_name,
+    setQuentity,
     parent_id,
     price,
     quentity }) => {
@@ -19,13 +21,13 @@ const Card = ({
     return (
         <div className={s.basket_item}>
             <div className={s.product_image}>
-                <Link to={`/fullcard/${category}/${parent_id}/${id}`}>
+                <Link to={`shop/${category}/fullcard/${parent_id}/${id}?category_name=${category_name}&product_name=${card_name}`}>
                     <img src={media} alt={card_name} />
                 </Link>
             </div>
             <div className={s.basket_item_box}>
                 <div className={s.product_about}>
-                    <Link to={`/fullcard/${category}/${parent_id}/${id}`}>
+                    <Link to={`shop/${category}/fullcard/${parent_id}/${id}?category_name=${category_name}&product_name=${card_name}`}>
                         <h3>{card_name}</h3>
                     </Link>
                     <div className={s.product_price_box}>
@@ -41,9 +43,9 @@ const Card = ({
                         <span> грн</span>
                     </div>
                     <div className={s.counter_box}>
-                        <span onClick={() => { onClick(id, false) }} className={s.counter_minus}>-</span>
+                        <span onClick={() => { setQuentity(id, false) }} className={s.counter_minus}>-</span>
                         <span className={s.amount}>{quentity ? quentity : 1}</span>
-                        <span onClick={() => { onClick(id, true) }} className={s.counter_plus}>+</span>
+                        <span onClick={() => { setQuentity(id, true) }} className={s.counter_plus}>+</span>
                     </div>
                 </div>
                 <div onClick={() => setBasket(id)} className={s.delete_btn}>
@@ -61,11 +63,12 @@ export const Purchases = ({
     total_price,
     getTotalCost,
     setBasket,
-    onClick,
+    setQuentity,
+    scrollToTop,
     setPurchaseToUserData }) => {
-
+       
     const _cards = cards.map(card =>
-
+        
         <Card
             key={card.id}
             id={card.id}
@@ -74,9 +77,10 @@ export const Purchases = ({
             price={+(card.price)}
             media={card.full_media.img1}
             quentity={card.quentity}
-            onClick={onClick}
+            setQuentity={setQuentity}
             setBasket={setBasket}
             category={card.category}
+            category_name={card.category_name}
         />
     )
 
@@ -84,11 +88,16 @@ export const Purchases = ({
 
         getTotalCost()
         return () => {
-            
+
             setPurchaseToUserData()
         }
 
-    }, [getTotalCost])
+    }, [getTotalCost, setPurchaseToUserData])
+
+    useEffect(() => {
+
+        scrollToTop()
+    }, [])
 
     return (
         cards.length === 0
@@ -97,9 +106,17 @@ export const Purchases = ({
             <div className={s.purchases}>
                 {_cards}
                 <div className={s.action_block}>
-                    <Link to="/order"><button className={s.order_button}>Оформить</button></Link>
-                    <Link to='/shop'><button className={s.purchases_button}>Продолжить покупки</button></Link>
-                    <p className={s.total_price}>Всего: <span>
+                    <Link to="/order"><button className={s.order_button}>
+                        <FormattedMessage
+                            id="order.check_in"
+                            defaultMessage="Оформити замовлення" /></button>
+                    </Link>
+                    <Link to='/shop'><button className={s.purchases_button}>
+                        <FormattedMessage
+                            id="order.submit"
+                            defaultMessage="Продолжить покупки" /></button>
+                    </Link>
+                    <p className={s.total_price}><FormattedMessage id="order.total" defaultMessage="Всего"/> : <span>
                         {total_price && cards.length !== 0
                             ? total_price.toLocaleString()
                             : '----'} грн</span>
@@ -114,14 +131,15 @@ const mapStateToProps = state => {
     return {
         cards: state.cards.purchase,
         total_price: state.cards.total_price,
-        category: state.cards.category
+        category: state.cards.category,
+        category_name: state.cards.category_name
     }
 }
 
 const mapDispatchToProps = dispatch => {
 
     return {
-        onClick: (id, action) => dispatch(setQuentityThunk(id, action)),
+        setQuentity: (id, action) => dispatch(setQuentityThunk(id, action)),
         setBasket: id => {
             dispatch(clearPurchasesThunk(id))
             dispatch(getTotalCostAC())

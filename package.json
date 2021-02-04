@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "web-dev",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -10,10 +10,12 @@
     "axios": "^0.21.0",
     "connected-react-router": "^6.8.0",
     "history": "^5.0.0",
-    "query-string": "^6.13.7",
+    "query-string": "^6.13.8",
     "react": "^17.0.1",
     "react-app-polyfill": "^1.0.6",
     "react-custom-scrollbars": "^4.2.1",
+    "react-custom-scrollbars-2": "^4.2.4",
+    "react-detect-offline": "^2.4.1",
     "react-dom": "^17.0.1",
     "react-form-validators": "^1.1.1",
     "react-infinite-scroll-component": "^5.1.0",
@@ -24,12 +26,15 @@
     "react-script": "^2.0.5",
     "react-scripts": "^4.0.1",
     "react-scroll": "^1.8.1",
+    "react-select": "^3.2.0",
     "react-transition-group": "^4.4.1",
     "redux": "^4.0.5",
     "redux-form": "^8.3.7",
     "redux-form-validators": "^3.3.2",
     "redux-thunk": "^2.3.0",
-    "swiper": "^6.4.5"
+    "smoothscroll-polyfill": "^0.4.4",
+    "swiper": "^6.4.5",
+    "use-query-params": "^1.1.9"
   },
   "scripts": {
     "start": "react-scripts start",
