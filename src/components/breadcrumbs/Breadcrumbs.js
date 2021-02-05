@@ -16,10 +16,8 @@ const Breadcrumbs = () => {
     let fullcard = path[3]
 
     const searchParam = new URLSearchParams(location.search)
-    const search_name = searchParam.get('search_name')
     const _product_name = searchParam.get('product_name')
     const isPproduct_name = searchParam.has('product_name')
-    const isSearch_name = searchParam.has('search_name')
 
     const category_name = useSelector(state => state.cards.category_name)
     const product_name = useSelector(state => state.full_card.full_card.product_name)
@@ -43,7 +41,7 @@ const Breadcrumbs = () => {
         section === 'shop' ? <div className={s.container}>
             <div className={s.breadcrumbs}>
                 <Link onClick={e => {
-                     
+
                     if (isLoadingFullCard) {
 
                         e.preventDefault()
@@ -59,12 +57,12 @@ const Breadcrumbs = () => {
                     }
                     dispatch(categoryNameAC(''))
                 }} to='/shop'><i className={s.arrow}></i>Магазин </Link>
-                {category_name ? <Link onClick={handleClick} 
+                {category_name ? <Link onClick={handleClick}
                     to={`/shop/${category}?filter=relevant&category_name=${category_name}&product_name=${product_name}`}>
-                        <i className={s.arrow}></i>{category_name}</Link> : null}
+                    <i className={s.arrow}></i>{category_name}</Link> : null}
                 {fullcard && isPproduct_name && !look_for ? <Link to='/'><i className={s.arrow}></i>{_product_name}</Link> : null}
-                {look_for ? <Link 
-                to={`/shop/${category}?filter=relevant&category_name=${category_name}&product_name=${product_name}`}><i className={s.arrow}></i>{look_for}</Link> : null}
+                {look_for ? <Link
+                    to={`/shop/${category}?filter=relevant&category_name=${category_name}&product_name=${product_name}`}><i className={s.arrow}></i>{look_for}</Link> : null}
                 {fullcard && look_for ? <Link to='/'><i className={s.arrow}></i>{_product_name}</Link> : null}
             </div>
         </div> : null
