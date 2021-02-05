@@ -36,7 +36,7 @@ const Categories = () => {
                 {categories.map(category =>
                     <NavLink activeClassName={s.active} 
                         onClick={() => handleClick(category.acf.category, category.acf.category_name)} 
-                        to={`/shop/${category.acf.category}?filter=relevant&category_name=${category.acf.category_name}`} 
+                        to={`/shop/${category.acf.category}?filter=relevant`} 
                         key={category.id}>
                         <li >{category.acf.category_name}</li>
                     </NavLink>

@@ -189,6 +189,7 @@ export const searchExactThunk = (category, value) => (dispatch, getState) => {
         dispatch(temporaryStorageAC(res.data))
         let cards = sortingCards(res.data, per_page)
         dispatch(nextCardThunk(1, cards))
+        dispatch(lookForAC(value))
     })
 }
 

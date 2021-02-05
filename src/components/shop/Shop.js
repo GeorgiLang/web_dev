@@ -105,7 +105,7 @@ const Shop = ({ container, scrollToTop }) => {
 
         history.push({
             pathname: `/shop/${_category}`,
-            search: `?page=1&filter=${value}&category=${_category}&category_name=${category_name}${_search_name ? `&search_name=${_search_name}` : ''}`
+            search: `?page=1&filter=${value}&category_name=${category_name}${_search_name ? `&search_name=${_search_name}` : ''}`
         })
     }
     const setPage = (page, pageName, top_pagination) => {

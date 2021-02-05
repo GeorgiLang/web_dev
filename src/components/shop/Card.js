@@ -22,10 +22,16 @@ const ImageCard = ({ card, category_name }) => {
             mainImage.onload = () => { return }
         }
     }, [])
+
+    const handleClick = e => {
+
+        if (!card.acf.in_stock) e.preventDefault()
+    }
+
     return (
         <div className={s.product_img}>
-            <Link onClick={e => card.acf.in_stock ? null : e.preventDefault()}
-                to={`/shop/${card.type}/fullcard/${card.id}/${card.child_id}?filter=relevant&category_name=${category_name}&product_name=${card.acf.product_name}`}>
+            <Link onClick={e => handleClick(e)}
+                to={`/shop/${card.type}/fullcard/${card.id}/${card.child_id}?filter=relevant&category_name=${category_name}&product_name=${card.acf.product_name}`} >
                 <img style={{ opacity: `${isImage ? '1' : '0'}` }} src={card.acf.media}
                     alt={card.acf.product_name} />
             </Link>
