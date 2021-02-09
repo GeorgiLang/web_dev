@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import s from './Login.module.css'
 import { connect } from 'react-redux'
 import { formThunk, setModalNameAC, isCheckedAC, setSubmitNameAC } from '../../redux/user_room_reducer'
 import { FormattedMessage } from 'react-intl'
-import { Redirect } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import Preloader from '../../common/Preloader'
 import { reduxForm } from 'redux-form'
 import '../../messages/translate'
@@ -23,6 +23,8 @@ const Login = ({
     setChecked,
     isChecked }) => {
 
+    let history = useHistory()
+
     const handleClick = () => {
 
         if (modal_name === "login") {
@@ -37,10 +39,17 @@ const Login = ({
     }
     let submitName = "login.sign_in"
 
+    useEffect(() => {
+
+        if (isValidToken) {
+            history.goBack()
+        }
+    }, [isValidToken])
+
     submitName = submit_name
 
     return (
-        isValidToken && modal_name !== "edit_user_data" ? <Redirect to="/userroom" /> : <div className={s.container}>
+        <div className={s.container}>
             <div className={s.wrapper_form}>
                 <form className={s.form} onSubmit={handleSubmit(onsubmit)}>
                     {modal_name === "register" ? <InputFirstName isLabel={true} style={s.input_wrap} /> : null}

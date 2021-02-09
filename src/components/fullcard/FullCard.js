@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import s from './FullCard.module.css'
 import ProductDescription from '../shop/ProductDescription'
 import SwiperCore, { Navigation, Thumbs, Zoom } from 'swiper'
@@ -117,13 +117,20 @@ const FullCard = ({
             setImage(true)
         }
     }
+
+    useEffect(() => {
+
+        return () => {
+            mainImage.onload = () => { return }
+        }
+    }, [])
+
     const slides = images.map((slide, i) =>
 
         <SwiperSlide key={i}>
             <div className="swiper-zoom-container">
                 <img src={slide.original}
-                    alt={slide.originalAlt}
-                    width='100%' />
+                    alt={slide.originalAlt} />
             </div>
         </SwiperSlide>
     )

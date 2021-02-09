@@ -2,6 +2,7 @@ import React from 'react'
 import s from './Personal.module.css'
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
+import { Link, useLocation } from 'react-router-dom'
 import { editButtonAC, editFormThunk, editDisabledAC } from '../../redux/user_room_reducer'
 import InputFirstName from '../form/InputFirstName'
 import InputLastName from '../form/InputLastName'
@@ -19,15 +20,24 @@ const Personal = ({
     isEditButton,
     editButton }) => {
 
+    const location = useLocation()
+    let path = location.pathname.split('/')
+
     return (
         <form className={s.form} onSubmit={handleSubmit(editForm)}>
-            <div className={s.edit}
-                onClick={() => { editButton(!isEditButton) }}>
+            <div className={s.edit}>
                 {!isEditButton
-                    ? <svg className={s.edit_icon} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                        <path d="M402.6 83.2l90.2 90.2c3.8 3.8 3.8 10 0 13.8L274.4 405.6l-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8L388.8 83.2c3.8-3.8 10-3.8 13.8 0zm162-22.9l-48.8-48.8c-15.2-15.2-39.9-15.2-55.2 0l-35.4 35.4c-3.8 3.8-3.8 10 0 13.8l90.2 90.2c3.8 3.8 10 3.8 13.8 0l35.4-35.4c15.2-15.3 15.2-40 0-55.2zM384 346.2V448H64V128h229.8c3.2 0 6.2-1.3 8.5-3.5l40-40c7.6-7.6 2.2-20.5-8.5-20.5H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V306.2c0-10.7-12.9-16-20.5-8.5l-40 40c-2.2 2.3-3.5 5.3-3.5 8.5z" />
-                    </svg>
-                    : <svg className={s.delete_icon} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512">
+                    ? <div className={s.back_edit_butns}>
+                        {path[1] !== "order" ? <Link to="/userroom" className={s.back_icon}>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                <path d="M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z"/>
+                            </svg>
+                        </Link> : null}
+                        <svg onClick={() => { editButton(!isEditButton) }} className={s.edit_icon} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                            <path d="M402.6 83.2l90.2 90.2c3.8 3.8 3.8 10 0 13.8L274.4 405.6l-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8L388.8 83.2c3.8-3.8 10-3.8 13.8 0zm162-22.9l-48.8-48.8c-15.2-15.2-39.9-15.2-55.2 0l-35.4 35.4c-3.8 3.8-3.8 10 0 13.8l90.2 90.2c3.8 3.8 10 3.8 13.8 0l35.4-35.4c15.2-15.3 15.2-40 0-55.2zM384 346.2V448H64V128h229.8c3.2 0 6.2-1.3 8.5-3.5l40-40c7.6-7.6 2.2-20.5-8.5-20.5H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V306.2c0-10.7-12.9-16-20.5-8.5l-40 40c-2.2 2.3-3.5 5.3-3.5 8.5z" />
+                        </svg>
+                    </div>
+                    : <svg onClick={() => { editButton(!isEditButton) }} className={s.delete_icon} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512">
                         <path d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" />
                     </svg>}
             </div>

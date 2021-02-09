@@ -19,51 +19,43 @@ import {
     totalCardsAC,
     isDeleteAC,
     setFilterAC,
-    isOnlineAC,
-    categoryNameAC
+    isOnlineAC
 } from './cards_reduсer'
 import { setFullCardAC, isLoadingFullCardAC } from './fullCard_reducer'
 import { baseStorageAC } from './storage_reducer'
 import { getLocalStorageValue } from './user_room_reducer'
 
-let filtered = ''
 
 export const sortingCards = (data, per_page, filter = "relevant") => {
 
-    
-    if (filtered !== filter) {
+    data.sort((a, b) => {
 
-        data.sort((a, b) => {
+        if (filter === 'priceUp') {
 
-            if (filter === 'priceUp') {
+            return Number(b.acf.price) - Number(a.acf.price)
+        } else if (filter === 'priceDown') {
 
-                return Number(b.acf.price) - Number(a.acf.price)
-            } else if (filter === 'priceDown') {
+            return Number(a.acf.price) - Number(b.acf.price)
+        } else if (filter === 'A-Z') {
 
-                return Number(a.acf.price) - Number(b.acf.price)
-            } else if (filter === 'A-Z') {
-
-                if (a.acf.product_name.split(' ')[1].toLowerCase() > b.acf.product_name.split(' ')[1].toLowerCase()) {
-                    return -1
-                } else {
-                    return 1
-                }
-            } else if (filter === 'Z-A') {
-
-                if (a.acf.product_name.split(' ')[1].toLowerCase() > b.acf.product_name.split(' ')[1].toLowerCase()) {
-                    return 1
-                } else {
-                    return -1
-                }
-            }else if (filter === 'relevant') {
-
-                return b.id - a.id
+            if (a.acf.product_name.split(' ')[1].toLowerCase() > b.acf.product_name.split(' ')[1].toLowerCase()) {
+                return -1
+            } else {
+                return 1
             }
-            return 0
-        })
-    }
+        } else if (filter === 'Z-A') {
 
-    filtered = filter
+            if (a.acf.product_name.split(' ')[1].toLowerCase() > b.acf.product_name.split(' ')[1].toLowerCase()) {
+                return 1
+            } else {
+                return -1
+            }
+        }else if (filter === 'relevant') {
+
+            return b.id - a.id
+        }
+        return 0
+    })
 
     let cards = []
 
@@ -109,19 +101,19 @@ export const setCardsThunk = (category, page = 1, filter = "relevant") => (dispa
     if (temporary_storage.length !== 0) { //record from the storage
  
                 let sorted_cards = sortingCards(temporary_storage, per_page, filter)
-               
+                temporary_storage.filter = filter
                 dispatch(isLoadingAC(false))
                 dispatch(nextCardThunk(page, sorted_cards))
                 dispatch(totalCardsAC(temporary_storage.length))
 
     } else if (cards.length !== 0 && cards.find(card => card.category === category)) { //record from the storage
-        
+
         cards.forEach(cat => {
 
             if (cat.category === category) {
  
                 let sorted_cards = sortingCards(cat.cards, per_page, filter)
-
+                cat.filter = filter
                 dispatch(isLoadingAC(false))
                 dispatch(nextCardThunk(page, sorted_cards))
                 dispatch(totalCardsAC(cat.total_cards))

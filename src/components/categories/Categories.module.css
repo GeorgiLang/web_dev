@@ -1,16 +1,26 @@
 
 .categories {
+    min-height: 138px;
+    position: relative;
     width: 32%;
-    margin-right: 14px;;
+    margin-right: 14px;
+}
+
+.preloader_categories {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    min-height: 138px;
+}
+
+.categories ul {
+    width: 100%;
 }
 
 .categories a {
     color: inherit;
     display: block;
     background-color: rgba(255, 255, 255, 0.7);
-}
-
-.categories li {
     min-height: 44px;
     line-height: 44px;
     padding: 0 20px;
@@ -18,11 +28,11 @@
     cursor: pointer;
 }
 
-.categories a:nth-child(odd) {
+.categories li:nth-child(odd) a {
     background-color: rgba(255, 255, 255, 0.5);
 }
 
-.active li {
+.categories ul li .active {
     border-bottom: 2px solid rgb(255, 165, 0);
     background-color: rgba(255, 255, 255, 1);
     color: rgb(255, 165, 0);

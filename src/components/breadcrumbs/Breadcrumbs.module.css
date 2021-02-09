@@ -30,6 +30,10 @@
     color: black;
 }
 
+.breadcrumbs a svg {
+    margin-right: 4px;
+}
+
 .breadcrumbs a:first-child {
     pointer-events: auto;
     cursor: pointer;
@@ -37,6 +41,10 @@
 
 .breadcrumbs a:hover {
     color: rgb(255, 255, 255);
+}
+
+.breadcrumbs a:hover svg {
+    fill: rgb(255, 255, 255);
 }
 
 .arrow {

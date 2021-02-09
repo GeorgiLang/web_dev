@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import './index.css'
 import Header from './components/header/Header'
 import { useDispatch, useSelector } from 'react-redux'
-import { Route, Switch, useLocation } from 'react-router-dom'
+import { Route, Switch, useLocation, useHistory } from 'react-router-dom'
 import Shop from './components/shop/Shop'
 import FullCardContainer from './components/fullcard/FullCardContainer'
 import Purchases from './components/purchases/Purchases'
@@ -10,7 +10,7 @@ import LinePreloader from './common/LinePreloader'
 import { IntlProvider } from 'react-intl'
 import logoReact from './img/logo512.png'
 import logoWP from './img/WP-logotype.png'
-import { tokenListenerThunk, isPopupAC } from './redux/user_room_reducer'
+import { tokenListenerThunk, isPopupAC, pushPathesAC } from './redux/user_room_reducer'
 import Login from './components/login/Login'
 import PopupMessage from './components/popup_message/PopupMessage'
 import UserRoom from './components/userroom/UserRoom'
@@ -54,8 +54,10 @@ const App = () => {
     const current_page = useSelector(state => state.cards.current_page)
     const isDelete = useSelector(state => state.cards.isDelete)
 
+    let history = useHistory()
     let location = useLocation()
     let path = location.pathname.split('/')
+
     const dispatch = useDispatch()
     const container = useRef(null)
     const [isVisible, setIsVisible] = useState(false)
@@ -84,8 +86,13 @@ const App = () => {
 
     useEffect(() => {
         
-        dispatch(tokenListenerThunk(path))
+        dispatch(tokenListenerThunk(path, history))
     }, [])
+
+    useEffect(() => {
+        
+        dispatch(pushPathesAC(location.pathname))
+    },[path[1]])
 
     return (
         <IntlProvider locale={locale} messages={messages[locale]} defaultLocale="en">  

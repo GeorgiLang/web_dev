@@ -41,6 +41,10 @@
     margin-top: 30px;
 }
 
+.back_edit_butns {
+    display: flex;
+}
+
 .edit {
     position: absolute;
     top: 20px;
@@ -48,9 +52,19 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    min-width: 26px;
+    min-height: 26px;
+    cursor: pointer;
+}
+
+.back_icon {
+    margin-right: 30px;
+}
+
+.back_icon svg {
     width: 26px;
     height: 26px;
-    cursor: pointer;
+    fill: rgb(112, 112, 190);
 }
 
 .edit_icon {

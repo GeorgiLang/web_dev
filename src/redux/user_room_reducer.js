@@ -16,6 +16,7 @@ const SUBMIT_NAME = 'SUBMIT_NAME'
 const EDIT_BUTTON = 'EDIT_BUTTON'
 const EDIT_DISABLED = 'EDIT_DISABLED'
 const IS_CHECKED = 'IS_CHECKED'
+const PUSH_PATHES = 'PUSH_PATHES'
 
 let initialState = {
     isValidToken: false,
@@ -28,6 +29,7 @@ let initialState = {
     isPopup: false,
     submit_name: 'login.sign_in',
     liked: '',
+    path: [],
     userData: {
         first_name: '',
         last_name: '',
@@ -105,6 +107,14 @@ const userRoomReducer = (state = initialState, action) => {
                 ...state,
                 editDisabled: action.editDisabled
             }
+        case PUSH_PATHES:
+            return {
+                ...state,
+                path: [
+                    ...state.path,
+                    action.path
+                ]
+            }
         case CLEAN_USER_DATA:
             return {
                 ...state,
@@ -158,6 +168,9 @@ export const editButtonAC = editButton =>
 export const editDisabledAC = editDisabled =>
     ({ type: 'EDIT_DISABLED', editDisabled })
 
+export const pushPathesAC = path =>
+    ({ type: 'PUSH_PATHES', path })
+
 
 const cleanAndReport = message => dispatch => {
 
@@ -171,11 +184,6 @@ const cleanAndReport = message => dispatch => {
 export const getLocalStorageValue = value => {
 
     return localStorage.getItem(value) ? localStorage.getItem(value) : sessionStorage.getItem(value)
-}
-
-const clearStorage = () => {
-    localStorage.clear()
-    sessionStorage.clear()
 }
 
 const setUserDataFromStorage = () => dispatch => {
@@ -202,15 +210,16 @@ export const isValidTokenThunk = () => dispatch => {
 
                 dispatch(isValidTokenAC(true))
                 dispatch(setUserDataFromStorage())
+                dispatch(setPurchaseToBasketFromStorage())
             } else {
 
                 dispatch(isValidTokenAC(false))
-                clearStorage()
+                localStorage.clear()
             }
         }).catch(() => {
 
             dispatch(isValidTokenAC(false))
-            clearStorage()
+            localStorage.clear()
         })
     }
 }
@@ -230,10 +239,9 @@ const setPurchaseToBasketFromStorage = () => dispatch => {
 
 export const tokenListenerThunk = path => dispatch => {
 
-    dispatch(setPurchaseToBasketFromStorage())
-
     if (path[3] === 'token') {
 
+        dispatch(setPurchaseToBasketFromStorage())
         dispatch(linePreloaderAC(true))
 
         let token = path[2]
@@ -254,8 +262,19 @@ export const tokenListenerThunk = path => dispatch => {
         api.userData(user_ID, token, data).then((res) => {
 
             dispatch(userData(user_ID, token, res.data, false))
-            dispatch(isValidTokenThunk(true))
+
+            if (res.data.purchases) {
+
+                let purchases = JSON.parse(res.data.purchases)
+
+                for (let i = 0; i < purchases.length; i++) {
+
+                    dispatch(setCardInBasketThunk(purchases[i].parent_id, purchases[i].category, false, purchases[i].id))
+                }
+            }
+            dispatch(isValidTokenThunk())
             dispatch(linePreloaderAC(false))
+
         }).catch(() => {
 
             dispatch(isPopupAC(true))
@@ -263,13 +282,11 @@ export const tokenListenerThunk = path => dispatch => {
         })
     } else {
 
-        dispatch(isValidTokenThunk(false))
+        dispatch(isValidTokenThunk())
     }
 }
 
 const userData = (user_ID, token, data, isChecked) => dispatch => {
-
-    clearStorage()
 
     let userData = {
         first_name: data.first_name,
@@ -299,7 +316,7 @@ const userData = (user_ID, token, data, isChecked) => dispatch => {
     }
 }
 
-export const formThunk = values => (dispatch, getState) => {
+export const formThunk = values=> (dispatch, getState) => {
 
     dispatch(preloaderAC(true))
     dispatch(isDisabledAC(true))
@@ -333,8 +350,33 @@ export const formThunk = values => (dispatch, getState) => {
 
                     verify.append('first_name', first_name)
                     verify.append('email', email)
-                    verify.append('token', res.data.token)
-                    verify.append('user_id', response.data.id)
+                    verify.append('pathname', `/userroom/${res.data.token}/token/${first_name}/${email}/${response.data.id}`)
+
+
+                    let purchase = getLocalStorageValue('purchase')
+
+                    if (purchase) {
+
+                        let _purchase = JSON.parse(purchase)
+
+                        let purchase_list = []
+            
+                        for (let i = 0; i < _purchase.length; i++) {
+            
+                            let arr = {
+                                category: _purchase[i].category,
+                                id: _purchase[i].id,
+                                parent_id: _purchase[i].parent_id
+                            }
+                            purchase_list.push(arr)
+                        }
+            
+                        let purchases = JSON.stringify(purchase_list)
+            
+                        api.userData(response.data.id, res.data.token, { "purchases": `${purchases}` }, false).then((res) => {
+                            
+                        })
+                    }
 
                     api.verifyEmail(verify).then(() => {
 
@@ -416,7 +458,8 @@ export const exitThunk = () => dispatch => {
     dispatch(clearPurchasesThunk())
     dispatch(setModalNameAC('login'))
     dispatch(setSubmitNameAC('login.sign_in'))
-    clearStorage()
+    localStorage.clear()
+    sessionStorage.clear()
 }
 
 export const editFormThunk = values => (dispatch, getState) => {

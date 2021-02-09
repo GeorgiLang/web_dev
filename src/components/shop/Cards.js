@@ -20,14 +20,12 @@ const Cards = ({
     const searchParam = new URLSearchParams(location.search)
     const _filter = searchParam.get('filter')
     const search_exact = searchParam.get('exact')
-    const _category_name = searchParam.get('category_name')
     const _current_page = Number(searchParam.get('page')) ? Number(searchParam.get('page')) : 1
 
     useEffect(() => {
 
         if (!search_exact) {
 
-            dispatch(categoryNameAC(_category_name))
             dispatch(setCardsThunk(category, _current_page, _filter))
         }
     }, [_filter, _current_page, category])

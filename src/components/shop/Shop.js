@@ -50,7 +50,6 @@ const Shop = ({ container, scrollToTop }) => {
     const search_exact = searchParam.get('exact')
     const _filter = searchParam.get('filter')
 
-
     useEffect(() => {
 
         if (search_name) {
@@ -97,7 +96,7 @@ const Shop = ({ container, scrollToTop }) => {
                 dispatch(categoryNameAC(categories[i].acf.category_name)) 
             }
         }
-    }, [_category])
+    }, [categories])
 
     let total_pages = Math.ceil(total_cards / per_page)
 
@@ -169,7 +168,7 @@ const Shop = ({ container, scrollToTop }) => {
     }
     return (
         !match ? <div className={s.cards_container}>
-            <SideBar className={s.sidebar} />
+            <SideBar scrollToTop={scrollToTop} className={s.sidebar} />
             {!isSearch ? <div className={s.cards}>
                 {cards.length !== 0 && _category || (search_category && search_exact) ? <Select /> : null}
                 {cards.length !== 0 && (_category || (search_category && search_exact)) ? <Pagination top_pagination={true} /> : null}

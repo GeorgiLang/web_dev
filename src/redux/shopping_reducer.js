@@ -131,8 +131,6 @@ const setPurchasedToUserData = purchase => {
             purchase_list.push(json_purchased[i])
         }
         
-        
-
         let purchased = JSON.stringify(purchase_list)
 
         api.userData(user_ID, token, {"purchased": `${purchased}`}, false).then((res) => {

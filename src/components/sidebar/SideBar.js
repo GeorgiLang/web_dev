@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom'
 import Categories from '../categories/Categories'
 import { categoryNameAC } from '../../redux/cards_reduсer'
 
-const SideBar = () => {
+const SideBar = ({scrollToTop}) => {
 
     const searched_storage = useSelector(state => state.storage.searched_storage)
     const search_goods = useSelector(state => state.cards.category)
@@ -45,7 +45,7 @@ const SideBar = () => {
                     {list}
                 </ul>
             </div></div>
-            : <Categories />
+            : <Categories scrollToTop={scrollToTop}/>
     )
 }
 
