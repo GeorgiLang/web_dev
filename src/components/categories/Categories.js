@@ -9,7 +9,7 @@ import { lookForAC } from '../../redux/search_reducer'
 import Sceleton from '../../common/Sceleton'
 
 
-const Categories = ({scrollToTop}) => {
+const Categories = ({ scrollToTop }) => {
 
     const dispatch = useDispatch()
     const categories = useSelector(state => state.cards.categories)
@@ -40,22 +40,22 @@ const Categories = ({scrollToTop}) => {
             }
         })
 
-        history.push({
-
-            pathname: `/shop/${category}`,
-            search: `?filter=${filter}`
-        })
-
         if (current_category !== category) {
             dispatch(deleteAllCardsThunk())
         }
-        
+
         if (temporary_storage.length !== 0) {
 
             dispatch((temporaryStorageAC([])))
             dispatch(isDeleteAC(true))
             dispatch(setCardsThunk(category, 1))
         }
+
+        history.push({
+
+            pathname: `/shop/${category}`,
+            search: `?filter=${filter}`
+        })
     }
 
     return (
@@ -64,8 +64,8 @@ const Categories = ({scrollToTop}) => {
                 <ul>
                     {categories.map(category =>
                         <li key={category.id} >
-                            <NavLink to={`/shop/${category.acf.category}?filter=${filter}`} 
-                                onClick={e => handleClick(e, category.acf.category, category.acf.category_name)} 
+                            <NavLink to={`/shop/${category.acf.category}?filter=${filter}`}
+                                onClick={e => handleClick(e, category.acf.category, category.acf.category_name)}
                                 activeClassName={s.active}>
                                 {category.acf.category_name}
                             </NavLink>

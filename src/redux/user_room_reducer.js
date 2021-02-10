@@ -189,8 +189,22 @@ export const getLocalStorageValue = value => {
 const setUserDataFromStorage = () => dispatch => {
 
     let userData = localStorage.getItem('userData') ? localStorage.getItem('userData') : sessionStorage.getItem('userData')
+    
     let user_data = JSON.parse(userData)
     dispatch(userDataAC(user_data))
+}
+
+const setPurchaseToBasketFromStorage = () => dispatch => {
+
+    let purchases = JSON.parse(sessionStorage.getItem('purchase'))
+
+    if (purchases) {
+
+        for (let i = 0; i < purchases.length; i++) {
+
+            dispatch(addPurchaseToBasketThunk(purchases[i]))
+        }
+    }
 }
 
 export const isValidTokenThunk = () => dispatch => {
@@ -224,20 +238,32 @@ export const isValidTokenThunk = () => dispatch => {
     }
 }
 
-const setPurchaseToBasketFromStorage = () => dispatch => {
-
-    let purchases = JSON.parse(sessionStorage.getItem('purchase'))
-
-    if (purchases) {
-
-        for (let i = 0; i < purchases.length; i++) {
-
-            dispatch(addPurchaseToBasketThunk(purchases[i]))
-        }
-    }
-}
-
 export const tokenListenerThunk = path => dispatch => {
+
+    const userdata = (user_ID, token, data) => {
+
+        api.userData(user_ID, token, data).then((res) => {
+
+            dispatch(userData(user_ID, token, res.data, false))
+
+            if (res.data.purchases) {
+
+                let purchases = JSON.parse(res.data.purchases)
+
+                for (let i = 0; i < purchases.length; i++) {
+
+                    dispatch(setCardInBasketThunk(purchases[i].parent_id, purchases[i].category, false, purchases[i].id))
+                }
+            }
+            dispatch(isValidTokenThunk())
+            dispatch(linePreloaderAC(false))
+
+        }).catch(() => {
+
+            dispatch(cleanAndReport("login.error"))
+            dispatch(linePreloaderAC(false))
+        })
+    }
 
     if (path[3] === 'token') {
 
@@ -259,30 +285,17 @@ export const tokenListenerThunk = path => dispatch => {
             "first_name": username
         }
 
-        api.userData(user_ID, token, data).then((res) => {
+        userdata(user_ID, token, data)
 
-            dispatch(userData(user_ID, token, res.data, false))
-
-            if (res.data.purchases) {
-
-                let purchases = JSON.parse(res.data.purchases)
-
-                for (let i = 0; i < purchases.length; i++) {
-
-                    dispatch(setCardInBasketThunk(purchases[i].parent_id, purchases[i].category, false, purchases[i].id))
-                }
-            }
-            dispatch(isValidTokenThunk())
-            dispatch(linePreloaderAC(false))
-
-        }).catch(() => {
-
-            dispatch(isPopupAC(true))
-            dispatch(linePreloaderAC(false))
-        })
     } else {
 
-        dispatch(isValidTokenThunk())
+        let user_ID = getLocalStorageValue('user_ID')
+        let token = getLocalStorageValue('token')
+
+        if (user_ID && token) {
+
+            userdata(user_ID, token)
+        }
     }
 }
 
@@ -316,7 +329,7 @@ const userData = (user_ID, token, data, isChecked) => dispatch => {
     }
 }
 
-export const formThunk = values=> (dispatch, getState) => {
+export const formThunk = values => (dispatch, getState) => {
 
     dispatch(preloaderAC(true))
     dispatch(isDisabledAC(true))
@@ -360,9 +373,9 @@ export const formThunk = values=> (dispatch, getState) => {
                         let _purchase = JSON.parse(purchase)
 
                         let purchase_list = []
-            
+
                         for (let i = 0; i < _purchase.length; i++) {
-            
+
                             let arr = {
                                 category: _purchase[i].category,
                                 id: _purchase[i].id,
@@ -370,11 +383,11 @@ export const formThunk = values=> (dispatch, getState) => {
                             }
                             purchase_list.push(arr)
                         }
-            
+
                         let purchases = JSON.stringify(purchase_list)
-            
+
                         api.userData(response.data.id, res.data.token, { "purchases": `${purchases}` }, false).then((res) => {
-                            
+
                         })
                     }
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import s from './Login.module.css'
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { formThunk, setModalNameAC, isCheckedAC, setSubmitNameAC } from '../../redux/user_room_reducer'
 import { FormattedMessage } from 'react-intl'
 import { useHistory } from 'react-router-dom'
@@ -11,30 +11,27 @@ import InputFirstName from '../form/InputFirstName'
 import InputEmail from '../form/InputEmail'
 import InputPassword from '../form/InputPassword'
 
-const Login = ({
-    onsubmit,
-    modal_name,
-    submit_name,
-    isDisabled,
-    setModalName,
-    setSubmitName,
-    handleSubmit,
-    isValidToken,
-    setChecked,
-    isChecked }) => {
+const Login = ({ handleSubmit }) => {
 
     let history = useHistory()
+    const dispatch = useDispatch()
+
+    const isDisabled = useSelector(state => state.shopping.isDisabled)
+    const isValidToken = useSelector(state => state.userRoom.isValidToken)
+    const isChecked = useSelector(state => state.userRoom.isChecked)
+    const submit_name = useSelector(state => state.userRoom.submit_name)
+    const modal_name = useSelector(state => state.userRoom.modal_name)
 
     const handleClick = () => {
 
         if (modal_name === "login") {
 
-            setSubmitName('login.sign_up')
-            setModalName('register')
+            dispatch(setSubmitNameAC('login.sign_up'))
+            dispatch(setModalNameAC('register'))
         } else if (modal_name === 'register') {
 
-            setSubmitName('login.sign_in')
-            setModalName('login')
+            dispatch(setSubmitNameAC('login.sign_in'))
+            dispatch(setModalNameAC('login'))
         }
     }
     let submitName = "login.sign_in"
@@ -51,7 +48,7 @@ const Login = ({
     return (
         <div className={s.container}>
             <div className={s.wrapper_form}>
-                <form className={s.form} onSubmit={handleSubmit(onsubmit)}>
+                <form className={s.form} onSubmit={handleSubmit(values => dispatch(formThunk(values)))}>
                     {modal_name === "register" ? <InputFirstName isLabel={true} style={s.input_wrap} /> : null}
                     <InputEmail isLabel={true} style={s.input_wrap} />
                     {modal_name !== "forget" ? <InputPassword isLabel={true} style={s.input_wrap} /> : null}
@@ -66,20 +63,20 @@ const Login = ({
                                 <input type="checkbox"
                                     name="checkbox"
                                     checked={isChecked}
-                                    onChange={() => setChecked(!isChecked)} />
-                                    <FormattedMessage
-                                        id={"login.remember"}
-                                        defaultMessage="remember me" />
-                                </label> 
+                                    onChange={() => dispatch(isCheckedAC(!isChecked))} />
+                                <FormattedMessage
+                                    id={"login.remember"}
+                                    defaultMessage="remember me" />
+                            </label>
                             : null}
                         {modal_name !== "register" ? <button className={s.forget} onClick={() => {
-                            setSubmitName(modal_name !== "forget" ? 'login.reset' : "login.sign_in" )
-                            setModalName(modal_name !== "forget" ? "forget" : "login")
+                            dispatch(setSubmitNameAC(modal_name !== "forget" ? 'login.reset' : "login.sign_in"))
+                            dispatch(setModalNameAC(modal_name !== "forget" ? "forget" : "login"))
                         }} type="button">
-                            {modal_name !== "forget" 
+                            {modal_name !== "forget"
                                 ? <FormattedMessage
                                     id={"login.remind"}
-                                    defaultMessage="Remind password" /> 
+                                    defaultMessage="Remind password" />
                                 : <FormattedMessage
                                     id={"login.remembered"}
                                     defaultMessage="I remembered!" />}
@@ -111,26 +108,5 @@ const OrderReduxForm = reduxForm({
     enableReinitialize: true
 })(Login)
 
-const mapStateToProps = state => {
 
-    return {
-        isDisabled: state.shopping.isDisabled,
-        modal_name: state.userRoom.modal_name,
-        tel: state.userRoom.userData.tel,
-        isValidToken: state.userRoom.isValidToken,
-        isChecked: state.userRoom.isChecked,
-        submit_name: state.userRoom.submit_name
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        onsubmit: values => dispatch(formThunk(values)),
-        setChecked: checked => dispatch(isCheckedAC(checked)),
-        setModalName: modal_name => dispatch(setModalNameAC(modal_name)),
-        setSubmitName: submit_name => dispatch(setSubmitNameAC(submit_name))
-    }
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(OrderReduxForm)
+export default OrderReduxForm
